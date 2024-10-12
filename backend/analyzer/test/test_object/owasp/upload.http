@@ -1,0 +1,6 @@
+### Send POST request with json body
+POST http://localhost:80/analyzer/api?fileType=json&toolName=owasp&projectId=my-project
+Content-Type: text/plain
+API-KEY: 8v18kp4fT-FDwCAqmGkmFyxaIFVWwGgWBMka9rIPzzY
+
+< ./report.json

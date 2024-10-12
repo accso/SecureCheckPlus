@@ -1,0 +1,10 @@
+dn: ou=people,dc=acme,dc=de
+objectClass: organizationalUnit
+ou: people
+description: User registry
+
+dn: ou=groups,dc=acme,dc=de
+objectClass: organizationalUnit
+ou: groups
+description: Group registry
+

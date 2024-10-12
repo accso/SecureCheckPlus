@@ -1,0 +1,1818 @@
+{
+  "reportSchema": "1.1",
+  "scanInfo": {
+    "engineVersion": "10.0.4",
+    "dataSource": [
+      {
+        "name": "NVD API Last Checked",
+        "timestamp": "2024-09-29T16:01:20Z"
+      },
+      {
+        "name": "NVD API Last Modified",
+        "timestamp": "2024-09-29T15:15:15Z"
+      }
+    ]
+  },
+  "projectInfo": {
+    "name": "python_base_app",
+    "reportDate": "2024-09-29T16:22:00.830156940Z",
+    "credits": {
+      "NVD": "This product uses the NVD API but is not endorsed or certified by the NVD. This report contains data retrieved from the National Vulnerability Database: https://nvd.nist.gov",
+      "CISA": "This report may contain data retrieved from the CISA Known Exploited Vulnerability Catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "NPM": "This report may contain data retrieved from the Github Advisory Database (via NPM Audit API): https://github.com/advisories/",
+      "RETIREJS": "This report may contain data retrieved from the RetireJS community: https://retirejs.github.io/retire.js/",
+      "OSSINDEX": "This report may contain data retrieved from the Sonatype OSS Index: https://ossindex.sonatype.org"
+    }
+  },
+  "dependencies": [
+    {
+      "isVirtual": true,
+      "fileName": "Flask-WTF:1.2.1",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:Flask-WTF\/1.2.1",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "Flask-WTF"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "Flask-WTF"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "1.2.1"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/flask-wtf@1.2.1",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/flask-wtf@1.2.1?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "Flask-WTF:1.2.1",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:Flask-WTF\/1.2.1",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "Flask-WTF"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "Flask-WTF"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "1.2.1"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/flask-wtf@1.2.1",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/flask-wtf@1.2.1?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "Flask:2.3.3",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:Flask\/2.3.3",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "Flask"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "Flask"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.3.3"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/flask@2.3.3",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/flask@2.3.3?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "Flask:2.3.3",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:Flask\/2.3.3",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "Flask"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "Flask"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.3.3"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/flask@2.3.3",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/flask@2.3.3?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "Jinja2:3.1.4",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:Jinja2\/3.1.4",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "Jinja2"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "Jinja2"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "3.1.4"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/jinja2@3.1.4",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/jinja2@3.1.4?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "Jinja2:3.1.4",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:Jinja2\/3.1.4",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "Jinja2"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "Jinja2"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "3.1.4"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/jinja2@3.1.4",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/jinja2@3.1.4?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "MarkupSafe:2.1.5",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:MarkupSafe\/2.1.5",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "MarkupSafe"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "MarkupSafe"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.1.5"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/markupsafe@2.1.5",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/markupsafe@2.1.5?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "MarkupSafe:2.1.5",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:MarkupSafe\/2.1.5",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "MarkupSafe"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "MarkupSafe"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.1.5"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/markupsafe@2.1.5",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/markupsafe@2.1.5?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "WTForms:3.0.1",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:WTForms\/3.0.1",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "WTForms"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "WTForms"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "3.0.1"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/wtforms@3.0.1",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/wtforms@3.0.1?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "WTForms:3.0.1",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:WTForms\/3.0.1",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "WTForms"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "WTForms"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "3.0.1"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/wtforms@3.0.1",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/wtforms@3.0.1?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": false,
+      "fileName": "__init__.py",
+      "filePath": "\/builds\/mr\/python_base_app\/python_base_app\/__init__.py",
+      "md5": "d41d8cd98f00b204e9800998ecf8427e",
+      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "relatedDependencies": [
+        {
+          "isVirtual": false,
+          "fileName": "__init__.py",
+          "filePath": "\/builds\/mr\/python_base_app\/python_base_app\/test\/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "md5": "d41d8cd98f00b204e9800998ecf8427e"
+        },
+        {
+          "isVirtual": false,
+          "fileName": "__init__.py",
+          "filePath": "\/builds\/mr\/python_base_app\/python_base_app\/test\/resources\/ci_toolbox\/a_package\/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "md5": "d41d8cd98f00b204e9800998ecf8427e"
+        },
+        {
+          "isVirtual": false,
+          "fileName": "python-base-app-0.3.0.tar.gz: python-base-app-0.3.0.tar: __init__.py",
+          "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/python_base_app\/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "md5": "d41d8cd98f00b204e9800998ecf8427e",
+          "packageIds": [
+            {
+              "id": "pkg:pypi/python-base-app"
+            }
+          ]
+        },
+        {
+          "isVirtual": false,
+          "fileName": "python-base-app-0.3.0.tar.gz: python-base-app-0.3.0.tar: __init__.py",
+          "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/python_base_app\/test\/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "md5": "d41d8cd98f00b204e9800998ecf8427e",
+          "packageIds": [
+            {
+              "id": "pkg:pypi/test"
+            }
+          ]
+        },
+        {
+          "isVirtual": false,
+          "fileName": "python-base-app-0.3.0.tar.gz: python-base-app-0.3.0.tar: __init__.py",
+          "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/python_base_app\/test\/resources\/ci_toolbox\/a_package\/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "md5": "d41d8cd98f00b204e9800998ecf8427e"
+        }
+      ],
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "MEDIUM",
+            "source": "pinger.py",
+            "name": "URL",
+            "value": "http:\/\/{host}:{port}\/api\/ping?host={remaining_url}"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "__init__.py",
+            "name": "PackageName",
+            "value": "python_base_app"
+          }
+        ],
+        "versionEvidence": []
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/python-base-app",
+          "confidence": "HIGHEST"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "coverage:7.3.2",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:coverage\/7.3.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "coverage"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "coverage"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "7.3.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/coverage@7.3.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/coverage@7.3.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "coverage:7.3.2",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:coverage\/7.3.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "coverage"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "coverage"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "7.3.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/coverage@7.3.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/coverage@7.3.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": false,
+      "fileName": "coverage_html.js",
+      "filePath": "\/builds\/mr\/python_base_app\/htmlcov\/coverage_html.js",
+      "md5": "a1ff14a2a109fc4b0b67d8fe4e5c54bc",
+      "sha1": "225bc47a45d431af272ad3eca3ce83330c26dff8",
+      "sha256": "b9fe6faf811b0e1c68329a00f451f062b76107cb1f9ba11eee782d62948b1a7f",
+      "evidenceCollected": {
+        "vendorEvidence": [],
+        "productEvidence": [],
+        "versionEvidence": []
+      }
+    },
+    {
+      "isVirtual": true,
+      "fileName": "flask-login:0.6.3",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:flask-login\/0.6.3",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "flask-login"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "flask-login"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.6.3"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/flask-login@0.6.3",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/flask-login@0.6.3?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "flask-login:0.6.3",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:flask-login\/0.6.3",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "flask-login"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "flask-login"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.6.3"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/flask-login@0.6.3",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/flask-login@0.6.3?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "psutil:5.9.5",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:psutil\/5.9.5",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "psutil"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "psutil"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "5.9.5"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/psutil@5.9.5",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/psutil@5.9.5?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ],
+      "vulnerabilityIds": [
+        {
+          "id": "cpe:2.3:a:psutil_project:psutil:5.9.5:*:*:*:*:*:*:*",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/nvd.nist.gov\/vuln\/search\/results?form_type=Advanced&results_type=overview&search_type=all&cpe_vendor=cpe%3A%2F%3Apsutil_project&cpe_product=cpe%3A%2F%3Apsutil_project%3Apsutil&cpe_version=cpe%3A%2F%3Apsutil_project%3Apsutil%3A5.9.5"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "psutil:5.9.5",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:psutil\/5.9.5",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "psutil"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "psutil"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "5.9.5"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/psutil@5.9.5",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/psutil@5.9.5?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ],
+      "vulnerabilityIds": [
+        {
+          "id": "cpe:2.3:a:psutil_project:psutil:5.9.5:*:*:*:*:*:*:*",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/nvd.nist.gov\/vuln\/search\/results?form_type=Advanced&results_type=overview&search_type=all&cpe_vendor=cpe%3A%2F%3Apsutil_project&cpe_product=cpe%3A%2F%3Apsutil_project%3Apsutil&cpe_version=cpe%3A%2F%3Apsutil_project%3Apsutil%3A5.9.5"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "pyjwt:2.8.0",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:pyjwt\/2.8.0",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "pyjwt"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "pyjwt"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.8.0"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/pyjwt@2.8.0",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/pyjwt@2.8.0?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ],
+      "vulnerabilityIds": [
+        {
+          "id": "cpe:2.3:a:pyjwt_project:pyjwt:2.8.0:*:*:*:*:*:*:*",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/nvd.nist.gov\/vuln\/search\/results?form_type=Advanced&results_type=overview&search_type=all&cpe_vendor=cpe%3A%2F%3Apyjwt_project&cpe_product=cpe%3A%2F%3Apyjwt_project%3Apyjwt&cpe_version=cpe%3A%2F%3Apyjwt_project%3Apyjwt%3A2.8.0"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "pyjwt:2.8.0",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:pyjwt\/2.8.0",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "pyjwt"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "pyjwt"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.8.0"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/pyjwt@2.8.0",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/pyjwt@2.8.0?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ],
+      "vulnerabilityIds": [
+        {
+          "id": "cpe:2.3:a:pyjwt_project:pyjwt:2.8.0:*:*:*:*:*:*:*",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/nvd.nist.gov\/vuln\/search\/results?form_type=Advanced&results_type=overview&search_type=all&cpe_vendor=cpe%3A%2F%3Apyjwt_project&cpe_product=cpe%3A%2F%3Apyjwt_project%3Apyjwt&cpe_version=cpe%3A%2F%3Apyjwt_project%3Apyjwt%3A2.8.0"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "pytest",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/python_base_app\/test\/resources\/ci_toolbox\/requirements.txt:pytest\/null",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "pytest"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "pytest"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "$enc.json($evidence.getValue().trim())"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/pytest",
+          "confidence": "HIGHEST"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "pytest",
+      "filePath": "\/builds\/mr\/python_base_app\/python_base_app\/test\/resources\/ci_toolbox\/requirements.txt:pytest\/null",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "pytest"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "pytest"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "$enc.json($evidence.getValue().trim())"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/pytest",
+          "confidence": "HIGHEST"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "pytest:7.4.2",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:pytest\/7.4.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "pytest"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "pytest"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "7.4.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/pytest@7.4.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/pytest@7.4.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "pytest:7.4.2",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:pytest\/7.4.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "pytest"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "pytest"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "7.4.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/pytest@7.4.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/pytest@7.4.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": false,
+      "fileName": "python-base-app-0.3.0.tar.gz: python-base-app-0.3.0.tar: PKG-INFO",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/PKG-INFO",
+      "md5": "3865d6e7bc3a66ebb7bd6f367f86f1aa",
+      "sha1": "03efcd8fa29768e584704540e0b639ae5b694fdd",
+      "sha256": "6af9dfd16d91e540c4877a2f29a0026b7a75420fa40a515914f3a4bae4ce5f8d",
+      "relatedDependencies": [
+        {
+          "isVirtual": false,
+          "fileName": "python-base-app:0.3.0",
+          "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/python_base_app.egg-info\/PKG-INFO",
+          "sha256": "6af9dfd16d91e540c4877a2f29a0026b7a75420fa40a515914f3a4bae4ce5f8d",
+          "sha1": "03efcd8fa29768e584704540e0b639ae5b694fdd",
+          "md5": "3865d6e7bc3a66ebb7bd6f367f86f1aa",
+          "packageIds": [
+            {
+              "id": "pkg:pypi/python-base-app@0.3.0",
+              "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/python-base-app@0.3.0?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+            }
+          ]
+        }
+      ],
+      "evidenceCollected": {
+        "vendorEvidence": [],
+        "productEvidence": [],
+        "versionEvidence": []
+      }
+    },
+    {
+      "isVirtual": false,
+      "fileName": "python-base-app-0.3.0.tar.gz: python-base-app-0.3.0.tar: requirements.txt",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/python_base_app\/test\/resources\/ci_toolbox\/requirements.txt",
+      "md5": "47f14c4a4f7809e2f29329c5748a137e",
+      "sha1": "621b7828c4bd8fd42c139af3a228f046c17cd040",
+      "sha256": "8004a972c3d5c274d8c808e8d8afe03b9aca8af8eebf3df4298f114d8008b754",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGH",
+            "source": "file",
+            "name": "name",
+            "value": "requirements"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGH",
+            "source": "file",
+            "name": "name",
+            "value": "requirements"
+          }
+        ],
+        "versionEvidence": []
+      }
+    },
+    {
+      "isVirtual": false,
+      "fileName": "python-base-app-0.3.0.tar.gz: python-base-app-0.3.0.tar: requirements.txt",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt",
+      "md5": "262eab8770bc1fe8d719461a1b92d87e",
+      "sha1": "d820b1689df1d578872a0480cb56bd18a106d5c5",
+      "sha256": "ff9305fe2cae1fee27d88fb2c77846d524b2161898ebf4219804e6435a783852",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGH",
+            "source": "file",
+            "name": "name",
+            "value": "requirements"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGH",
+            "source": "file",
+            "name": "name",
+            "value": "requirements"
+          }
+        ],
+        "versionEvidence": []
+      }
+    },
+    {
+      "isVirtual": true,
+      "fileName": "python-dateutil:2.8.2",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:python-dateutil\/2.8.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "python-dateutil"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "python-dateutil"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.8.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/python-dateutil@2.8.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/python-dateutil@2.8.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "python-dateutil:2.8.2",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:python-dateutil\/2.8.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "python-dateutil"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "python-dateutil"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.8.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/python-dateutil@2.8.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/python-dateutil@2.8.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "python-google-speak:0.2.1",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:python-google-speak\/0.2.1",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "python-google-speak"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "python-google-speak"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.2.1"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/python-google-speak@0.2.1",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/python-google-speak@0.2.1?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "python-google-speak:0.2.1",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:python-google-speak\/0.2.1",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "python-google-speak"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "python-google-speak"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.2.1"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/python-google-speak@0.2.1",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/python-google-speak@0.2.1?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "requests:2.32.3",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:requests\/2.32.3",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "requests"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "requests"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.32.3"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/requests@2.32.3",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/requests@2.32.3?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "requests:2.32.3",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:requests\/2.32.3",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "requests"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "requests"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.32.3"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/requests@2.32.3",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/requests@2.32.3?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "secure:0.3.0",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:secure\/0.3.0",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "secure"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "secure"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.3.0"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/secure@0.3.0",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/secure@0.3.0?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "secure:0.3.0",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:secure\/0.3.0",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "secure"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "secure"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.3.0"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/secure@0.3.0",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/secure@0.3.0?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "some-flask-helpers:0.2.6",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:some-flask-helpers\/0.2.6",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "some-flask-helpers"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "some-flask-helpers"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.2.6"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/some-flask-helpers@0.2.6",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/some-flask-helpers@0.2.6?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "some-flask-helpers:0.2.6",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:some-flask-helpers\/0.2.6",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "some-flask-helpers"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "some-flask-helpers"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "0.2.6"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/some-flask-helpers@0.2.6",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/some-flask-helpers@0.2.6?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "urllib3:2.2.2",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:urllib3\/2.2.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "urllib3"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "urllib3"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.2.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/urllib3@2.2.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/urllib3@2.2.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "urllib3:2.2.2",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:urllib3\/2.2.2",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "urllib3"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "urllib3"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.2.2"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/urllib3@2.2.2",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/urllib3@2.2.2?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "werkzeug:2.3.8",
+      "filePath": "\/builds\/mr\/python_base_app\/dist\/python-base-app-0.3.0.tar.gz\/python-base-app-0.3.0.tar\/python-base-app-0.3.0\/requirements.txt:werkzeug\/2.3.8",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "werkzeug"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "werkzeug"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.3.8"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/werkzeug@2.3.8",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/werkzeug@2.3.8?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ],
+      "vulnerabilities": [
+        {
+          "source": "OSSINDEX",
+          "name": "CVE-2024-34069",
+          "severity": "HIGH",
+          "cvssv3": {
+            "baseScore": 7.5,
+            "attackVector": "NETWORK",
+            "attackComplexity": "HIGH",
+            "privilegesRequired": "NONE",
+            "userInteraction": "REQUIRED",
+            "scope": "UNCHANGED",
+            "confidentialityImpact": "HIGH",
+            "integrityImpact": "HIGH",
+            "availabilityImpact": "HIGH",
+            "baseSeverity": "HIGH",
+            "version": "3.1"
+          },
+          "cwes": [
+            "CWE-352"
+          ],
+          "description": "Werkzeug is a comprehensive WSGI web application library. The debugger in affected versions of Werkzeug can allow an attacker to execute code on a developer's machine under some circumstances. This requires the attacker to get the developer to interact with a domain and subdomain they control, and enter the debugger PIN, but if they are successful it allows access to the debugger even if it is only running on localhost. This also requires the attacker to guess a URL in the developer's application that will trigger the debugger. This vulnerability is fixed in 3.0.3.",
+          "notes": "",
+          "references": [
+            {
+              "source": "OSSIndex",
+              "url": "http:\/\/web.nvd.nist.gov\/view\/vuln\/detail?vulnId=CVE-2024-34069",
+              "name": "http:\/\/web.nvd.nist.gov\/view\/vuln\/detail?vulnId=CVE-2024-34069"
+            },
+            {
+              "source": "OSSIndex",
+              "url": "https:\/\/github.com\/pallets\/werkzeug\/security\/advisories\/GHSA-2g68-c3qc-8985",
+              "name": "https:\/\/github.com\/pallets\/werkzeug\/security\/advisories\/GHSA-2g68-c3qc-8985"
+            },
+            {
+              "source": "OSSINDEX",
+              "url": "https:\/\/ossindex.sonatype.org\/vulnerability\/CVE-2024-34069?component-type=pypi&component-name=werkzeug&utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4",
+              "name": "[CVE-2024-34069] CWE-352: Cross-Site Request Forgery (CSRF)"
+            }
+          ],
+          "vulnerableSoftware": [
+            {
+              "software": {
+                "id": "cpe:2.3:a:*:werkzeug:2.3.8:*:*:*:*:*:*:*",
+                "vulnerabilityIdMatched": "true"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "isVirtual": true,
+      "fileName": "werkzeug:2.3.8",
+      "filePath": "\/builds\/mr\/python_base_app\/requirements.txt:werkzeug\/2.3.8",
+      "evidenceCollected": {
+        "vendorEvidence": [
+          {
+            "type": "vendor",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "vendor",
+            "value": "werkzeug"
+          }
+        ],
+        "productEvidence": [
+          {
+            "type": "product",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "product",
+            "value": "werkzeug"
+          }
+        ],
+        "versionEvidence": [
+          {
+            "type": "version",
+            "confidence": "HIGHEST",
+            "source": "requirements.txt",
+            "name": "version",
+            "value": "2.3.8"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "id": "pkg:pypi\/werkzeug@2.3.8",
+          "confidence": "HIGHEST",
+          "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:pypi\/werkzeug@2.3.8?utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4"
+        }
+      ],
+      "vulnerabilities": [
+        {
+          "source": "OSSINDEX",
+          "name": "CVE-2024-34069",
+          "severity": "HIGH",
+          "cvssv3": {
+            "baseScore": 7.5,
+            "attackVector": "NETWORK",
+            "attackComplexity": "HIGH",
+            "privilegesRequired": "NONE",
+            "userInteraction": "REQUIRED",
+            "scope": "UNCHANGED",
+            "confidentialityImpact": "HIGH",
+            "integrityImpact": "HIGH",
+            "availabilityImpact": "HIGH",
+            "baseSeverity": "HIGH",
+            "version": "3.1"
+          },
+          "cwes": [
+            "CWE-352"
+          ],
+          "description": "Werkzeug is a comprehensive WSGI web application library. The debugger in affected versions of Werkzeug can allow an attacker to execute code on a developer's machine under some circumstances. This requires the attacker to get the developer to interact with a domain and subdomain they control, and enter the debugger PIN, but if they are successful it allows access to the debugger even if it is only running on localhost. This also requires the attacker to guess a URL in the developer's application that will trigger the debugger. This vulnerability is fixed in 3.0.3.",
+          "notes": "",
+          "references": [
+            {
+              "source": "OSSIndex",
+              "url": "http:\/\/web.nvd.nist.gov\/view\/vuln\/detail?vulnId=CVE-2024-34069",
+              "name": "http:\/\/web.nvd.nist.gov\/view\/vuln\/detail?vulnId=CVE-2024-34069"
+            },
+            {
+              "source": "OSSIndex",
+              "url": "https:\/\/github.com\/pallets\/werkzeug\/security\/advisories\/GHSA-2g68-c3qc-8985",
+              "name": "https:\/\/github.com\/pallets\/werkzeug\/security\/advisories\/GHSA-2g68-c3qc-8985"
+            },
+            {
+              "source": "OSSINDEX",
+              "url": "https:\/\/ossindex.sonatype.org\/vulnerability\/CVE-2024-34069?component-type=pypi&component-name=werkzeug&utm_source=dependency-check&utm_medium=integration&utm_content=10.0.4",
+              "name": "[CVE-2024-34069] CWE-352: Cross-Site Request Forgery (CSRF)"
+            }
+          ],
+          "vulnerableSoftware": [
+            {
+              "software": {
+                "id": "cpe:2.3:a:*:werkzeug:2.3.8:*:*:*:*:*:*:*",
+                "vulnerabilityIdMatched": "true"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+dn: uid=secure-admin,ou=people,dc=acme,dc=de
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+uid: secure-admin
+# password: "secure"
+userPassword: {SSHA}3DLbetmNJxW5XseE9I9azPL5fLtjhviK
+mail: secure-admin@acme.de
+cn: Secure
+sn: Admin
+memberOf: cn=secure-check-plus-admins,ou=groups,dc=acme,dc=de
+
+dn: uid=secure-user,ou=people,dc=acme,dc=de
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+uid: secure-user
+# password: "secure"
+userPassword: {SSHA}3DLbetmNJxW5XseE9I9azPL5fLtjhviK
+mail: secure-user@acme.de
+cn: Secure
+sn: User
+memberOf: cn=secure-check-plus-users,ou=groups,dc=acme,dc=de

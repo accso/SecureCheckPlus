@@ -1,0 +1,12 @@
+dn: cn=secure-check-plus-users,ou=groups,dc=acme,dc=de
+#objectClass: posixGroup
+objectClass: groupOfNames
+cn: secure-check-user-group
+description: All normal users
+member: uid=secure-user,ou=people,dc=acme,dc=de
+
+dn: cn=secure-check-plus-admins,ou=groups,dc=acme,dc=de
+objectClass: groupOfNames
+cn: secure-check-admin-group
+description: All admin users
+member: uid=secure-admin,ou=people,dc=acme,dc=de

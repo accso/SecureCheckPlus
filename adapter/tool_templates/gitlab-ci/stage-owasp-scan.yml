@@ -1,0 +1,11 @@
+owasp_scan:  # change name if required
+  image:
+    name: registry.gitlab.com/gitlab-ci-utils/docker-dependency-check:latest
+    entrypoint: [""]
+  script:
+    - /usr/share/dependency-check/bin/dependency-check.sh --enableExperimental --scan "./" --format JSON --project "$SECURECHECKPLUS_PROJECT_ID"
+  allow_failure: false
+  artifacts:
+    when: always
+    paths:
+      - "./dependency-check-report.json"

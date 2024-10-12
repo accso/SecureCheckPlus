@@ -1,0 +1,14 @@
+upload_owasp_report: # change if required
+  image:
+    name: accso/secure-check-plus-adapter:latest # use latest image located at hub.docker.com
+  allow_failure: false
+  variables:
+    SERVER_URL: "$SECURECHECKPLUS_SERVER_URL"
+    SKIP: "$SECURECHECKPLUS_SKIP"
+    REPORT_FILE_NAME: "dependency-check-report.json"
+    FILE_FORMAT: json # only json available for the time being
+    TOOL_NAME: owasp
+    PROJECT_ID: "$SECURECHECKPLUS_PROJECT_ID"
+    API_KEY: "$SECURECHECKPLUS_API_KEY"
+  script:
+    - echo "Analysis successful."
