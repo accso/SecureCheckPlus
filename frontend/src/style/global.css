@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
+
+html, body {
+    font-family: Georgia, serif;
+    font-size: clamp(10px, 0.82vw, 20px);
+}
+
+.page {
+    margin-left: 5%;
+    margin-right: 5%;
+}
