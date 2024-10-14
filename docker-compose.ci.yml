@@ -1,0 +1,39 @@
+services:
+  securecheckplus_server:
+    container_name: securecheckplus_server
+    build:
+      context: ./backend
+      target: dev
+    env_file: "./backend/.env"
+    environment:
+      WORK_DIR: $WORK_DIR
+    volumes:
+      - $WORK_DIR/backend:/backend
+    ports:
+      - "8005:8000"
+    depends_on:
+      - securecheckplus_db
+      - smtp_mailserver
+
+  securecheckplus_db:
+    image: postgres
+    restart: always
+    container_name: securecheckplus_db
+    env_file: "./backend/.env"
+    ports:
+      - "5434:5432"
+
+  smtp_mailserver:
+    image: maildev/maildev
+    container_name: mailserver
+    ports:
+      - "1085:80"
+
+  ldap_server:
+    image: "osixia/openldap:1.5.0"
+    command: "--copy-service --loglevel debug"
+    env_file: "./backend/.env"
+    ports:
+      - "390:389"
+    volumes:
+      - ./assets/ldap/bootstrap:/container/service/slapd/assets/config/bootstrap/ldif/custom

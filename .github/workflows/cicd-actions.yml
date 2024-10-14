@@ -1,0 +1,285 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+env:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_KEY: ${{ secrets.DOCKER_KEY }}
+
+jobs:
+  create_dotenv_file:
+    runs-on: [ self-hosted ]
+    container:
+      image: docker:27-rc-dind
+      options: --privileged
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          echo "NVD_API_KEY=${{ secrets.TEST_NVD_API_KEY }}" >> .env
+          echo 'DJANGO_SECRET_KEY="${{ secrets.TEST_DJANGO_SECRET_KEY }}"' >> .env
+          echo 'SALT="${{ secrets.TEST_SALT }}"' >> .env
+          echo "ADMIN_USERNAME=admin@acme.de" >> .env
+          echo "ADMIN_PASSWORD=secure!" >> .env
+          echo "USER_USERNAME=user@acme.de" >> .env
+          echo "USER_PASSWORD=secure!" >> .env
+          echo "IS_DEV=True" >> .env
+          echo "ANALYZER_LOG_LEVEL=DEBUG" >> .env
+          echo "WEBSERVER_LOG_LEVEL=DEBUG" >> .env
+          echo "POSTGRES_HOST=securecheckplus_db" >> .env
+          echo "POSTGRES_USER=securecheckplus" >> .env
+          echo "POSTGRES_DB=securecheckplus" >> .env
+          echo "POSTGRES_PORT=5432" >> .env
+          echo 'POSTGRES_PASSWORD="${{ secrets.TEST_DB_PASSWORD }}"' >> .env
+          echo "EMAIL_HOST=localhost" >> .env
+          echo "EMAIL_PORT=25" >> .env
+          echo 'LDAP_ORGANISATION="ACME"' >> .env
+          echo 'LDAP_DOMAIN="acme.de"' >> .env
+          echo 'LDAP_HOST="localhost:390"' >> .env
+          echo 'LDAP_BASE_DN="dc=acme,dc=de"' >> .env
+          echo 'LDAP_ADMIN_DN="cn=admin,dc=acme,dc=de"' >> .env
+          echo 'LDAP_ADMIN_PASSWORD=Hello!' >> .env
+          echo 'LDAP_USER_BASE_DN="ou=People,dc=acme,dc=de"' >> .env
+          echo 'LDAP_USER_SEARCH_FILTER="(&(objectClass=inetOrgPerson)(mail=VALUE))"' >> .env
+          echo 'LDAP_ADMIN_GROUP_DN="cn=secure-check-plus-admins,ou=groups,dc=acme,dc=de"' >> .env
+          echo 'LDAP_BASE_GROUP_DN="cn=secure-check-plus-users,ou=groups,dc=acme,dc=de"' >> .env
+          echo "FULLY_QUALIFIED_DOMAIN_NAME=https://localhost" >> .env
+
+      - name: Upload .env file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: env_file
+          path: .env
+          include-hidden-files: true
+
+  testing:
+    runs-on: [ self-hosted ]
+    needs: create_dotenv_file
+    container:
+      image: docker:27-rc-dind
+      options: --privileged
+      volumes:
+        - ${{ github.workspace }}/backend:/backend
+        - /var/run/docker.sock:/var/run/docker.sock
+      env:
+        WORK_DIR: ${{ github.workspace }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download .env artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: env_file
+          path: backend
+
+      - name: Docker Login
+        run: echo "$DOCKER_KEY" | docker login -u "$DOCKER_USER" --password-stdin
+
+      - name: Build Docker Compose
+        run: docker-compose -f docker-compose.ci.yml build --no-cache
+
+      - name: Run Docker Compose
+        run: docker-compose -f docker-compose.ci.yml up -d --remove-orphans
+
+      - name: Wait for Database
+        run: |
+          until docker exec securecheckplus_db pg_isready -U securecheckplus; do
+            echo "Waiting for database..."
+            sleep 5
+          done
+
+      - name: Run Tests
+        run: |
+          docker-compose exec -T securecheckplus_server coverage run manage.py test
+          docker-compose exec -T securecheckplus_server coverage report -m
+          docker-compose exec -T securecheckplus_server coverage xml
+          docker-compose exec -T securecheckplus_server coverage html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: backend/coverage.xml
+
+      - name: Upload coverage HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: htmlcov
+          path: backend/htmlcov
+
+  cleanup:
+    runs-on: [ self-hosted ]
+    needs: testing
+    container:
+      image: docker:27-rc-dind
+      options: --privileged
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download .env artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: env_file
+          path: backend
+
+      - name: Clean up Docker Compose Containers
+        run: |
+          docker-compose -f docker-compose.ci.yml stop
+          docker-compose -f docker-compose.ci.yml down --rmi all
+
+  build_frontend_files:
+    runs-on: [ self-hosted ]
+    if: github.ref == 'refs/heads/main'
+    needs: cleanup
+    container:
+      image: docker:27-rc-dind
+      options: --privileged
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        run: echo "$DOCKER_KEY" | docker login -u "$DOCKER_USER" --password-stdin
+
+      - name: Install npm
+        run: apk add --update npm
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run prod
+
+      - name: Upload static files
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend_build_files
+          path: backend/assets/*
+
+  build_and_push_container:
+    runs-on: [ self-hosted ]
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    if: github.ref == 'refs/heads/main'
+    needs: [ build_frontend_files ]
+    container:
+      image: docker:27-rc-dind
+      options: --privileged
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download .env artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: env_file
+          path: backend
+
+      - name: Download frontend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend_build_files
+          path: backend/assets
+
+      - name: Docker Login
+        run: echo "$DOCKER_KEY" | docker login -u "$DOCKER_USER" --password-stdin
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: marcusrickert/secure-check-plus
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          no-cache: true
+          target: prod
+          push: true
+          tags: marcusrickert/secure-check-plus:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # Attestation only works for public repositories
+#      - name: Generate artifact attestation
+#        uses: actions/attest-build-provenance@v1
+#        with:
+#          subject-name: marcusrickert/secure-check-plus
+#          subject-digest: ${{ steps.push.outputs.digest }}
+#          push-to-registry: true
+
+  build_and_push_adapter:
+    runs-on: [ self-hosted ]
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    if: github.ref == 'refs/heads/main'
+    needs: [ build_and_push_container ]
+    container:
+      image: docker:27-rc-dind
+      options: --privileged
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download .env artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: env_file
+          path: backend
+
+      - name: Docker Login
+        run: echo "$DOCKER_KEY" | docker login -u "$DOCKER_USER" --password-stdin
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: marcusrickert/secure-check-plus-adapter
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./adapter/adapter
+          no-cache: true
+          push: true
+          tags: marcusrickert/secure-check-plus-adapter:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # Attestation only works for public repositories
+#      - name: Generate artifact attestation
+#        uses: actions/attest-build-provenance@v1
+#        with:
+#          subject-name: marcusrickert/secure-check-plus
+#          subject-digest: ${{ steps.push.outputs.digest }}
+#          push-to-registry: true
