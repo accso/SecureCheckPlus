@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title></title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <style>
+        .main-container{
+            margin-left: 35vw;
+            margin-right: 35vw;
+        }
+        .titlebar{
+            background: #003c3c;
+            height: 75px;
+        }
+
+        .title{
+            font-family: 'Fredoka', sans-serif;
+            padding-top: 15px;
+            text-align: center;
+            color: #00CB75
+        }
+
+        .salutation{
+            margin-top: 5vh;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .message{
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+        }
+
+        .divTable{
+            margin-top: 3.5vh;
+        }
+
+        .divTableCell{
+            display: flex;
+        }
+
+        .project_label{
+            font-family: 'Fredoka', sans-serif;
+            margin-left: 5px;
+        }
+
+        .project_id{
+            font-family: 'Fredoka', sans-serif;
+
+        }
+
+        .label{
+            display:flex;
+            height: 60px;
+            width: 150px;
+            border: solid 1px white;
+            background-color: red;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 25px;
+        }
+
+        .value{
+            display:flex;
+            width: 100%;
+            background-color: #003c3c;
+            color: white;
+            border: solid 1px white;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 25px;
+        }
+
+        .small_info{
+            margin-top: 1vh;
+            font-family: 'Lato', sans-serif;
+            font-size: 15px;
+        }
+
+        .info{
+            font-family: 'Lato', sans-serif;
+            margin-top: 3vh;
+            font-size: 14px;
+        }
+
+        .text{
+            margin-top: 10px;
+
+        }
+
+        .footer{
+            background-color: #003c3c;
+            width: 100%;
+            height: 50px;
+            margin-top: 5vh;
+            color: white;
+            font-family: 'Lato', sans-serif;
+            font-size: 20px;
+            align-items: center;
+            justify-content: right;
+            display: flex;
+        }
+        
+        @media (max-device-width: 1000px){
+            .main-container {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+        }
+
+        @media (max-device-width: 600px) {
+
+            .titlebar{
+                height: 40px;
+            }
+
+            .title{
+                font-size: 20px;
+                padding-top: 8px;
+            }
+
+            .salutation{
+                font-size: 10px;
+            }
+
+            .message{
+                font-size: 14px;
+            }
+
+            .divTable{
+                margin-top: 0;
+            }
+
+            .project_label{
+                font-size: 10px;
+            }
+
+            .project_id{
+                font-size: 10px;
+            }
+
+            .label{
+                height: 30px;
+                font-size: 15px;
+            }
+
+            .value{
+                height: 30px;
+                font-size: 14px;
+            }
+
+            .small_info{
+                font-size: 12px;
+            }
+
+            .info{
+                font-size: 10px;
+            }
+
+            .footer{
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="titlebar">
+    <h1 class="title">SecureCheckPlus by Accso - Bericht</h1>
+</div>
+<div class="main-container">
+
+    <div class="salutation">
+        <h1>Hallo {{user_email}},</h1>
+    </div>
+
+    <div class="message">
+        du erhältst diese Benachrichtigung, da du für das
+        Projekt {{project_id}} die Benachrichtigungsstufe auf {{severity}} gestellt hast.
+    </div>
+
+    <div class="divTable">
+        <div class="divTableBody">
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="project_label"><h2>Projekt ID</h2></div>
+                    <div class="project_id" style="margin-left: 5vw"><h2>{{ project_id }}</h2></div>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="label" style="background-color: #FF5E5E">Critical </div>
+                    <div class="value">{{ CRITICAL }} - {{ CRITICAL_per }}%</div>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="label" style="background-color: #FFA15E">High </div>
+                    <div class="value">{{ HIGH }} - {{ HIGH_per }}%</div>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="label" style="background-color: #FAE266">Medium </div>
+                    <div class="value">{{ MEDIUM }} - {{ MEDIUM_per }}%</div>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="label" style="background-color: #86FF84">Low </div>
+                    <div class="value">{{ LOW }} - {{ LOW_per }}%</div>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="label" style="background-color: #DEDEDE">None </div>
+                    <div class="value">{{ NONE }} - {{ NONE_per }}%</div>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="label" style="background-color: #737373">N/A </div>
+                    <div class="value">{{ NA }} - {{ NA_per }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="small_info">Insgesamt gefunden Bibliotheken: {{ dependencies }}</div>
+    <div class="info">
+        <div class="text">
+            Um mehr zu erfahren kannst du auf den folgenden Link drücken:
+            <a href="{{link_to_project}}">Zum Projekt</a>
+
+        </div>
+        <div class="text">
+            Falls du deine Benachrichtigungseinstellung ändern möchtest kannst du dies in deinem Profil tun:
+            <a href="{{link_to_profile}}">Zum Profil</a></div>
+    </div>
+
+</div>
+<div class="footer"><div style="margin-right: 50px">{{ date }}</div></div>
+</body>
+</html>

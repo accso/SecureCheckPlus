@@ -1,0 +1,23 @@
+Hallo {{user_email}},
+
+
+du erhältst diese Benachrichtigung, da du für das
+Projekt {{project_id}} die Benachrichtigungsstufe auf {{severity}} gestellt hast.
+
+
+Folgende Schwachstellen wurden entdeckt:
+
+Anzahl entdeckter Bibliotheken: {{dependencies}}
+
+Critical: {{CRITICAL}} - {{CRITICAL_per}}%
+High: {{HIGH}} - {{HIGH_per}}%
+Medium: {{MEDIUM}} - {{MEDIUM_per}}%
+Low: {{LOW}} - {{LOW_per}}%
+None: {{NONE}} - {{NONE_per}}%
+NA: {{NA}} - {{NA_per}}%
+
+
+
+Um mehr zu erfahren, kannst du das Projekt auf dieser Seite aufsuchen: {{link_to_project}}
+Falls du deine Benachrichtigungseinstellung ändern möchtest, kannst du dies in deinem Profil tun.
+
