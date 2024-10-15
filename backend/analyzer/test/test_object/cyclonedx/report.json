@@ -1,0 +1,108 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.4.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:5a56b356-44c9-476c-80ac-a535f0de7332",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2023-08-17T00:15:41+02:00",
+    "tools": [
+      {
+        "vendor": "anchore",
+        "name": "grype",
+        "version": "0.65.1"
+      }
+    ],
+    "component": {
+      "bom-ref": "caac1ea0a1e210bb",
+      "type": "container",
+      "name": "alpine",
+      "version": "3.15"
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "3c5f80e9cf030b23",
+      "type": "application",
+      "name": "busybox",
+      "version": "1.34.1",
+      "cpe": "cpe:2.3:a:busybox:busybox:1.34.1:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "binary-cataloger"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "BinaryMetadata"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "binary"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:busybox:busybox:1.34.1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:location:0:layerID",
+          "value": "sha256:bc0a9d4e16d0b949d594bf5fc629d05200d5ddac339a899eac27190ebf12e569"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/bin/busybox"
+        }
+      ]
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "bom-ref": "urn:uuid:f080fc74-d3fa-4722-818d-81175cd8f83e",
+      "id": "CVE-2022-28391",
+      "source": {
+        "name": "nvd-cpe",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-28391"
+      },
+      "references": [
+        {
+          "id": "CVE-2022-28391",
+          "source": {
+            "name": "nvd-cpe",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-28391"
+          }
+        }
+      ],
+      "ratings": [
+        {
+          "score": 6.8,
+          "severity": "high",
+          "method": "CVSSv2",
+          "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P"
+        },
+        {
+          "score": 8.8,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+      ],
+      "description": "BusyBox through 1.35.0 allows remote attackers to execute arbitrary code if netstat is used to print a DNS PTR record's value to a VT compatible terminal. Alternatively, the attacker could choose to change the terminal's colors.",
+      "advisories": [
+        {
+          "url": "https://git.alpinelinux.org/aports/plain/main/busybox/0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch"
+        },
+        {
+          "url": "https://git.alpinelinux.org/aports/plain/main/busybox/0002-nslookup-sanitize-all-printed-strings-with-printable.patch"
+        },
+        {
+          "url": "https://gitlab.alpinelinux.org/alpine/aports/-/issues/13661"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "3c5f80e9cf030b23"
+        }
+      ]
+    }
+  ]
+}
