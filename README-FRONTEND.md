@@ -46,7 +46,7 @@ The input field "Image Name" is just a gimmick and generates an avatar image bas
 
 The notification threshold determines the threat level at which you want to be informed via email.
 
-**NOTE**: The email feature has not been released yet! See https://github.com/marcus67/SecureCheckPlus/issues/52.
+**NOTE**: The email feature has not been released yet! See TODO.
 
 *Example:* You have set your threat level to "High." A new project is uploaded via the CI process. 
 You will only receive a notification if all the following criteria are met:

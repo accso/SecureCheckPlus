@@ -36,4 +36,4 @@ The production image (in contrast to the development setup) provides the followi
 
 ## Setup Using docker-compose
 
-See https://github.com/marcus67/SecureCheckPlus/issues/50.
+See TODO. 

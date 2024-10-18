@@ -17,11 +17,6 @@ env:
 jobs:
   create_dotenv_file:
     runs-on: [ self-hosted ]
-#     container:
-#       image: docker:27-rc-dind
-#       options: --privileged
-#       volumes:
-#         - /var/run/docker.sock:/var/run/docker.sock
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -67,14 +62,6 @@ jobs:
   testing:
     runs-on: [ self-hosted ]
     needs: create_dotenv_file
-#     container:
-#       image: docker:27-rc-dind
-#       options: --privileged
-#       volumes:
-#         - ${{ github.workspace }}/backend:/backend
-#         - /var/run/docker.sock:/var/run/docker.sock
-#       env:
-#         WORK_DIR: ${{ github.workspace }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -102,6 +89,8 @@ jobs:
           done
 
       - name: Run Tests
+        env:
+          WORK_DIR: ${{ github.workspace }}
         run: |
           docker-compose exec -T securecheckplus_server coverage run manage.py test
           docker-compose exec -T securecheckplus_server coverage report -m
@@ -123,11 +112,6 @@ jobs:
   cleanup:
     runs-on: [ self-hosted ]
     needs: testing
-#     container:
-#       image: docker:27-rc-dind
-#       options: --privileged
-#       volumes:
-#         - /var/run/docker.sock:/var/run/docker.sock
     if: always()
     steps:
       - name: Checkout code
@@ -148,11 +132,6 @@ jobs:
     runs-on: [ self-hosted ]
     if: github.ref == 'refs/heads/main'
     needs: cleanup
-#     container:
-#       image: docker:27-rc-dind
-#       options: --privileged
-#       volumes:
-#         - /var/run/docker.sock:/var/run/docker.sock
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -184,11 +163,6 @@ jobs:
       id-token: write
     if: github.ref == 'refs/heads/main'
     needs: [ build_frontend_files ]
-#     container:
-#       image: docker:27-rc-dind
-#       options: --privileged
-#       volumes:
-#         - /var/run/docker.sock:/var/run/docker.sock
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -212,7 +186,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: marcusrickert/secure-check-plus
+          images: accso/secure-check-plus
 
       - name: Build and push Docker image
         id: push
@@ -222,14 +196,14 @@ jobs:
           no-cache: true
           target: prod
           push: true
-          tags: marcusrickert/secure-check-plus:latest
+          tags: accso/secure-check-plus:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       # Attestation only works for public repositories
 #      - name: Generate artifact attestation
 #        uses: actions/attest-build-provenance@v1
 #        with:
-#          subject-name: marcusrickert/secure-check-plus
+#          subject-name: accso/secure-check-plus
 #          subject-digest: ${{ steps.push.outputs.digest }}
 #          push-to-registry: true
 
@@ -242,11 +216,6 @@ jobs:
       id-token: write
     if: github.ref == 'refs/heads/main'
     needs: [ build_and_push_container ]
-#     container:
-#       image: docker:27-rc-dind
-#       options: --privileged
-#       volumes:
-#         - /var/run/docker.sock:/var/run/docker.sock
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -264,7 +233,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: marcusrickert/secure-check-plus-adapter
+          images: accso/secure-check-plus-adapter
 
       - name: Build and push Docker image
         id: push
@@ -273,13 +242,13 @@ jobs:
           context: ./adapter/adapter
           no-cache: true
           push: true
-          tags: marcusrickert/secure-check-plus-adapter:latest
+          tags: accso/secure-check-plus-adapter:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       # Attestation only works for public repositories
 #      - name: Generate artifact attestation
 #        uses: actions/attest-build-provenance@v1
 #        with:
-#          subject-name: marcusrickert/secure-check-plus
+#          subject-name: accso/secure-check-plus
 #          subject-digest: ${{ steps.push.outputs.digest }}
 #          push-to-registry: true
