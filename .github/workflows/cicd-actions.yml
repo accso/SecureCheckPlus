@@ -79,6 +79,8 @@ jobs:
         run: docker-compose -f docker-compose.ci.yml build --no-cache
 
       - name: Run Docker Compose
+        env:
+          WORK_DIR: ${{ github.workspace }}
         run: docker-compose -f docker-compose.ci.yml up -d --remove-orphans
 
       - name: Wait for Database
@@ -89,8 +91,6 @@ jobs:
           done
 
       - name: Run Tests
-        env:
-          WORK_DIR: ${{ github.workspace }}
         run: |
           docker-compose exec -T securecheckplus_server coverage run manage.py test
           docker-compose exec -T securecheckplus_server coverage report -m

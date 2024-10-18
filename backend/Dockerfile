@@ -14,7 +14,7 @@ RUN sed -i 's/\r$//' /entrypoint.sh
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install --root-user-action -r requirements.txt
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 
