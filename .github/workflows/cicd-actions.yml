@@ -76,14 +76,14 @@ jobs:
         run: echo "$DOCKER_KEY" | docker login -u "$DOCKER_USER" --password-stdin
 
       - name: Build Docker Compose
-        run: docker-compose -f docker-compose.ci.yml build --no-cache
+        run: docker compose -f docker-compose.ci.yml build --no-cache
 
       - name: Run Docker Compose
         env:
           WORK_DIR: ${{ github.workspace }}
         run:  |
           echo "WORK_DIR=$WORK_DIR"
-          docker-compose -f docker-compose.ci.yml up -d
+          docker compose -f docker-compose.ci.yml up -d
 
       - name: Wait for Database
         run: |
@@ -129,8 +129,8 @@ jobs:
 
       - name: Clean up Docker Compose Containers
         run: |
-          docker-compose -f docker-compose.ci.yml stop
-          docker-compose -f docker-compose.ci.yml down
+          docker compose -f docker-compose.ci.yml stop
+          docker compose -f docker-compose.ci.yml down
 
   build_frontend_files:
     runs-on: [ self-hosted ]
