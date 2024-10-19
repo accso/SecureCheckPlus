@@ -140,12 +140,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Docker Login
-        run: echo "$DOCKER_KEY" | docker login -u "$DOCKER_USER" --password-stdin
-
-      - name: Install npm
-        run: apk add --update npm
-
       - name: Build frontend
         working-directory: ./frontend
         run: |
@@ -203,14 +197,6 @@ jobs:
           tags: accso/secure-check-plus:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      # Attestation only works for public repositories
-#      - name: Generate artifact attestation
-#        uses: actions/attest-build-provenance@v1
-#        with:
-#          subject-name: accso/secure-check-plus
-#          subject-digest: ${{ steps.push.outputs.digest }}
-#          push-to-registry: true
-
   build_and_push_adapter:
     runs-on: [ self-hosted ]
     permissions:
@@ -248,11 +234,3 @@ jobs:
           push: true
           tags: accso/secure-check-plus-adapter:latest
           labels: ${{ steps.meta.outputs.labels }}
-
-      # Attestation only works for public repositories
-#      - name: Generate artifact attestation
-#        uses: actions/attest-build-provenance@v1
-#        with:
-#          subject-name: accso/secure-check-plus
-#          subject-digest: ${{ steps.push.outputs.digest }}
-#          push-to-registry: true
