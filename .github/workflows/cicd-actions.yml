@@ -83,7 +83,7 @@ jobs:
           WORK_DIR: ${{ github.workspace }}
         run:  |
           echo "WORK_DIR=$WORK_DIR"
-          docker-compose -f docker-compose.ci.yml up -d --remove-orphans
+          docker-compose -f docker-compose.ci.yml up -d
 
       - name: Wait for Database
         run: |
@@ -94,10 +94,10 @@ jobs:
 
       - name: Run Tests
         run: |
-          docker-compose exec -T securecheckplus_server coverage run manage.py test
-          docker-compose exec -T securecheckplus_server coverage report -m
-          docker-compose exec -T securecheckplus_server coverage xml
-          docker-compose exec -T securecheckplus_server coverage html
+          docker exec -t securecheckplus_server coverage run manage.py test
+          docker exec -t securecheckplus_server coverage report -m
+          docker exec -t securecheckplus_server coverage xml
+          docker exec -t securecheckplus_server coverage html
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -128,7 +128,7 @@ jobs:
       - name: Clean up Docker Compose Containers
         run: |
           docker-compose -f docker-compose.ci.yml stop
-          docker-compose -f docker-compose.ci.yml down --rmi all
+          docker-compose -f docker-compose.ci.yml down
 
   build_frontend_files:
     runs-on: [ self-hosted ]
