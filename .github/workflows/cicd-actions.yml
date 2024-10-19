@@ -83,7 +83,7 @@ jobs:
           WORK_DIR: ${{ github.workspace }}
         run:  |
           echo "WORK_DIR=$WORK_DIR"
-          docker compose -f docker-compose.ci.yml up -d
+          UID=$(id -u) GID=$(id -g) docker compose -f docker-compose.ci.yml up -d
 
       - name: Wait for Database
         run: |
