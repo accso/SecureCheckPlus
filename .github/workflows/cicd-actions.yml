@@ -81,7 +81,9 @@ jobs:
       - name: Run Docker Compose
         env:
           WORK_DIR: ${{ github.workspace }}
-        run: docker-compose -f docker-compose.ci.yml up -d --remove-orphans
+        run:  |
+          echo "WORK_DIR=$WORK_DIR"
+          docker-compose -f docker-compose.ci.yml up -d --remove-orphans
 
       - name: Wait for Database
         run: |
