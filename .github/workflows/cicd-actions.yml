@@ -93,11 +93,13 @@ jobs:
           done
 
       - name: Run Tests
+        # make sure to use the same user id and group is inside the container as outside so that the files generated
+        # during the tests can be deleted by the runner user
         run: |
-          docker exec -t securecheckplus_server coverage run manage.py test
-          docker exec -t securecheckplus_server coverage report -m
-          docker exec -t securecheckplus_server coverage xml
-          docker exec -t securecheckplus_server coverage html
+          docker exec -t --user $(id -u):$(id -g) securecheckplus_server coverage run manage.py test
+          docker exec -t --user $(id -u):$(id -g) securecheckplus_server coverage report -m
+          docker exec -t --user $(id -u):$(id -g) securecheckplus_server coverage xml
+          docker exec -t --user $(id -u):$(id -g) securecheckplus_server coverage html
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
