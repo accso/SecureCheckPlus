@@ -1,7 +1,7 @@
 services:
   securecheckplus_server:
     container_name: securecheckplus_server
-    user: "${UID}:${GID}"
+    user: "${RUNNER_UID}:${GID}"
     build:
       context: ./backend
       target: dev
