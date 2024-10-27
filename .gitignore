@@ -6,6 +6,7 @@ backend/*.env
 .idea
 /backend/assets/*.ttf
 /backend/assets/*.js
+.run
 =======
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,python,intellij+all

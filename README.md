@@ -7,6 +7,21 @@
 SecureCheckPlus by Accso is a web application that can be integrated into the CI/CD process via an adapter.
 It allows the identification, review, and documentation of already known vulnerabilities based on the libraries used.
 
+This application was developed by the
+<A TARGET="_blank" HREF="https://accso.de/communities/devops-community">DevOps Community</A> at
+<A TARGET="_blank" HREF="https://accso.com/">Accso Accelerated Solutions</A> in Germany.
+It was made opensource and published at
+<A TARGET="_blank" HREF="https://github.com/accso/SecureCheckPlus">GitHub</A> in 2024.
+A manual about how to use the frontend is available
+<A TARGET="_blank" HREF="https://github.com/accso/SecureCheckPlus/blob/main/README-FRONTEND.md">here</A>.
+
+For more information see the its 
+<A TARGET="_blank" HREF="https://accso.com/securecheckplus">Accso Landing Page</A>.
+For any inquiries, write mail to
+<A HREF="mailto:secure-check-plus-by@accso.de">secure-check-plus-by@accso.de</A>. For contributions and bug
+reports, see the <A TARGET="_blank" HREF="https://github.com/accso/SecureCheckPlus/issues">GitHub issues</A>.
+
+
 ## Disclaimer
 
 SecureCheckPlus does _not_ scan for vulnerabilities itself. This is done by industry standard tools such as OWASP.
