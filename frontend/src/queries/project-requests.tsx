@@ -27,6 +27,9 @@ export function updateProject(projectId: string, projectData: {}): AxiosPromise 
 }
 
 export function createProject(projectId: string, projectData: {}): AxiosPromise {
+    if (projectData.projectName && projectData.projectName.length > 255) {
+        return Promise.reject(new Error("Project name exceeds the maximum length of 255 characters"));
+    }
     return apiClient.post(urlAddress.api.createProject(projectId), projectData)
 }
 

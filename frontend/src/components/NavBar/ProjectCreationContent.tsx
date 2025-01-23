@@ -74,6 +74,16 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
         }
     }, [projectId])
 
+    useEffect(() => {
+        if (projectName.length > 255) {
+            setInvalid(true);
+            setHelperText(localization.dialog.projectNameHelperToLong);
+        } else {
+            setInvalid(false);
+            setHelperText("");
+        }
+    }, [projectName]);
+
     return(
         <Stack>
             <Stack direction={"column"} sx={{width: "20rem",  margin: "0px 25px 0px 25px"}}>
