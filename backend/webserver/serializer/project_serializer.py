@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from rest_framework import serializers
-from rest_framework.validators import MaxLengthValidator
 
 from analyzer.models import Project
 from utilities.constants import Status, Threshold
@@ -13,7 +12,7 @@ class ProjectBasicSerializer(serializers.ModelSerializer):
         fields = ["projectId", "projectName", "updated", "deploymentThreshold"]
 
     projectId = serializers.CharField(source="project_id", read_only=True)
-    projectName = serializers.CharField(source="project_name", allow_blank=True, validators=[MaxLengthValidator(255)])
+    projectName = serializers.CharField(source="project_name", allow_blank=True, max_length=255)
     updated = serializers.DateTimeField(default=datetime.now(), read_only=True)
     deploymentThreshold = serializers.ChoiceField(source="deployment_threshold", choices=Threshold.names)
 

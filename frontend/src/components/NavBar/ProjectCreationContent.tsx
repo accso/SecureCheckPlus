@@ -13,12 +13,15 @@ import {useNotification} from "../../context/NotificationContext";
 const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogContentProps: DialogContentProps) => {
     const notification = useNotification();
     const {data} = useQuery("allProjectsFlat", getAllProjectsFlat)
-    const [isInvalid, setInvalid] = useState(false);
+    const [isIdInvalid, setIdInvalid] = useState(true);
+    const [isNameInvalid, setNameInvalid] = useState(false);
+    const [isProjectIdTouched, setProjectIdTouched] = useState(false);
     const [projectId, setProjectId] = useState("");
     const [projectName, setProjectName] = useState("");
     const [threshold, setThreshold] = useState("HIGH");
     const queryClient = useQueryClient()
-    const [helperText, setHelperText] = useState("")
+    const [projectIdHelperText, setProjectIdHelperText] = useState("")
+    const [projectNameHelperText, setProjectNameHelperText] = useState("")
     const handleSave = useMutation(() => createProject(projectId, {
         projectName: projectName,
         deploymentThreshold: threshold
@@ -52,35 +55,38 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
     }
 
     useEffect(() => {
+        if (!isProjectIdTouched) {
+            return;
+        }
         if (projectId.length < 1){
-            setInvalid(true);
-            setHelperText(localization.dialog.projectIdHelperNotEmpty)
+            setIdInvalid(true);
+            setProjectIdHelperText(localization.dialog.projectIdHelperNotEmpty)
         }else if (projectId.includes(" ")){
-            setInvalid(true);
-            setHelperText(localization.dialog.projectIdHelperNoSpaces)
+            setIdInvalid(true);
+            setProjectIdHelperText(localization.dialog.projectIdHelperNoSpaces)
         }else if (projectId.length > 20){
-            setInvalid(true);
-            setHelperText(localization.dialog.projectIdHelperToLong)
+            setIdInvalid(true);
+            setProjectIdHelperText(localization.dialog.projectIdHelperToLong)
         }else {
             if (data?.data !== undefined) {
                 if (allProjectIds.includes(projectId.toLowerCase())) {
-                    setInvalid(true);
-                    setHelperText(localization.dialog.projectIdHelperIdAlreadyUsed)
+                    setIdInvalid(true);
+                    setProjectIdHelperText(localization.dialog.projectIdHelperIdAlreadyUsed)
                 } else {
-                    setInvalid(false);
-                    setHelperText("")
+                    setIdInvalid(false);
+                    setProjectIdHelperText("")
                 }
             }
         }
-    }, [projectId])
+    }, [projectId, isProjectIdTouched, allProjectIds])
 
     useEffect(() => {
         if (projectName.length > 255) {
-            setInvalid(true);
-            setHelperText(localization.dialog.projectNameHelperToLong);
+            setNameInvalid(true);
+            setProjectNameHelperText(localization.dialog.projectNameHelperToLong);
         } else {
-            setInvalid(false);
-            setHelperText("");
+            setNameInvalid(false);
+            setProjectNameHelperText("Optional");
         }
     }, [projectName]);
 
@@ -88,16 +94,20 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
         <Stack>
             <Stack direction={"column"} sx={{width: "20rem",  margin: "0px 25px 0px 25px"}}>
                 <TextField
-                    helperText={helperText}
-                    error={isInvalid}
+                    helperText={projectIdHelperText}
+                    error={isProjectIdTouched && isIdInvalid}
                     label={localization.dialog.projectId}
                     value={projectId}
                     variant="filled"
-                    onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setProjectId(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                        setProjectId(e.target.value)
+                        setProjectIdTouched(true)
+                    }}
                 />
                 <TextField
                     style={{marginTop: "1rem"}}
-                    helperText={"Optional"}
+                    helperText={projectNameHelperText}
+                    error={isNameInvalid}
                     label={localization.dialog.projectName}
                     value={projectName}
                     variant="filled"
@@ -115,7 +125,7 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
                     <Button color={"error"}
                             onClick={() => dialogContentProps.setOpen(false)}>{localization.misc.cancel}</Button>
                     <Button color={"success"}
-                            disabled={isInvalid}
+                            disabled={isIdInvalid || isNameInvalid}
                             onClick={() => handleSave.mutate()}>{localization.misc.save}</Button>
                 </Stack>
             </Stack>
