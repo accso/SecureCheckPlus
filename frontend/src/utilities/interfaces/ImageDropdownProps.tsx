@@ -39,4 +39,8 @@ export interface ImageDropdownProps {
      * Show images only (no text)
      */
     imagesOnly?: boolean
+    /**
+     * Triggered whenever the selection changes
+     */
+    onSelectionChange?: (text: string, value: string) => void
 }

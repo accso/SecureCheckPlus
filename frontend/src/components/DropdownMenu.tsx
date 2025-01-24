@@ -11,7 +11,6 @@ const DropdownMenu: React.FunctionComponent<DropdownProps> = (props: DropdownPro
     let backgroundColor = props.background != null ? props.background : "transparent";
     const handleChange = (e: SelectChangeEvent) => {
         props.state.setValue(e.target.value);
-        window.location.reload(); // P93fb
     };
 
     return (<>
