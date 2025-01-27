@@ -163,3 +163,42 @@ class ReportTestCase(TestCase):
     def test_delete_report(self):
         Report.objects.get(dependency=self.dependency, cve_object=self.cve).delete()
         self.assertEqual(0, len(Report.objects.all()))
+
+
+class ProjectModelTestCase(TestCase):
+    def setUp(self):
+        self.project = Project.objects.create(project_id="TestProject")
+
+    def test_dependency_count(self):
+        Dependency.objects.create(dependency_name="test.py", project=self.project)
+        self.assertEqual(self.project.dependency_count, 1)
+
+    def test_resolved_report_count(self):
+        dependency = Dependency.objects.create(dependency_name="test.py", project=self.project)
+        cve = CVEObject.objects.create(cve_id="CVE2304-2333")
+        Report.objects.create(dependency=dependency, cve_object=cve, status=Status.NO_THREAT.name)
+        self.assertEqual(self.project.resolved_report_count, 1)
+
+    def test_solution_distribution(self):
+        dependency = Dependency.objects.create(dependency_name="test.py", project=self.project)
+        cve = CVEObject.objects.create(cve_id="CVE2304-2333")
+        Report.objects.create(dependency=dependency, cve_object=cve, status=Status.NO_THREAT.name, solution="Solution1")
+        self.assertEqual(self.project.solution_distribution, {"Solution1": 1})
+
+    def test_status_distribution(self):
+        dependency = Dependency.objects.create(dependency_name="test.py", project=self.project)
+        cve = CVEObject.objects.create(cve_id="CVE2304-2333")
+        Report.objects.create(dependency=dependency, cve_object=cve, status=Status.REVIEW.name)
+        self.assertEqual(self.project.status_distribution, {Status.REVIEW.name: 1})
+
+    def test_calculate_risk_score(self):
+        dependency = Dependency.objects.create(dependency_name="test.py", project=self.project)
+        cve = CVEObject.objects.create(cve_id="CVE2304-2333", epss=0.5)
+        Report.objects.create(dependency=dependency, cve_object=cve)
+        self.assertEqual(self.project.calculate_risk_score, 0.5)
+
+    def test_vulnerabilities_count(self):
+        dependency = Dependency.objects.create(dependency_name="test.py", project=self.project)
+        cve = CVEObject.objects.create(cve_id="CVE2304-2333", base_severity="High")
+        Report.objects.create(dependency=dependency, cve_object=cve, status=Status.REVIEW.name)
+        self.assertEqual(self.project.vulnerabilities_count([Status.REVIEW.name]), {"High": 1})

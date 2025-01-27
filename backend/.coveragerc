@@ -1,8 +1,8 @@
 [run]
 source = .
-omit = frontend/*,*test*,*apps.py,*manage.py,*__init__.py,*migrations*,*asgi*,*wsgi*,*admin.py,*urls.py
+omit = frontend/*,*test*,*migrations*,*asgi*,*wsgi*,*admin.py
 
 [report]
 exclude_lines =
     pragma: no cover
-omit = frontend/*,*test*,*apps.py,*manage.py,*__init__.py,*migrations*,*asgi*,*wsgi*,*admin.py,*urls.py
+omit = frontend/*,*test*,*migrations*,*asgi*,*wsgi*,*admin.py

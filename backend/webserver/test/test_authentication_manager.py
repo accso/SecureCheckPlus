@@ -40,3 +40,25 @@ class TestAuthentication:
 
         auth.logout(request)
         assert isinstance(auth.get_user(request), AnonymousUser)
+
+    @patch("securecheckplus.settings.LDAP_HOST", None)
+    def test_update_group(self):
+        user = User.objects.create(username="TestUser")
+        group = Group.objects.create(name="basic")
+        user.groups.add(group)
+        update_group(user, [LDAP_BASE_GROUP_DN])
+        assert user.groups.filter(name="basic").exists()
+
+    @patch("securecheckplus.settings.LDAP_HOST", None)
+    def test_authenticate_with_ldap(self):
+        with patch("webserver.manager.ldap_adapter.LdapAdapter.authenticate_user", return_value=[LDAP_BASE_GROUP_DN]):
+            user = auth.authenticate(username="ldap_user", password="ldap_password")
+            assert user is not None
+            assert user.username == "ldap_user"
+            assert user.groups.filter(name="basic").exists()
+
+    @patch("securecheckplus.settings.LDAP_HOST", None)
+    def test_authenticate_with_invalid_ldap(self):
+        with patch("webserver.manager.ldap_adapter.LdapAdapter.authenticate_user", return_value=None):
+            user = auth.authenticate(username="invalid_ldap_user", password="invalid_ldap_password")
+            assert user is None

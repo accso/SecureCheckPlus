@@ -91,3 +91,23 @@ class TestViews:
 
         response = self.view(request)
         assert response.status_code == 406
+
+    def test_health_endpoint(self, setup):
+        request = self.client.get("/analyzer/health")
+        response = self.view(request)
+        assert response.status_code == 200
+        assert response.content == b"I'm fine!"
+
+    def test_analyze_report_with_no_dependencies(self, setup):
+        empty_report = "{}"
+        request = self.client.post(self.correct_url, data=empty_report, content_type=self.content_type,
+                                   HTTP_API_KEY=self.key)
+        response = self.view(request)
+        assert response.status_code == 400
+        assert b"No dependencies found" in response.content
+
+    def test_analyze_report_with_internal_server_error(self, setup):
+        request = self.client.post(self.correct_url, data=self.report, content_type=self.content_type,
+                                   HTTP_API_KEY=self.key)
+        with pytest.raises(Exception):
+            self.view(request)

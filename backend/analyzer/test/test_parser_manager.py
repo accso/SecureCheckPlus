@@ -23,3 +23,8 @@ def test_invalid_types():
 def test_invalid_data_calls_message():
     with pytest.raises(ParseError):
         ParserManager(tool_name="owasp", file_type="json").parse("")
+
+
+def test_parse_empty_body():
+    with pytest.raises(ParseError):
+        ParserManager(tool_name="owasp", file_type="json").parse("")

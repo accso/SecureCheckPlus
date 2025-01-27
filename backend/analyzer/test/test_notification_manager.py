@@ -30,3 +30,17 @@ class TestNotificationManager:
         notification_manager.notify(self.project)
         assert len(mail.outbox) == 1
         assert mail.outbox[0].recipients()[0] == self.user.username
+
+    def test_notify_multiple_users(self, db):
+        self.user3 = User.objects.create(username="test3@acme.de", notification_threshold=Threshold.HIGH.name)
+        UserWatchProject.objects.create(project=self.project, user=self.user3)
+        notification_manager.notify(self.project)
+        assert len(mail.outbox) == 2
+        assert mail.outbox[0].recipients()[0] == self.user.username
+        assert mail.outbox[1].recipients()[0] == self.user3.username
+
+    def test_notify_no_users(self, db):
+        self.user.notification_threshold = Threshold.CRITICAL.name
+        self.user.save()
+        notification_manager.notify(self.project)
+        assert len(mail.outbox) == 0

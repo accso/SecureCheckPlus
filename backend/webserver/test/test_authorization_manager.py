@@ -1,11 +1,10 @@
-
 import pytest
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.test import APIRequestFactory
 from rest_framework.views import APIView
 
-from webserver.manager.authorization_manager import permission_required
+from webserver.manager.authorization_manager import permission_required, IsPut, IsPost, IsGet
 from webserver.models import User
 
 
@@ -49,3 +48,21 @@ class TestAuthorization:
         self.user.groups.add(self.admin_group)
         self.user.save()
         assert permission_manager.has_permission(permission_manager, request, view=APIView.as_view())
+
+    def test_is_put_permission(self, db):
+        permission_manager = IsPut()
+        request = APIRequestFactory(enforce_csrf_checks=True).put("/", data="", content_type=self.request_content_type)
+        request.user = self.user
+        assert permission_manager.has_permission(request=request, view=APIView.as_view())
+
+    def test_is_post_permission(self, db):
+        permission_manager = IsPost()
+        request = APIRequestFactory(enforce_csrf_checks=True).post("/", data="", content_type=self.request_content_type)
+        request.user = self.user
+        assert permission_manager.has_permission(request=request, view=APIView.as_view())
+
+    def test_is_get_permission(self, db):
+        permission_manager = IsGet()
+        request = APIRequestFactory(enforce_csrf_checks=True).get("/", content_type=self.request_content_type)
+        request.user = self.user
+        assert permission_manager.has_permission(request=request, view=APIView.as_view())

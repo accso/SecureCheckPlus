@@ -77,3 +77,49 @@ def test_update_project(dummy_project):
                                        "CVE-2019-8331"}
 
     assert (set(dependency_reports2)) == {"CVE-2015-9251", "CVE-2019-11358", "CVE-2020-11022", "CVE-2020-11023"}
+
+
+@pytest.mark.django_db
+def test_generate_key(dummy_project):
+    project_manager = ProjectManager(dummy_project)
+    key = project_manager.generate_key()
+    assert len(key) == 43
+    assert project_manager.verify_key(key)
+
+
+@pytest.mark.django_db
+def test_verify_key(dummy_project):
+    project_manager = ProjectManager(dummy_project)
+    key = project_manager.generate_key()
+    assert project_manager.verify_key(key)
+    assert not project_manager.verify_key("invalid_key")
+
+
+@pytest.mark.django_db
+def test_update_project_with_no_changes(dummy_project):
+    data = ParserManager(tool_name="owasp", file_type="json").parse(get_owasp_json())
+    project_manager = ProjectManager(dummy_project)
+    project_manager.update_project(data)
+    assert not project_manager.has_changed(data)
+
+
+@pytest.mark.django_db
+def test_update_project_with_new_data(dummy_project):
+    data = ParserManager(tool_name="owasp", file_type="json").parse(get_owasp_json())
+    project_manager = ProjectManager(dummy_project)
+    project_manager.update_project(data)
+    new_data = {
+        "new_dependency:1.0.0": {
+            "dependency_name": "new_dependency",
+            "version": "1.0.0",
+            "path": "path/to/new_dependency",
+            "license": "MIT",
+            "vulnerabilities": ["CVE-2021-12345"],
+            "package_manager": "npm"
+        }
+    }
+    assert project_manager.has_changed(new_data)
+    project_manager.update_project(new_data)
+    assert not project_manager.has_changed(new_data)
+    dependency_names = project_manager.get().dependency_set.values_list("dependency_name", flat=True)
+    assert "new_dependency" in dependency_names

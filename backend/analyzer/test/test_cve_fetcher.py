@@ -42,3 +42,21 @@ def test_epss_score():
 
 def test_vendor_reference():
     assert len(cve_data["vendor_reference"]) >= 0
+
+
+def test_find_vendor_reference():
+    references = [
+        {"url": "http://example.com", "tags": ["Vendor Advisory"]},
+        {"url": "http://example2.com", "tags": []}
+    ]
+    vendor_reference = cve_fetcher._find_vendor_reference(references)
+    assert vendor_reference == "http://example.com"
+
+
+def test_find_cwes():
+    weaknesses = [
+        {"description": [{"value": "CWE-79"}]},
+        {"description": [{"value": "CWE-89"}]}
+    ]
+    cwes = cve_fetcher._find_cwes(weaknesses)
+    assert cwes == ["CWE-79", "CWE-89"]

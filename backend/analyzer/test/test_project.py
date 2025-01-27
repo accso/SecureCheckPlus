@@ -35,3 +35,35 @@ class TestHelperClass:
                      BaseSeverity.NA.name: 1
                      }
         assert true_data == counted
+
+    def test_dependency_count(self, db):
+        assert self.project.dependency_count == 2
+
+    def test_resolved_report_count(self, db):
+        assert self.project.resolved_report_count == 0
+
+    def test_solution_distribution(self, db):
+        solution_distribution = self.project.solution_distribution
+        assert solution_distribution == {
+            "NO_SOLUTION_NEEDED": 0,
+            "SOLUTION_AVAILABLE": 0,
+            "SOLUTION_IMPLEMENTED": 0,
+            "SOLUTION_NOT_AVAILABLE": 0,
+            "SOLUTION_NOT_NEEDED": 0,
+            "SOLUTION_PARTIALLY_IMPLEMENTED": 0,
+            "SOLUTION_UNKNOWN": 0,
+        }
+
+    def test_status_distribution(self, db):
+        status_distribution = self.project.status_distribution
+        assert status_distribution == {
+            "REVIEW": 5,
+            "NO_THREAT": 0,
+            "THREAT_FIXED": 0,
+            "THREAT_NOT_FIXED": 0,
+            "THREAT_UNKNOWN": 0,
+        }
+
+    def test_calculate_risk_score(self, db):
+        risk_score = self.project.calculate_risk_score
+        assert risk_score == 1 - (1 - 0) * (1 - 0) * (1 - 0) * (1 - 0) * (1 - 0)
