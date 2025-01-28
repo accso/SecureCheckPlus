@@ -81,7 +81,7 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
     }, [projectId, isProjectIdTouched, allProjectIds])
 
     useEffect(() => {
-        if (projectName.length > 255) {
+        if (projectName.length > 25) {
             setNameInvalid(true);
             setProjectNameHelperText(localization.dialog.projectNameHelperToLong);
         } else {

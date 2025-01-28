@@ -30,8 +30,8 @@ export function createProject(projectId: string, projectData: {
     projectName: string,
     deploymentThreshold: string
 }): AxiosPromise {
-    if (projectData.projectName && projectData.projectName.length > 255) {
-        return Promise.reject(new Error("Project name exceeds the maximum length of 255 characters"));
+    if (projectData.projectName && projectData.projectName.length > 25) {
+        return Promise.reject(new Error("Project name exceeds the maximum length of 25 characters"));
     }
     return apiClient.post(urlAddress.api.createProject(projectId), projectData)
 }
