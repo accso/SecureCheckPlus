@@ -192,7 +192,7 @@ const ProjectPage: React.FunctionComponent = () => {
                                 <Typography
                                     onClick={() => redirect(Object.keys(localization.misc.status), Object.keys(localization.misc.severity))}
                                     marginBottom={"2rem"} variant="h5"
-                                    sx={chartTitle}>{"Alle"}</Typography>
+                                    sx={chartTitle}>{localization.ProjectPage.allReportsTitle}</Typography>
                                 <Box sx={chartBoxProps}>
                                     <CustomDoughnut data={processedStatus} options={
                                         {
