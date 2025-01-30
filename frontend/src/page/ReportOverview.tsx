@@ -123,19 +123,6 @@ const ReportOverview: React.FunctionComponent = () => {
      */
     const columns: GridColDef[] = [
         {
-            field: "open",
-            headerName: localization.ReportPage.open,
-            disableColumnMenu: true,
-            sortable: false,
-            align: "center",
-            headerAlign: "center",
-            renderCell: (params) => (
-                <IconButton onClick={() => window.open("reports/" + params.row.id, "_blank")}>
-                    <OpenInNewIcon color={"secondary"}></OpenInNewIcon>
-                </IconButton>
-            )
-        },
-        {
             field: 'cveId',
             headerName: 'CVE ID',
             valueGetter: params => params.row.cveObject.cveId,
@@ -310,6 +297,7 @@ const ReportOverview: React.FunctionComponent = () => {
                             rows={selectedReports}
                             columns={columns}
                             getRowId={(row) => row.cveObject.cveId + row.dependency.dependencyName + row.dependency.version}
+                            onRowClick={(params) => window.open("reports/" + params.row.id, "_blank")}
                         /> : null}
                     </Grid>
                 </Grid>
