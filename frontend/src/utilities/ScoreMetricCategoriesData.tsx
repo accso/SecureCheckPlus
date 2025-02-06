@@ -3,7 +3,7 @@ import localization from "./localization";
 
 interface ScoreMetric {
     scoreMetricLabel: string;
-    scoreMetricValues: string[];
+    scoreMetricValues: {title: string, tooltip: string}[];
     selectedScoreMetricValue: {
         value: string;
         setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -45,17 +45,17 @@ export const getScoreMetricCategoriesData = (
             scoreMetrics: [
                 {
                     scoreMetricLabel: scoreMetricLabels.exploitCodeMaturity,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.exploitCodeMaturity.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.remediationLevel,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.remediationLevel.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.reportConfidence,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.reportConfidence.notDefined,
                     comment: "",
                 }
             ]
@@ -65,17 +65,17 @@ export const getScoreMetricCategoriesData = (
             scoreMetrics: [
                 {
                     scoreMetricLabel: scoreMetricLabels.confidentialityRequirement,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.confidentialityRequirement.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.integrityRequirement,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.integrityRequirement.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.availabilityRequirement,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.availabilityRequirement.notDefined,
                     comment: "",
                 },
             ]
@@ -85,42 +85,42 @@ export const getScoreMetricCategoriesData = (
             scoreMetrics: [
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedAttackVector,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedAttackVector.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedAttackComplexity,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedAttackComplexity.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedPrivilegesRequired,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedPrivilegesRequired.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedUserInteraction,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedUserInteraction.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedScope,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedScope.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedConfidentiality,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedConfidentiality.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedIntegrity,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedIntegrity.notDefined,
                     comment: "",
                 },
                 {
                     scoreMetricLabel: scoreMetricLabels.modifiedAvailability,
-                    selectedScoreMetricValue: scoreMetricValueLabels.notDefined,
+                    selectedScoreMetricValue: scoreMetricValueLabels.modifiedAvailability.notDefined,
                     comment: "",
                 },
             ]
@@ -155,84 +155,108 @@ export const getScoreMetricCategoriesData = (
     return scoreMetricCategories;
 };
 
-const getScoreMetricValues = (scoreMetricLabel: string): string[] => {
+const getScoreMetricValues = (scoreMetricLabel: string): {title: string, tooltip: string}[] => {
     const scoreMetricLabels = localization.ReportDetailPage.waiverConfig.main.scoreMetrics;
     const scoreMetricValueLabels = localization.ReportDetailPage.waiverConfig.main.scoreMetricValues;
 
     switch (scoreMetricLabel) {
         case scoreMetricLabels.exploitCodeMaturity:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.unproven,
-                scoreMetricValueLabels.proofOfConcept,
-                scoreMetricValueLabels.functional,
-                scoreMetricValueLabels.high,
+                scoreMetricValueLabels.exploitCodeMaturity.notDefined,
+                scoreMetricValueLabels.exploitCodeMaturity.unproven,
+                scoreMetricValueLabels.exploitCodeMaturity.proofOfConcept,
+                scoreMetricValueLabels.exploitCodeMaturity.functional,
+                scoreMetricValueLabels.exploitCodeMaturity.high,
             ];
         case scoreMetricLabels.remediationLevel:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.officialFix,
-                scoreMetricValueLabels.temporaryFix,
-                scoreMetricValueLabels.workaround,
-                scoreMetricValueLabels.unavailable,
+                scoreMetricValueLabels.remediationLevel.notDefined,
+                scoreMetricValueLabels.remediationLevel.officialFix,
+                scoreMetricValueLabels.remediationLevel.temporaryFix,
+                scoreMetricValueLabels.remediationLevel.workaround,
+                scoreMetricValueLabels.remediationLevel.unavailable,
             ];
         case scoreMetricLabels.reportConfidence:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.unknown,
-                scoreMetricValueLabels.reasonable,
-                scoreMetricValueLabels.confirmed,
+                scoreMetricValueLabels.reportConfidence.notDefined,
+                scoreMetricValueLabels.reportConfidence.unknown,
+                scoreMetricValueLabels.reportConfidence.reasonable,
+                scoreMetricValueLabels.reportConfidence.confirmed,
             ];
         case scoreMetricLabels.confidentialityRequirement:
+            return [
+                scoreMetricValueLabels.confidentialityRequirement.notDefined,
+                scoreMetricValueLabels.confidentialityRequirement.low,
+                scoreMetricValueLabels.confidentialityRequirement.medium,
+                scoreMetricValueLabels.confidentialityRequirement.high,
+            ];
         case scoreMetricLabels.integrityRequirement:
+            return [
+                scoreMetricValueLabels.integrityRequirement.notDefined,
+                scoreMetricValueLabels.integrityRequirement.low,
+                scoreMetricValueLabels.integrityRequirement.medium,
+                scoreMetricValueLabels.integrityRequirement.high,
+            ];
         case scoreMetricLabels.availabilityRequirement:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.low,
-                scoreMetricValueLabels.medium,
-                scoreMetricValueLabels.high,
+                scoreMetricValueLabels.availabilityRequirement.notDefined,
+                scoreMetricValueLabels.availabilityRequirement.low,
+                scoreMetricValueLabels.availabilityRequirement.medium,
+                scoreMetricValueLabels.availabilityRequirement.high,
             ];
         case scoreMetricLabels.modifiedAttackVector:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.network,
-                scoreMetricValueLabels.adjacent,
-                scoreMetricValueLabels.local,
-                scoreMetricValueLabels.physical,
+                scoreMetricValueLabels.modifiedAttackVector.notDefined,
+                scoreMetricValueLabels.modifiedAttackVector.network,
+                scoreMetricValueLabels.modifiedAttackVector.adjacent,
+                scoreMetricValueLabels.modifiedAttackVector.local,
+                scoreMetricValueLabels.modifiedAttackVector.physical,
             ];
         case scoreMetricLabels.modifiedAttackComplexity:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.low,
-                scoreMetricValueLabels.high,
+                scoreMetricValueLabels.modifiedAttackComplexity.notDefined,
+                scoreMetricValueLabels.modifiedAttackComplexity.low,
+                scoreMetricValueLabels.modifiedAttackComplexity.high,
             ];
         case scoreMetricLabels.modifiedPrivilegesRequired:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.none,
-                scoreMetricValueLabels.low,
-                scoreMetricValueLabels.high,
+                scoreMetricValueLabels.modifiedPrivilegesRequired.notDefined,
+                scoreMetricValueLabels.modifiedPrivilegesRequired.none,
+                scoreMetricValueLabels.modifiedPrivilegesRequired.low,
+                scoreMetricValueLabels.modifiedPrivilegesRequired.high,
             ];
         case scoreMetricLabels.modifiedUserInteraction:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.none,
-                scoreMetricValueLabels.required,
+                scoreMetricValueLabels.modifiedUserInteraction.notDefined,
+                scoreMetricValueLabels.modifiedUserInteraction.none,
+                scoreMetricValueLabels.modifiedUserInteraction.required,
             ];
         case scoreMetricLabels.modifiedScope:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.unchanged,
-                scoreMetricValueLabels.changed,
+                scoreMetricValueLabels.modifiedScope.notDefined,
+                scoreMetricValueLabels.modifiedScope.unchanged,
+                scoreMetricValueLabels.modifiedScope.changed,
             ];
         case scoreMetricLabels.modifiedConfidentiality:
+            return [
+                scoreMetricValueLabels.modifiedConfidentiality.notDefined,
+                scoreMetricValueLabels.modifiedConfidentiality.none,
+                scoreMetricValueLabels.modifiedConfidentiality.low,
+                scoreMetricValueLabels.modifiedConfidentiality.high,
+            ];
         case scoreMetricLabels.modifiedIntegrity:
+            return [
+                scoreMetricValueLabels.modifiedIntegrity.notDefined,
+                scoreMetricValueLabels.modifiedIntegrity.none,
+                scoreMetricValueLabels.modifiedIntegrity.low,
+                scoreMetricValueLabels.modifiedIntegrity.high,
+            ];
         case scoreMetricLabels.modifiedAvailability:
             return [
-                scoreMetricValueLabels.notDefined,
-                scoreMetricValueLabels.none,
-                scoreMetricValueLabels.low,
-                scoreMetricValueLabels.high,
+                scoreMetricValueLabels.modifiedAvailability.notDefined,
+                scoreMetricValueLabels.modifiedAvailability.none,
+                scoreMetricValueLabels.modifiedAvailability.low,
+                scoreMetricValueLabels.modifiedAvailability.high,
             ];
         default:
             return [scoreMetricValueLabels.notDefined];
@@ -251,84 +275,84 @@ const setOriginalScoreMetricValue = (scoreMetricLabel: string, vulnerabilityVect
         case scoreMetricLabels.modifiedAttackVector: {
             const originalValue = vulnerabilityVectorValues.attackVector.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.NETWORK.toUpperCase()) {
-                output = scoreMetricValueLabels.network;
+                output = scoreMetricValueLabels.modifiedAttackVector.network.title;
             } else if (originalValue === environmentalScoreMetricsLink.ADJACENT.toUpperCase()) {
-                output = scoreMetricValueLabels.adjacent;
+                output = scoreMetricValueLabels.modifiedAttackVector.adjacent.title;
             } else if (originalValue === environmentalScoreMetricsLink.LOCAL.toUpperCase()) {
-                output = scoreMetricValueLabels.local;
+                output = scoreMetricValueLabels.modifiedAttackVector.local.title;
             } else if (originalValue === environmentalScoreMetricsLink.PHYSICAL.toUpperCase()) {
-                output = scoreMetricValueLabels.physical;
+                output = scoreMetricValueLabels.modifiedAttackVector.physical.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedAttackComplexity: {
             const originalValue = vulnerabilityVectorValues.attackComplexity.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.LOW.toUpperCase()) {
-                output = scoreMetricValueLabels.low;
+                output = scoreMetricValueLabels.modifiedAttackComplexity.low.title;
             } else if (originalValue === environmentalScoreMetricsLink.HIGH.toUpperCase()) {
-                output = scoreMetricValueLabels.high;
+                output = scoreMetricValueLabels.modifiedAttackComplexity.high.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedPrivilegesRequired: {
             const originalValue = vulnerabilityVectorValues.privilegesRequired.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.NONE.toUpperCase()) {
-                output = scoreMetricValueLabels.none;
+                output = scoreMetricValueLabels.modifiedPrivilegesRequired.none.title;
             } else if (originalValue === environmentalScoreMetricsLink.LOW.toUpperCase()) {
-                output = scoreMetricValueLabels.low;
+                output = scoreMetricValueLabels.modifiedPrivilegesRequired.low.title;
             } else if (originalValue === environmentalScoreMetricsLink.HIGH.toUpperCase()) {
-                output = scoreMetricValueLabels.high;
+                output = scoreMetricValueLabels.modifiedPrivilegesRequired.high.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedUserInteraction: {
             const originalValue = vulnerabilityVectorValues.userInteraction.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.NONE.toUpperCase()) {
-                output = scoreMetricValueLabels.none;
+                output = scoreMetricValueLabels.modifiedUserInteraction.none.title;
             } else if (originalValue === environmentalScoreMetricsLink.REQUIRED.toUpperCase()) {
-                output = scoreMetricValueLabels.required;
+                output = scoreMetricValueLabels.modifiedUserInteraction.required.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedScope: {
             const originalValue = vulnerabilityVectorValues.scope.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.UNCHANGED.toUpperCase()) {
-                output = scoreMetricValueLabels.unchanged;
+                output = scoreMetricValueLabels.modifiedScope.unchanged.title;
             } else if (originalValue === environmentalScoreMetricsLink.CHANGED.toUpperCase()) {
-                output = scoreMetricValueLabels.changed;
+                output = scoreMetricValueLabels.modifiedScope.changed.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedConfidentiality: {
             const originalValue = vulnerabilityVectorValues.confidentialityImpact.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.NONE.toUpperCase()) {
-                output = scoreMetricValueLabels.none;
+                output = scoreMetricValueLabels.modifiedConfidentiality.none.title;
             } else if (originalValue === environmentalScoreMetricsLink.LOW.toUpperCase()) {
-                output = scoreMetricValueLabels.low;
+                output = scoreMetricValueLabels.modifiedConfidentiality.low.title;
             } else if (originalValue === environmentalScoreMetricsLink.HIGH.toUpperCase()) {
-                output = scoreMetricValueLabels.high;
+                output = scoreMetricValueLabels.modifiedConfidentiality.high.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedIntegrity: {
             const originalValue = vulnerabilityVectorValues.integrityImpact.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.NONE.toUpperCase()) {
-                output = scoreMetricValueLabels.none;
+                output = scoreMetricValueLabels.modifiedIntegrity.none.title;
             } else if (originalValue === environmentalScoreMetricsLink.LOW.toUpperCase()) {
-                output = scoreMetricValueLabels.low;
+                output = scoreMetricValueLabels.modifiedIntegrity.low.title;
             } else if (originalValue === environmentalScoreMetricsLink.HIGH.toUpperCase()) {
-                output = scoreMetricValueLabels.high;
+                output = scoreMetricValueLabels.modifiedIntegrity.high.title;
             }
             break;
         }
         case scoreMetricLabels.modifiedAvailability: {
             const originalValue = vulnerabilityVectorValues.availabilityImpact.toUpperCase();
             if (originalValue === environmentalScoreMetricsLink.NONE.toUpperCase()) {
-                output = scoreMetricValueLabels.none;
+                output = scoreMetricValueLabels.modifiedAvailability.none.title;
             } else if (originalValue === environmentalScoreMetricsLink.LOW.toUpperCase()) {
-                output = scoreMetricValueLabels.low;
+                output = scoreMetricValueLabels.modifiedAvailability.low.title;
             } else if (originalValue === environmentalScoreMetricsLink.HIGH.toUpperCase()) {
-                output = scoreMetricValueLabels.high;
+                output = scoreMetricValueLabels.modifiedAvailability.high.title;
             }
             break;
         }
