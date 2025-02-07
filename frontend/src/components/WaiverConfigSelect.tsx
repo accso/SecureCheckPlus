@@ -48,7 +48,6 @@ export default function WaiverConfigSelect(props: Props) {
 const radioButtonBox = {};
 
 const radioButton = (props: Props, label: string) => {
-  console.log(props.originalScoreMetricValue);
   return {
     border:
       props.originalScoreMetricValue === label
