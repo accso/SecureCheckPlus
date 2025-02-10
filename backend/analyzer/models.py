@@ -12,8 +12,8 @@ class Project(models.Model):
     class Meta:
         db_table = constants.DB_SCHEMA_PREFIX + "project"
 
-    project_id = models.CharField(max_length=25, blank=False, unique=True)
-    project_name = models.CharField(max_length=25, blank=True)
+    project_id = models.CharField(max_length=50, blank=False, unique=True)
+    project_name = models.CharField(max_length=50, blank=True)
     updated = models.DateTimeField(auto_now=True)
     deployment_threshold = models.CharField(max_length=20,
                                             choices=constants.Threshold.choices,
