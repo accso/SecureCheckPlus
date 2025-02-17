@@ -4,7 +4,6 @@ services:
     user: "${RUNNER_UID}:${GID}"
     build:
       context: ./backend
-      target: dev
     env_file: "./backend/.env"
     environment:
       WORK_DIR: $WORK_DIR
