@@ -158,8 +158,8 @@ class ProjectAPI(APIView):
       else:
         raise InvalidValueError(project_id)
 
-      if len(request.data.get("projectName", "")) > 255:
-        raise InvalidValueError("Project name exceeds the maximum length of 255 characters")
+      if len(request.data.get("projectName", "")) > 50:
+        raise InvalidValueError("Project name exceeds the maximum length of 50 characters")
 
       return Response(f"Creation of {project_id} successful!")
 

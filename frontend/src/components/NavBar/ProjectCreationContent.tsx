@@ -64,7 +64,7 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
         }else if (projectId.includes(" ")){
             setIdInvalid(true);
             setProjectIdHelperText(localization.dialog.projectIdHelperNoSpaces)
-        }else if (projectId.length > 20){
+        }else if (projectId.length > 50){
             setIdInvalid(true);
             setProjectIdHelperText(localization.dialog.projectIdHelperToLong)
         }else {
@@ -81,7 +81,7 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
     }, [projectId, isProjectIdTouched, allProjectIds])
 
     useEffect(() => {
-        if (projectName.length > 25) {
+        if (projectName.length > 50) {
             setNameInvalid(true);
             setProjectNameHelperText(localization.dialog.projectNameHelperToLong);
         } else {
