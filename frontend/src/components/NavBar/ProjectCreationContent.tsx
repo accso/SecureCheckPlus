@@ -56,11 +56,11 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
             setInvalid(true);
             setHelperText(localization.dialog.projectIdHelperNotEmpty)
         }else if (projectId.includes(" ")){
-            setInvalid(true);
-            setHelperText(localization.dialog.projectIdHelperNoSpaces)
-        }else if (projectId.length > 20){
-            setInvalid(true);
-            setHelperText(localization.dialog.projectIdHelperToLong)
+            setIdInvalid(true);
+            setProjectIdHelperText(localization.dialog.projectIdHelperNoSpaces)
+        }else if (projectId.length > 50){
+            setIdInvalid(true);
+            setProjectIdHelperText(localization.dialog.projectIdHelperToLong)
         }else {
             if (data?.data !== undefined) {
                 if (allProjectIds.includes(projectId.toLowerCase())) {
@@ -72,7 +72,17 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
                 }
             }
         }
-    }, [projectId])
+    }, [projectId, isProjectIdTouched, allProjectIds])
+
+    useEffect(() => {
+        if (projectName.length > 50) {
+            setNameInvalid(true);
+            setProjectNameHelperText(localization.dialog.projectNameHelperToLong);
+        } else {
+            setNameInvalid(false);
+            setProjectNameHelperText("Optional");
+        }
+    }, [projectName]);
 
     return(
         <Stack>
