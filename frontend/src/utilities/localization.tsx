@@ -115,7 +115,7 @@ const language = {
             commentPlaceholder: "Kommentieren...",
             infosFound:{
                 infosFoundTitle: "Folgende Informationen gefunden...",
-                detailedDescription: "Detaillierte Beschreibung:",
+                detailedDescriptionTitle: "Detaillierte Beschreibung",
                 suggestedSolutions: "Vorgeschlagene Lösungen",
                 mendIo: "Mend.io:",
                 aquaSec: "AquaSec:",
@@ -490,7 +490,7 @@ const language = {
             commentPlaceholder: "Comment...",
             infosFound:{
                 infosFoundTitle: "Found information...",
-                detailedDescription: "Detailed description:",
+                detailedDescriptionTitle: "Detailed description",
                 suggestedSolutions: "Suggested solutions",
                 mendIo: "Mend.io:",
                 aquaSec: "AquaSec:",
