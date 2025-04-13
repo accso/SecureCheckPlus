@@ -9,12 +9,13 @@ from utilities.constants import Status, Threshold
 class ProjectBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ["projectId", "projectName", "updated", "deploymentThreshold"]
+        fields = ["projectId", "projectName", "updated", "deploymentThreshold", "autoUpdate"]
 
     projectId = serializers.CharField(source="project_id", read_only=True)
     projectName = serializers.CharField(source="project_name", allow_blank=True)
     updated = serializers.DateTimeField(default=datetime.now(), read_only=True)
     deploymentThreshold = serializers.ChoiceField(source="deployment_threshold", choices=Threshold.names)
+    autoUpdate = serializers.BooleanField(source="auto_update")
 
 
 class ProjectDetailSerializer(ProjectBasicSerializer):
@@ -42,7 +43,7 @@ class ProjectSummarySerializer(ProjectBasicSerializer):
     class Meta:
         model = Project
         fields = ["projectId", "projectName", "updated", "vulnerabilityCount",
-                  "misconfigurationCount", "riskValue", "requirementsFulfilled"]
+                  "misconfigurationCount", "riskValue", "requirementsFulfilled", "autoUpdate"]
 
     vulnerabilityCount = serializers.SerializerMethodField(method_name="get_vulnerability_count", read_only=True)
     misconfigurationCount = serializers.ReadOnlyField(default=12, read_only=True)  # TODO upcoming feature

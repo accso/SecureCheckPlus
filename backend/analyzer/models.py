@@ -19,6 +19,7 @@ class Project(models.Model):
                                             choices=constants.Threshold.choices,
                                             default=constants.Threshold.MEDIUM.name)
     api_key_hash = models.CharField(null=True, max_length=100)
+    auto_update = models.BooleanField(default=False)
 
     @property
     def dependency_count(self):
@@ -147,3 +148,10 @@ class Report(models.Model):
     score_metric_data = models.TextField(default=constants.DEFAULT_SCORE_METRIC_DATA)
     overall_cvss_score = models.DecimalField(max_digits=3, decimal_places=1, null=True)
     overall_cvss_severity = models.CharField(max_length=255, null=True)
+
+class CPEObject(models.Model):
+    class Meta:
+        db_table = constants.DB_SCHEMA_PREFIX + "cpe_object"
+
+    dependency = models.ForeignKey(Dependency, on_delete=models.CASCADE)
+    cpe_id = models.CharField(max_length=255, blank=False, unique=True)

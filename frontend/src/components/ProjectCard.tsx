@@ -14,6 +14,7 @@ import {colors} from "../style/globalStyle"
 import localization from "../utilities/localization"
 import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import UpdateButton from "./UpdateButton";
 
 export interface Props {
     /**
@@ -40,6 +41,7 @@ export default function ProjectCard(props: Props) {
     const navigate = useNavigate()
     const location = useLocation()
     const [checked, setChecked] = useState(false);
+
     const sentToProject = () => {
         if (location.pathname.endsWith("projects")) {
             navigate(props.project.projectId)
@@ -47,7 +49,6 @@ export default function ProjectCard(props: Props) {
             navigate("projects/" + props.project.projectId)
         }
     }
-
 
     function handleCheckboxChangeAndReturnState(){
         let selectedProjectsIds = sessionStorage.getItem("selectedProjectsIds")
@@ -80,6 +81,9 @@ export default function ProjectCard(props: Props) {
                         {/*<Stack marginLeft={"1rem"}>*/}
                         {/*    <Typography sx={{projectGroupStyle}}> {"Projektgruppen Name"}</Typography>*/}
                         {/*</Stack>*/}
+                        <Stack>
+                            <UpdateButton project={props.project}/>
+                        </Stack>
                     </Stack>
                     <Stack sx={{alignSelf:"center", marginTop:"1rem"}}>
                         <Stack direction={"row"} alignItems={"center"}>

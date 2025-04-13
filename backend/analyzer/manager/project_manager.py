@@ -4,7 +4,7 @@ from secrets import token_urlsafe
 from django.db import DatabaseError
 
 from analyzer.manager.cve_manager import CVEObjectManager
-from analyzer.models import Project, Report, Dependency
+from analyzer.models import Project, Report, Dependency, CPEObject
 from analyzer.parser.types import ParseResult
 from utilities.helperclass import hash_key
 
@@ -124,6 +124,12 @@ class ProjectManager:
         dependency_object.path = data.get(new_dependency_id).path
         dependency_object.in_use = True
         dependency_object.save()
+        for new_cpe_id in data.get(new_dependency_id).cpe_ids:
+          cpe_object = CPEObject.objects.get_or_create(
+            dependency=dependency_object,
+            cpe_id=new_cpe_id
+          )[0]
+          cpe_object.save()
 
         for vulnerability in data.get(new_dependency_id).vulnerabilities:
           cve_object = CVEObjectManager(vulnerability).get()

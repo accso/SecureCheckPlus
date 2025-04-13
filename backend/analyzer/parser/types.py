@@ -9,3 +9,4 @@ class ParseResult:
     license: str
     vulnerabilities: list[str]
     package_manager: str
+    cpe_ids: list[str]

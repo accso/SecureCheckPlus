@@ -55,7 +55,7 @@ class CVEFetcher:
         "baseSeverity": "N/A"
     }
 
-    def __init__(self, cve_id: str):
+    def __init__(self, cve_id: str = None, cpe_id: str = None):
         """
         Initializes the CVEFetcher with a specific CVE ID.
 
@@ -63,6 +63,7 @@ class CVEFetcher:
             cve_id (str): The CVE identifier to fetch data for.
         """
         self.cve_id = cve_id
+        self.cpe_id = cpe_id
         self.data = {}
         self.successful = False
 
@@ -78,7 +79,7 @@ class CVEFetcher:
         """
         try:
             headers = {"apiKey": NVD_API_KEY}
-            url = parse.urlunparse(NVD_ADDRESS) + self.cve_id
+            url = parse.urlunparse(NVD_ADDRESS) + "?cveId=" + self.cve_id
             logger.info(f"Fetching CVE data from NIST for CVE ID: {self.cve_id} using URL: {url}")
             response = requests.get(url, headers=headers)
 
@@ -126,6 +127,71 @@ class CVEFetcher:
             logger.error(f"Request failed for CVE ID: {self.cve_id}. Error: {re}")
         except (ValueError, KeyError) as e:
             logger.error(f"Failed to retrieve or process CVE data for CVE ID: {self.cve_id}. Error: {e}")
+
+    def fetch_from_nist_by_cpe(self):
+        """
+        Fetches CVE data from the NIST government server for a given CPE ID.
+
+        The function will retrieve all CVEs associated with the provided CPE ID.
+        """
+        if not self.cpe_id:
+            logger.error("CPE ID is required for this fetcher.")
+            return
+
+        try:
+            headers = {"apiKey": NVD_API_KEY}
+            url = parse.urlunparse(NVD_ADDRESS) + "?cpeName=" + self.cpe_id
+            logger.info(f"Fetching CVE data from NIST for CPE ID: {self.cpe_id} using URL: {url}")
+            response = self._make_request(url, headers)
+
+            if response:
+                self._process_cve_data(response)
+                self.successful = True
+                logger.info(f"Successfully fetched CVE data for CPE ID: {self.cpe_id}")
+
+        except Exception as e:
+            logger.error(f"Failed to fetch CVE data for CPE ID: {self.cpe_id}. Error: {e}")
+
+
+    def _make_request(self, url, headers):
+        """
+        Makes a GET request to the provided URL with the given headers and handles the response.
+        """
+        try:
+            response = requests.get(url, headers=headers)
+
+            if response.status_code != 200:
+                logger.warning(f"Failed to fetch CVE data for CPE ID: {self.cpe_id}. HTTP status: {response.status_code}")
+                return None
+
+            return response.json()
+
+        except requests.RequestException as e:
+            logger.error(f"Request failed for CPE ID: {self.cpe_id}. Error: {e}")
+            return None
+
+    def _process_cve_data(self, response_json):
+        """
+        Processes the CVE data from the response and fetches additional CVE data for each CVE ID.
+        """
+        if not isinstance(response_json, dict) or "vulnerabilities" not in response_json:
+            raise ValueError(f"Invalid response structure for CPE ID: {self.cpe_id}")
+
+        cve_list = response_json["vulnerabilities"]
+        for cve_entry in cve_list:
+            cve_id = cve_entry.get("cve", {}).get("id", None)
+            if cve_id:
+                self.fetch_cve_by_id(cve_id)
+
+    def fetch_cve_by_id(self, cve_id):
+        """
+        Fetches CVE data for a specific CVE ID (helper function for fetching individual CVEs).
+        """
+        # Reuse the original `fetch_from_nist_gov` logic here for individual CVEs
+        logger.info(f"Fetching individual CVE data for {cve_id}")
+        fetcher = CVEFetcher(cve_id=cve_id)
+        fetcher.fetch_from_nist_gov()
+        self.data[cve_id] = fetcher.data
 
     def fetch_epss(self):
         """

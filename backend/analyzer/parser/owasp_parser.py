@@ -99,9 +99,12 @@ def parse_json(json_data: str or dict) -> dict[str, ParseResult]:
                            dependency.get("vulnerabilities", []) if
                            vuln["source"] in ["NVD", "OSSINDEX"]]
 
+        cpe_ids = [vuln["id"] for vuln in
+                            dependency.get("vulnerabilityIds", [])]
+
         result = ParseResult(dependency_name, version, path,
                              dependency_license,
-                             vulnerabilities, package_manager)
+                             vulnerabilities, package_manager, cpe_ids)
         data[f"{dependency_name}:{version}"] = result
 
     return data

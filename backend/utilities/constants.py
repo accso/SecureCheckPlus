@@ -3,7 +3,7 @@ from django.db import models
 
 SERVER_MAIL_ADDRESS = "securecheckplus@thisisnotanofficialmail.de"
 
-NVD_ADDRESS = parse.urlparse("https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=")
+NVD_ADDRESS = parse.urlparse("https://services.nvd.nist.gov/rest/json/cves/2.0")
 
 EPSS_ADDRESS = parse.urlparse("https://api.first.org/data/v1/epss?cve=")
 
