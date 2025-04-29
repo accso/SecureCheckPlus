@@ -14,3 +14,4 @@ cyclonedx-python-lib==8.2.1
 whitenoise==6.7.0
 celery[redis]==5.3.0
 django-celery-beat==2.8.0
+apscheduler==3.10.1
