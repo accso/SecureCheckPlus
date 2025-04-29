@@ -87,6 +87,7 @@ const ProjectPage: React.FunctionComponent = () => {
                                     <CustomDialog title={localization.dialog.projectSettingTitle}
                                                   dialogContent={<ProjectSettingsContent
                                                       setOpen={setProjectDialogState}/>}
+                                                  fullWidth={true}
                                                   openState={{
                                                       value: projectDialogState,
                                                       setValue: setProjectDialogState

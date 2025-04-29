@@ -1,4 +1,3 @@
-
 const language = {
     de: {
         breadCrumbMap: {
@@ -294,6 +293,8 @@ const language = {
             createProject: "Projekt erstellen",
             deleteProject: "Projekt löschen",
             deleteProjects: "Projekte löschen",
+            repositoryUrl: "Repository URL",
+            accessToken: "Repoisitory Access Token",
             cookieDialog: {
                 cookieTitle: "Cookies",
                 cookieContentText: "SecureCheckPlus by Accso verwendet Cookies, um dir einen besseren, sichereren und schnelleren Dienst zu bieten. " +
@@ -607,6 +608,8 @@ const language = {
             createProject: "Create project",
             deleteProject: "Delete project",
             deleteProjects: "Delete projects",
+            repositoryUrl: "Repository URL",
+            accessToken: "Repoisitory Access Token",
             cookieDialog: {
                 cookieTitle: "Cookies",
                 cookieContentText: "SecureCheckPlus by Accso uses cookies to provide you with a better, safer and faster service. " +

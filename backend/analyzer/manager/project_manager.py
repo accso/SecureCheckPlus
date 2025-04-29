@@ -8,7 +8,7 @@ from django.db import DatabaseError
 
 from analyzer.manager.cve_manager import CVEObjectManager
 from analyzer.models import Project, Report, Dependency
-from analyzer.parser.parser_manager import ParserManager
+from analyzer.manager.parser_manager import ParserManager
 from analyzer.parser.types import ParseResult
 from utilities.helperclass import hash_key
 

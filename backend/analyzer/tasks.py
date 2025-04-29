@@ -1,5 +1,7 @@
 from celery import shared_task
 from celery.schedules import crontab
+
+import sys
 from .models import Project
 from analyzer.manager.project_manager import ProjectManager
 from analyzer.celery import app
@@ -12,6 +14,7 @@ def check_projects_for_new_cves():
     run the dependency-checker, and update the project data.
     """
     for project in Project.objects.all():
+        sys.stdout.write("Hello")
         if project.repository_url and project.access_token:
             project_manager = ProjectManager(project)
             project_manager.run_dependency_checker()
@@ -23,4 +26,8 @@ app.conf.beat_schedule = {
         'task': 'analyzer.tasks.check_projects_for_new_cves',
         'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight
     },
+    'check-projects-every-minute': {
+        'task': 'analyzer.tasks.check_projects_for_new_cves',
+        'schedule': crontab("* * * * *"),
+    }
 }

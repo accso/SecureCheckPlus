@@ -7,8 +7,6 @@ from utilities.constants import Status, Threshold
 
 
 class ProjectBasicSerializer(serializers.ModelSerializer):
-    repositoryUrl = serializers.URLField(source="repository_url", allow_blank=True, required=False)
-    accessToken = serializers.CharField(source="access_token", allow_blank=True, required=False)
 
     class Meta:
         model = Project
@@ -21,6 +19,8 @@ class ProjectBasicSerializer(serializers.ModelSerializer):
     projectName = serializers.CharField(source="project_name", allow_blank=True)
     updated = serializers.DateTimeField(default=datetime.now(), read_only=True)
     deploymentThreshold = serializers.ChoiceField(source="deployment_threshold", choices=Threshold.names)
+    repositoryUrl = serializers.CharField(source="repository_url", allow_blank=True)
+    accessToken = serializers.CharField(source="access_token", allow_blank=True)
 
 
 class ProjectDetailSerializer(ProjectBasicSerializer):

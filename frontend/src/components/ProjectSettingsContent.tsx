@@ -118,19 +118,23 @@ const ProjectSettingsContent: React.FunctionComponent<DialogProps> = ({setOpen}:
                     helperText={projectName.length > 20 ? localization.dialog.projectNameHelperToLong : ""}
                     onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setProjectName(e.target.value)}
                 />
-                <TextField
-                    label={localization.dialog.repositoryUrl}
-                    value={repositoryUrl}
-                    variant="filled"
-                    onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setRepositoryUrl(e.target.value)}
-                />
-                <TextField
-                    label={localization.dialog.accessToken}
-                    value={accessToken}
-                    variant="filled"
-                    type="password"
-                    onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setAccessToken(e.target.value)}
-                />
+                <Stack sx={{marginTop: "2rem"}}>
+                    <TextField
+                        label={localization.dialog.repositoryUrl}
+                        value={repositoryUrl}
+                        variant="filled"
+                        onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setRepositoryUrl(e.target.value)}
+                    />
+                </Stack>
+                <Stack sx={{marginTop: "2rem"}}>
+                    <TextField
+                        label={localization.dialog.accessToken}
+                        value={accessToken}
+                        variant="filled"
+                        type="password"
+                        onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setAccessToken(e.target.value)}
+                    />
+                </Stack>
                 <Stack mt={"2rem"}>
                     <Typography variant={"body1"}>{localization.ProjectPage.deploymentThresholdTitle}</Typography>
                     <DropdownMenu readOnly={false}
