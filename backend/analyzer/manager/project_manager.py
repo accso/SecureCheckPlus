@@ -1,10 +1,14 @@
 import logging
+import os
+import subprocess
+import tempfile
 from secrets import token_urlsafe
 
 from django.db import DatabaseError
 
 from analyzer.manager.cve_manager import CVEObjectManager
 from analyzer.models import Project, Report, Dependency
+from analyzer.parser.parser_manager import ParserManager
 from analyzer.parser.types import ParseResult
 from utilities.helperclass import hash_key
 
@@ -138,3 +142,47 @@ class ProjectManager:
       logger.warning(
         f"An error occurred while trying to create reports. Following exception occurred: {str(de)}."
         f"Project id: {self.project.project_id}.")
+
+  def run_dependency_checker(self):
+    """
+    Clones the repository, runs the OWASP Dependency-Checker, and updates the project with the results.
+    """
+    if not self.project.repository_url:
+        logger.error(f"No repository URL configured for project {self.project.project_id}.")
+        return
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        repo_path = os.path.join(temp_dir, "repo")
+
+        # Clone the repository
+        clone_cmd = ["git", "clone", self.project.repository_url, repo_path]
+        if self.project.access_token:
+            clone_cmd[1] = self.project.repository_url.replace("https://", f"https://{self.project.access_token}@")
+
+        try:
+            subprocess.run(clone_cmd, check=True)
+            logger.info(f"Repository cloned successfully for project {self.project.project_id}.")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to clone repository: {e}")
+            return
+
+        # Run OWASP Dependency-Checker
+        output_file = os.path.join(temp_dir, "dependency-check-report.json")
+        try:
+            subprocess.run([
+                "dependency-check", "--project", self.project.project_name,
+                "--out", temp_dir, "--format", "JSON", "--scan", repo_path
+            ], check=True)
+            logger.info(f"Dependency-Checker executed successfully for project {self.project.project_id}.")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to run Dependency-Checker: {e}")
+            return
+
+        # Parse the results
+        try:
+            parser = ParserManager(output_file)
+            parsed_data = parser.parse()
+            self.update_project(parsed_data)
+            logger.info(f"Project {self.project.project_id} updated successfully with new dependency data.")
+        except Exception as e:
+            logger.error(f"Failed to parse Dependency-Checker results: {e}")

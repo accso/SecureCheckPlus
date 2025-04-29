@@ -130,10 +130,9 @@ class ProjectAPI(APIView):
     try:
       project = Project.objects.get(project_id__iexact=project_id)
 
-      project_serializer = ProjectBasicSerializer(project, data=request.data,
-                                                  partial=True)
+      project_serializer = ProjectBasicSerializer(project, data=request.data, partial=True)
       if project_serializer.is_valid():
-        project_serializer.save()
+          project_serializer.save()
 
       return Response(data=f"Update of Project: {project_id} successful.")
     except KeyError as ke:
@@ -152,7 +151,7 @@ class ProjectAPI(APIView):
         raise AlreadyExists(project_id)
       if len(project_id) >= 1 and re.search(r"^[\w-]+$", project_id):
         project = Project.objects.create(project_id=project_id)
-        project_serializer = ProjectBasicSerializer(project, request.data)
+        project_serializer = ProjectBasicSerializer(project, data=request.data)
         if project_serializer.is_valid():
           project_serializer.save()
       else:

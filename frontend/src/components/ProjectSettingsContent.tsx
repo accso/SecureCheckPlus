@@ -29,6 +29,8 @@ const ProjectSettingsContent: React.FunctionComponent<DialogProps> = ({setOpen}:
     const [projectName, setProjectName] = useState<string>("")
     const [threshold, setThreshold] = useState<string>("")
     const [apiKey, setApiKey] = useState("");
+    const [repositoryUrl, setRepositoryUrl] = useState<string>("");
+    const [accessToken, setAccessToken] = useState<string>("");
     const {data: fetchedApiKey, refetch} = useQuery("apiKey", () => getApiKey(projectId), {enabled: false})
     const user = useUserContext();
     const notification = useNotification();
@@ -37,6 +39,8 @@ const ProjectSettingsContent: React.FunctionComponent<DialogProps> = ({setOpen}:
         if (isSuccess) {
             setProjectName(data?.data.projectName);
             setThreshold(data?.data.deploymentThreshold);
+            setRepositoryUrl(data?.data.repositoryUrl || "");
+            setAccessToken(data?.data.accessToken || "");
         }
 
         if (isError) {
@@ -76,7 +80,9 @@ const ProjectSettingsContent: React.FunctionComponent<DialogProps> = ({setOpen}:
     const handleSave = useMutation(() => updateProject(projectId, {
         projectId: projectId,
         projectName: projectName,
-        deploymentThreshold: threshold
+        deploymentThreshold: threshold,
+        repositoryUrl: repositoryUrl,
+        accessToken: accessToken
     }), {
         onSuccess: () => {
             queryClient.invalidateQueries(["projectDetails", projectId]);
@@ -111,6 +117,19 @@ const ProjectSettingsContent: React.FunctionComponent<DialogProps> = ({setOpen}:
                     error={projectName.length > 20}
                     helperText={projectName.length > 20 ? localization.dialog.projectNameHelperToLong : ""}
                     onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setProjectName(e.target.value)}
+                />
+                <TextField
+                    label={localization.dialog.repositoryUrl}
+                    value={repositoryUrl}
+                    variant="filled"
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setRepositoryUrl(e.target.value)}
+                />
+                <TextField
+                    label={localization.dialog.accessToken}
+                    value={accessToken}
+                    variant="filled"
+                    type="password"
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setAccessToken(e.target.value)}
                 />
                 <Stack mt={"2rem"}>
                     <Typography variant={"body1"}>{localization.ProjectPage.deploymentThresholdTitle}</Typography>

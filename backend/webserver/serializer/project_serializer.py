@@ -7,9 +7,15 @@ from utilities.constants import Status, Threshold
 
 
 class ProjectBasicSerializer(serializers.ModelSerializer):
+    repositoryUrl = serializers.URLField(source="repository_url", allow_blank=True, required=False)
+    accessToken = serializers.CharField(source="access_token", allow_blank=True, required=False)
+
     class Meta:
         model = Project
-        fields = ["projectId", "projectName", "updated", "deploymentThreshold"]
+        fields = [
+            "projectId", "projectName", "updated", "deploymentThreshold",
+            "repositoryUrl", "accessToken"
+        ]
 
     projectId = serializers.CharField(source="project_id", read_only=True)
     projectName = serializers.CharField(source="project_name", allow_blank=True)
@@ -20,9 +26,12 @@ class ProjectBasicSerializer(serializers.ModelSerializer):
 class ProjectDetailSerializer(ProjectBasicSerializer):
     class Meta:
         model = Project
-        fields = ["projectId", "projectName", "updated", "deploymentThreshold",
-                  "resolvedReportCount", "solutionDistribution", "statusDistribution", "dependencyCount",
-                  "notEvaluated", "evaluated"]
+        fields = [
+            "projectId", "projectName", "updated", "deploymentThreshold",
+            "repositoryUrl", "accessToken",
+            "resolvedReportCount", "solutionDistribution", "statusDistribution", "dependencyCount",
+            "notEvaluated", "evaluated"
+        ]
 
     resolvedReportCount = serializers.ReadOnlyField(source="resolved_report_count")
     solutionDistribution = serializers.ReadOnlyField(source="solution_distribution")
