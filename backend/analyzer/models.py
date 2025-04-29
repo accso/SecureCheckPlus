@@ -97,36 +97,6 @@ class Project(models.Model):
             counted_vul.update({severity: counted})
         return counted_vul
 
-    def check_for_new_cves(self):
-        """
-        Check for new CVEs above the blocking level and notify maintainers.
-        """
-        blocking_levels = constants.BaseSeverity.names[:constants.BaseSeverity.names.index(self.deployment_threshold) + 1]
-        new_cves = Report.objects.filter(
-            dependency__project=self,
-            dependency__in_use=True,
-            cve_object__base_severity__in=blocking_levels,
-            update_date__gte=now().date()
-        )
-
-        if new_cves.exists():
-            # Notify maintainers
-            maintainers = self.get_maintainers_emails()
-            send_mail(
-                subject=f"New CVEs detected for project {self.project_name}",
-                message=f"New CVEs have been detected that exceed the blocking level for project {self.project_name}. Please review them.",
-                from_email="noreply@securecheckplus.com",
-                recipient_list=maintainers,
-            )
-
-    def get_maintainers_emails(self):
-        """
-        Retrieve the email addresses of the maintainers for this project.
-        """
-        # Assuming a Many-to-Many relationship with User model
-        return [user.email for user in self.user_set.all()]
-
-
 class CVEObject(models.Model):
     class Meta:
         db_table = constants.DB_SCHEMA_PREFIX + "cve_object"

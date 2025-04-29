@@ -16,173 +16,200 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectManager:
-  def __init__(self, project: str or Project):
-    if isinstance(project, str):
-      self.project = Project.objects.get(project_id=project)
-    elif isinstance(project, Project):
-      self.project = project
+    def __init__(self, project: str or Project):
+        if isinstance(project, str):
+            self.project = Project.objects.get(project_id=project)
+        elif isinstance(project, Project):
+            self.project = project
 
-  def generate_key(self):
-    """Generates an API-Key for the current project. Old API-Keys are automatically invalid.
-        :raise DatabaseError: Raises if an error occurred during a database operation while generating an API Key.
-        :return: An API-Key.
-        """
-    key = token_urlsafe(32)
-    try:
-      self.project.api_key_hash = hash_key(key)
-      self.project.save()
-    except DatabaseError as dbe:
-      logger.critical(
-        f"Error during database query for API-Key generation: {str(dbe)}.")
+    def generate_key(self):
+        """Generates an API-Key for the current project. Old API-Keys are automatically invalid.
+            :raise DatabaseError: Raises if an error occurred during a database operation while generating an API Key.
+            :return: An API-Key.
+            """
+        key = token_urlsafe(32)
+        try:
+            self.project.api_key_hash = hash_key(key)
+            self.project.save()
+        except DatabaseError as dbe:
+            logger.critical(
+                f"Error during database query for API-Key generation: {str(dbe)}.")
 
-    logger.info(
-      f"Generated API-Key for {self.project.project_id} successfully.")
-    return key
-
-  def verify_key(self, key: str) -> bool:
-    """Hashes the given key and check if the hashed key exists in the database
-
-        :param key: The Api-Key as a string.
-        :raise DatabaseError: Raises when an error occurred while trying to retrieve the key from the database.
-        :return: A boolean whether the key could be verified.
-        """
-
-    try:
-      if self.project.api_key_hash == hash_key(key):
-        logging.info(
-          f"Authentication with API-Key for {self.project.project_id} successful.")
-        return True
-      else:
         logger.info(
-          f"Authentication with API-Key for {self.project.project_id} failed.")
+            f"Generated API-Key for {self.project.project_id} successfully.")
+        return key
+
+    def verify_key(self, key: str) -> bool:
+        """Hashes the given key and check if the hashed key exists in the database
+
+            :param key: The Api-Key as a string.
+            :raise DatabaseError: Raises when an error occurred while trying to retrieve the key from the database.
+            :return: A boolean whether the key could be verified.
+            """
+
+        try:
+            if self.project.api_key_hash == hash_key(key):
+                logging.info(
+                    f"Authentication with API-Key for {self.project.project_id} successful.")
+                return True
+            else:
+                logger.info(
+                    f"Authentication with API-Key for {self.project.project_id} failed.")
+                return False
+
+        except DatabaseError as dbe:
+            logger.critical(
+                f"Error during database query for API-Key verification: {str(dbe)}.")
+
+    def update_project(self, data: dict[str, ParseResult]):
+        """Updates the current project with a dictionary consisting of information extracted from the parser
+            :param data: A dictionary with information retrieved from the report by the parser.
+            """
+        if self.has_changed(data):
+            self._update_dependencies(data)
+
+    def has_changed(self, data: dict[str, ParseResult]) -> bool:
+        """Check if dependencies and associated cves has been changed.
+
+            :param: data: The new data parsed via parse manager.
+            :return: whether the project has changed.
+            """
+
+        # Check for dependency changes
+        current_dependencies = self.project.dependency_set.filter(in_use=True)
+        current_dependencies_keys = set(
+            [f"{dependency[0]}:{dependency[1]}" for dependency in
+             current_dependencies.values_list("dependency_name", "version")])
+
+        if current_dependencies_keys != set(data.keys()):
+            return True
+
+        for dependency in current_dependencies:
+            current_cve = dependency.report_set.values_list("cve_object__cve_id",
+                                                            flat=True)
+            new_cve = data[
+                f"{dependency.dependency_name}:{dependency.version}"].vulnerabilities
+            if set(current_cve) != set(new_cve):
+                return True
+
         return False
 
-    except DatabaseError as dbe:
-      logger.critical(
-        f"Error during database query for API-Key verification: {str(dbe)}.")
+    def get(self):
+        """:return: The current project"""
+        return self.project
 
-  def update_project(self, data: dict[str, ParseResult]):
-    """Updates the current project with a dictionary consisting of information extracted from the parser
-        :param data: A dictionary with information retrieved from the report by the parser.
-        """
-    if self.has_changed(data):
-      self._update_dependencies(data)
-
-  def has_changed(self, data: dict[str, ParseResult]) -> bool:
-    """Check if dependencies and associated cves has been changed.
-
-        :param: data: The new data parsed via parse manager.
-        :return: whether the project has changed.
-        """
-
-    # Check for dependency changes
-    current_dependencies = self.project.dependency_set.filter(in_use=True)
-    current_dependencies_keys = set(
-      [f"{dependency[0]}:{dependency[1]}" for dependency in
-       current_dependencies.values_list("dependency_name", "version")])
-
-    if current_dependencies_keys != set(data.keys()):
-      return True
-
-    for dependency in current_dependencies:
-      current_cve = dependency.report_set.values_list("cve_object__cve_id",
-                                                      flat=True)
-      new_cve = data[
-        f"{dependency.dependency_name}:{dependency.version}"].vulnerabilities
-      if set(current_cve) != set(new_cve):
-        return True
-
-    return False
-
-  def get(self):
-    """:return: The current project"""
-    return self.project
-
-  def _update_dependencies(self, data: dict[str, ParseResult]):
-    """Updates the dependencies and associated Reports based on the dictionary object provided by the parser.
-        :param data: The data provided by the parser extracted from the report.
-        :raise DatabaseError: If an error occurred while performing database operations.
-        """
-    new_dependencies = set(data.keys())
-
-    try:
-      current_dependencies = self.project.dependency_set.all()
-
-      # Deactivate unused dependencies
-      for dependency in current_dependencies:
-        current_dependency_id = f"{dependency.dependency_name}:{dependency.version}"
-        if current_dependency_id not in new_dependencies:
-          dependency.in_use = False
-          dependency.save()
-
-      # Update existing dependencies and creates new one if it doesn't exist
-      for new_dependency_id in data:
-        dependency_object = Dependency.objects.get_or_create(
-          project=self.project,
-          dependency_name=data.get(new_dependency_id).dependency_name,
-          version=data.get(new_dependency_id).version,
-        )[0]
-        dependency_object.package_manager = data.get(
-          new_dependency_id).package_manager
-        dependency_object.license = data.get(new_dependency_id).license
-        dependency_object.path = data.get(new_dependency_id).path
-        dependency_object.in_use = True
-        dependency_object.save()
-
-        for vulnerability in data.get(new_dependency_id).vulnerabilities:
-          cve_object = CVEObjectManager(vulnerability).get()
-          report = Report.objects.get_or_create(dependency=dependency_object,
-                                                cve_object=cve_object)[0]
-          logger.info(
-            f"Report with project id: {report.dependency.project.project_id}, dependency name: "
-            f"{report.dependency.dependency_name}, CVE-ID: {report.cve_object.cve_id} "
-            f"created successfully")
-
-    except DatabaseError as de:
-      logger.warning(
-        f"An error occurred while trying to create reports. Following exception occurred: {str(de)}."
-        f"Project id: {self.project.project_id}.")
-
-  def run_dependency_checker(self):
-    """
-    Clones the repository, runs the OWASP Dependency-Checker, and updates the project with the results.
-    """
-    if not self.project.repository_url:
-        logger.error(f"No repository URL configured for project {self.project.project_id}.")
-        return
-
-    with tempfile.TemporaryDirectory() as temp_dir:
-        repo_path = os.path.join(temp_dir, "repo")
-
-        # Clone the repository
-        clone_cmd = ["git", "clone", self.project.repository_url, repo_path]
-        if self.project.access_token:
-            clone_cmd[1] = self.project.repository_url.replace("https://", f"https://{self.project.access_token}@")
+    def _update_dependencies(self, data: dict[str, ParseResult]):
+        """Updates the dependencies and associated Reports based on the dictionary object provided by the parser.
+            :param data: The data provided by the parser extracted from the report.
+            :raise DatabaseError: If an error occurred while performing database operations.
+            """
+        new_dependencies = set(data.keys())
 
         try:
+            current_dependencies = self.project.dependency_set.all()
+
+            # Deactivate unused dependencies
+            for dependency in current_dependencies:
+                current_dependency_id = f"{dependency.dependency_name}:{dependency.version}"
+                if current_dependency_id not in new_dependencies:
+                    dependency.in_use = False
+                    dependency.save()
+
+            # Update existing dependencies and creates new one if it doesn't exist
+            for new_dependency_id in data:
+                dependency_object = Dependency.objects.get_or_create(
+                    project=self.project,
+                    dependency_name=data.get(new_dependency_id).dependency_name,
+                    version=data.get(new_dependency_id).version,
+                )[0]
+                dependency_object.package_manager = data.get(
+                    new_dependency_id).package_manager
+                dependency_object.license = data.get(new_dependency_id).license
+                dependency_object.path = data.get(new_dependency_id).path
+                dependency_object.in_use = True
+                dependency_object.save()
+
+                for vulnerability in data.get(new_dependency_id).vulnerabilities:
+                    cve_object = CVEObjectManager(vulnerability).get()
+                    report = Report.objects.get_or_create(dependency=dependency_object,
+                                                          cve_object=cve_object)[0]
+                    logger.info(
+                        f"Report with project id: {report.dependency.project.project_id}, dependency name: "
+                        f"{report.dependency.dependency_name}, CVE-ID: {report.cve_object.cve_id} "
+                        f"created successfully")
+
+        except DatabaseError as de:
+            logger.warning(
+                f"An error occurred while trying to create reports. Following exception occurred: {str(de)}."
+                f"Project id: {self.project.project_id}.")
+
+    def run_dependency_checker(self):
+        """
+        Clones the repository, runs the OWASP Dependency-Checker, and updates the project with the results.
+        """
+        if not self.project.repository_url:
+            logger.error(f"No repository URL configured for project {self.project.project_id}.")
+            return
+
+        # Ensure the output file and directory are accessible until parsing is complete
+        temp_dir = tempfile.mkdtemp()
+        try:
+            repo_path = os.path.join(temp_dir, "repo")
+            output_file = os.path.join(temp_dir, "dependency-check-report.json")
+
+            # Clone the repository
+            if self.project.access_token:
+                repository_url = self.project.repository_url.replace("https://", f"https://{self.project.access_token}@")
+            else:
+                repository_url = self.project.repository_url
+
+            clone_cmd = ["git", "clone", repository_url, repo_path]
             subprocess.run(clone_cmd, check=True)
             logger.info(f"Repository cloned successfully for project {self.project.project_id}.")
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to clone repository: {e}")
-            return
 
-        # Run OWASP Dependency-Checker
-        output_file = os.path.join(temp_dir, "dependency-check-report.json")
-        try:
-            subprocess.run([
-                "dependency-check", "--project", self.project.project_name,
-                "--out", temp_dir, "--format", "JSON", "--scan", repo_path
-            ], check=True)
-            logger.info(f"Dependency-Checker executed successfully for project {self.project.project_id}.")
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to run Dependency-Checker: {e}")
-            return
+            # Run OWASP Dependency-Checker with direct output to JSON file
+            dependency_check_cmd = [
+                "dependency-check",
+                "--project", self.project.project_name,
+                "--out", output_file,
+                "--format", "JSON",
+                "--prettyPrint",
+                "--scan", repo_path
+            ]
 
-        # Parse the results
-        try:
-            parser = ParserManager(output_file)
-            parsed_data = parser.parse()
-            self.update_project(parsed_data)
-            logger.info(f"Project {self.project.project_id} updated successfully with new dependency data.")
+            try:
+                process = subprocess.run(dependency_check_cmd, check=True, capture_output=True, text=True)
+                logger.info(f"Dependency-Checker executed successfully for project {self.project.project_id}.")
+
+                # Verify the output file exists and has content
+                if not os.path.exists(output_file):
+                    logger.error(f"Dependency-Checker output file does not exist: {output_file}")
+                    return
+
+                # Read and validate the JSON content
+                with open(output_file, 'r', encoding='utf-8') as file:
+                    content = file.read()
+                    if not content.strip():
+                        logger.error(f"Dependency-Checker output file is empty: {output_file}")
+                        return
+
+                    # Initialize the parser and process the data
+                    parser = ParserManager(tool_name="owasp", file_type="json")
+                    parsed_data = parser.parse(content)
+                    self.update_project(parsed_data)
+                    logger.info(f"Project {self.project.project_id} updated successfully with new dependency data.")
+
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Dependency-Checker failed: {e.stderr}")
+                raise
+            except Exception as e:
+                logger.error(f"An error occurred while processing the JSON file: {e}")
+                raise
         except Exception as e:
-            logger.error(f"Failed to parse Dependency-Checker results: {e}")
+            logger.error(f"An error occurred: {e}")
+        finally:
+            # Ensure the temporary directory is deleted
+            if os.path.exists(temp_dir):
+                import shutil
+                shutil.rmtree(temp_dir)
+                logger.info(f"Temporary directory {temp_dir} deleted.")

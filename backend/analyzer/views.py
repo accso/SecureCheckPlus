@@ -43,6 +43,7 @@ class AnalyzeReport(APIView):
 
             parser_manager = ParserManager(tool_name=tool_name, file_type=file_type)
             parsed_data = parser_manager.parse(data=request.data)
+            logger.info(request.data)
 
             if len(parsed_data) == 0:
                 raise NoDependenciesFound(project.project_id)
