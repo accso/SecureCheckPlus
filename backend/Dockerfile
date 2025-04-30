@@ -11,10 +11,29 @@ COPY ./entrypoint.sh /entrypoint.sh
 #Remove windows carriage returns
 RUN sed -i 's/\r$//' /entrypoint.sh
 
+# Install system dependencies including Java
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
+    && apk add --no-cache \
+        openjdk11 \
+        wget \
+        unzip \
     && pip install --root-user-action ignore --upgrade pip \
     && pip install --root-user-action ignore -r requirements.txt
+
+# Install OWASP Dependency-Check
+ENV DC_VERSION="8.4.0"
+ENV DC_DIRECTORY="/opt/dependency-check"
+ENV DATA_DIRECTORY="/usr/share/dependency-check/data"
+
+# Erstelle Verzeichnisse und setze Berechtigungen
+RUN mkdir -p ${DC_DIRECTORY} ${DATA_DIRECTORY} \
+    && wget "https://github.com/jeremylong/DependencyCheck/releases/download/v${DC_VERSION}/dependency-check-${DC_VERSION}-release.zip" -O /tmp/dependency-check.zip \
+    && unzip /tmp/dependency-check.zip -d ${DC_DIRECTORY} \
+    && rm /tmp/dependency-check.zip \
+    && ln -s ${DC_DIRECTORY}/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check \
+    && chmod +x ${DC_DIRECTORY}/dependency-check/bin/dependency-check.sh \
+    && chmod -R 777 ${DATA_DIRECTORY}
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 
