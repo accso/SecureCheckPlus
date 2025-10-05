@@ -2,6 +2,8 @@
     <img src="backend/assets/images/SecureCheckPlusLogoHorizontal.png">
 </div>
 
+This page describes how to install and run the application SecureCheckPlus by Accso in a production environment.
+
 # Running the Application as Docker Container
 
 The application SecureCheckPlus is provided as Docker image at https://hub.docker.com/u/accso. The name of the image 
