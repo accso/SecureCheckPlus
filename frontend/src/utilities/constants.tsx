@@ -11,25 +11,25 @@ export const localStorageItemKeys = {
 
 export const urlAddress = {
     api: {
-        login: "login",
-        logout: "logout",
-        me: "me",
-        myFavorite: "myFavorites",
-        projectsFlat: "projectsFlat",
-        projects: "projects",
-        deleteProjects: "deleteProjects",
-        projectGroups: "projectGroups",
-        createProject: (projectId: string) => "projects/" + projectId,
-        project: (projectId: string) => "projects/" + projectId,
-        projectAPIKey: (projectId: string) => "projects/" + projectId + "/apiKey",
-        projectDependencies: (projectId: string) => "projects/" + projectId + "/dependencies",
-        projectReports: (projectId: string) => "projects/" + projectId + "/reports",
-        projectUpdateCVEs: (projectId: string) => "projects/" + projectId + "/updateCVE",
+        login: "api/login",
+        logout: "api/logout",
+        me: "api/me",
+        myFavorite: "api/myFavorites",
+        projectsFlat: "api/projectsFlat",
+        projects: "api/projects",
+        deleteProjects: "api/deleteProjects",
+        projectGroups: "api/projectGroups",
+        createProject: (projectId: string) => "api/projects/" + projectId,
+        project: (projectId: string) => "api/projects/" + projectId,
+        projectAPIKey: (projectId: string) => "api/projects/" + projectId + "/apiKey",
+        projectDependencies: (projectId: string) => "api/projects/" + projectId + "/dependencies",
+        projectReports: (projectId: string) => "api/projects/" + projectId + "/reports",
+        projectUpdateCVEs: (projectId: string) => "api/projects/" + projectId + "/updateCVE",
         report: (projectId: string,
-                 reportId: string) => "projects/" + projectId + "/reports/" + reportId,
-        updateCVE: (cveId: string) => "cveObject/" + cveId + "/update",
-        updateAllCVEs: "cveObjects/update",
-        unknownPage: "error404"
+                 reportId: string) => "api/projects/" + projectId + "/reports/" + reportId,
+        updateCVE: (cveId: string) => "api/cveObject/" + cveId + "/update",
+        updateAllCVEs: "api/cveObjects/update",
+        unknownPage: "api/error404"
     },
     media: {
         rootUrlWithBase: "", // gets set by ConfigContext Provider

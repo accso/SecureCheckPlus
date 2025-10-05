@@ -7,7 +7,12 @@ const ApiClientProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     const [loading, setLoading] = React.useState(true);
 
     useEffect(() => {
-        apiClient.defaults.baseURL = location.protocol + '//' + location.host + "/" + (baseUrl ? `${baseUrl}/api/` : "api/");
+        const envApiUrl = process.env.REACT_APP_API_URL;
+        if (envApiUrl) {
+            apiClient.defaults.baseURL = envApiUrl;
+        } else {
+            apiClient.defaults.baseURL = location.protocol + '//' + location.host + "/" + (baseUrl ? `${baseUrl}/api/` : "api/");
+        }
         setLoading(false);
     }, [baseUrl]);
 
