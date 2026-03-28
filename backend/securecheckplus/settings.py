@@ -214,8 +214,9 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+# Note: In 3Tier architecture, static files are served by the frontend container (Nginx)
+# The backend only serves Django admin staticfiles
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 STATIC_URL = f"/{BASE_URL}/static/" if BASE_URL else "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Location where the staticfiles will be collected
 
