@@ -2,7 +2,6 @@ import logging
 import os
 import traceback
 
-from django.shortcuts import render
 from django.views import View
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
@@ -21,51 +20,9 @@ from webserver.serializer.dependency_serializer import DependencyBasicSerializer
 
 logger = logging.getLogger(__name__)
 
-class HtmlView(View):
-
-
-    def get(self, request, template_name):
-
-        PREFIX = "/"
-
-        if not IS_DEV and BASE_URL:
-            PREFIX = f"/{BASE_URL}/static/"
-        elif not IS_DEV and not BASE_URL:
-            PREFIX = "/static/"
-
-        context = {
-            'IS_DEV': IS_DEV,
-            'BASE_URL': "/" + BASE_URL  if BASE_URL else "",
-            'PREFIX': PREFIX
-        }
-
-        if request.user.is_authenticated:
-            return render(request, f"includes/{template_name}.html", context)
-        else:
-            return render(request, "login.html", context)
-
-
-class AppView(View):
-    def get(self, request):
-
-        PREFIX = "/"
-
-        if not IS_DEV and BASE_URL:
-            PREFIX = f"/{BASE_URL}/static/"
-        elif not IS_DEV and not BASE_URL:
-            PREFIX = "/static/"
-
-        context = {
-            'IS_DEV': IS_DEV,
-            'BASE_URL': BASE_URL,
-            'PREFIX': PREFIX
-        }
-
-        if request.user.is_authenticated:
-            return render(request, "app.html", context)
-        else:
-            return render(request, "login.html", context)
-
+# HtmlView and AppView have been removed as part of the 2-Tier → 3-Tier migration.
+# The frontend is now served by the Nginx container (frontend/Dockerfile).
+# Django exclusively provides REST endpoints.
 
 class DependenciesAPI(APIView):
     permission_classes = [IsAuthenticated]

@@ -44,14 +44,18 @@ const LoginBox: React.FunctionComponent = () => {
             // Previously we required an '@' in the username (email). Some deployments/users use plain
             // usernames — allow any non-empty username so the request is triggered. Keep a minimal check.
             if (username && username.trim().length > 0) {
+                // CSRF-Token vorab holen – Fehler werden ignoriert,
+                // da der Login-POST auch ohne vorheriges Cookie funktioniert.
+                // GET /api/login liefert 405 (nur POST erlaubt), setzt aber das csrftoken-Cookie.
                 try {
-                    // Hole zuerst das CSRF-Token durch einen GET-Request
-                    console.debug("Fetching CSRF token via GET /api/...");
-                    // use leading slash to avoid relative path issues in some environments
-                    // NOTE: use the queries/apiClient instance that ApiClientProvider configures as baseURL.
-                    // Import alignment below ensures ApiClientProvider's baseURL is used for this GET.
-                    await apiClient.get('/api/');
+                    console.debug("Fetching CSRF token via GET api/login ...");
+                    await apiClient.get(urlAddress.api.login);
+                } catch (csrfErr: any) {
+                    // 405 Method Not Allowed ist erwartet – csrftoken-Cookie wird trotzdem gesetzt.
+                    console.debug("CSRF pre-fetch finished (status ignored):", csrfErr?.response?.status);
+                }
 
+                try {
                     console.debug("Calling login() with", { username, stayLoggedIn });
                     await login({
                         username: username,
@@ -60,9 +64,9 @@ const LoginBox: React.FunctionComponent = () => {
                     });
                     console.debug("login() successful");
                     reloadPage();
-                } catch (err: any) { // Expliziter any-Typ für bessere Fehlerbehandlung
+                } catch (err: any) {
                     console.error("Login failed:", err);
-                    if (err?.response?.status === 403) {
+                    if (err?.response?.status === 401 || err?.response?.status === 403) {
                         notification.error(localization.notificationMessage.incorrectLogin);
                     } else {
                         notification.error(localization.notificationMessage.serverError || "Server error");
@@ -76,7 +80,8 @@ const LoginBox: React.FunctionComponent = () => {
     }
 
     const reloadPage = () => {
-        window.location.reload();
+        // Navigate to the main app (loads app.js bundle via nginx → index.html)
+        window.location.href = '/';
     }
 
     // New: submit handler for semantic form submit

@@ -297,6 +297,9 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     FULLY_QUALIFIED_DOMAIN_NAME,
 ]
+# Required for cross-origin requests with credentials (cookies/session).
+# Needed when REACT_APP_API_URL points directly to the backend port (preview setup).
+CORS_ALLOW_CREDENTIALS = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
