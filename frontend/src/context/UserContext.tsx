@@ -14,16 +14,22 @@ function UserContextProvider({children}: { children: React.ReactNode }) {
     const [userGroups, setUserGroups] = React.useState<string[]>([groups.basic.id]);
     const [username, setUsername] = React.useState<string>("");
 
-    const {data: userData, isError, isSuccess} = useQuery("userData", getUserData)
+    const {data: userData, error, isError, isSuccess} = useQuery("userData", getUserData)
 
     useEffect(() => {
         if (isSuccess) {
             setUsername(userData?.data.username);
             setUserGroups(userData?.data.groups);
         } else if (isError) {
-            notification.error(localization.notificationMessage.errorUserDataFetch);
+            // 401 = not authenticated → redirect to login page
+            const status = (error as any)?.response?.status;
+            if (status === 401 || status === 403) {
+                window.location.href = '/login';
+            } else {
+                notification.error(localization.notificationMessage.errorUserDataFetch);
+            }
         }
-    }, [userData])
+    }, [userData, isError])
 
     /**
      * Checks if the user has at least one of the given group
