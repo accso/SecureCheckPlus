@@ -5,15 +5,14 @@ services:
     build:
       context: ./frontend
       args:
-        # Build-time embed of the backend base URL used by webpack's DefinePlugin
-        REACT_APP_API_URL: "http://localhost:8005"
+        # Leave empty so the frontend uses the Nginx proxy (same origin, port 3000).
+        # Set to "http://localhost:8005" only if you want to bypass Nginx and call
+        # the backend directly (requires CORS_ALLOW_CREDENTIALS=True on the backend).
+        REACT_APP_API_URL: ""
     ports:
       - "3000:80"
     depends_on:
       - securecheckplus_server
-    environment:
-      # Ensure the runtime env var is available (some setups may read it at runtime)
-      - REACT_APP_API_URL=http://localhost:8005
 
   securecheckplus_server:
     container_name: securecheckplus_server

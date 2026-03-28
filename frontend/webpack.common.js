@@ -49,9 +49,17 @@ module.exports = {
         publicPath: '/'
     },
     plugins: [
+        // Main app bundle – served by nginx for all authenticated routes
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html',
+            chunks: ['app'],
+        }),
+        // Login bundle – served by nginx at /login
+        new HtmlWebpackPlugin({
+            template: './src/login.html',
+            filename: 'login.html',
+            chunks: ['login'],
         }),
         new webpack.DefinePlugin({
             'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || ''),
