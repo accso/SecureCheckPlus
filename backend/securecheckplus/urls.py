@@ -16,15 +16,22 @@ Including another URLconf
 import os
 
 from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import path, include, re_path
 from django.views.generic.base import TemplateView
 
 from analyzer.views import AnalyzeReport, health_endpoint
 from securecheckplus.settings import BASE_URL
-from webserver.views.misc_views import AppView, HtmlView
+
+
+def api_404_view(request, exception=None):
+    """Return JSON 404 for API requests instead of HTML"""
+    return JsonResponse(
+        {"detail": "Not found."},
+        status=404,
+        content_type="application/json"
+    )
+
 
 webserver_path = f"{BASE_URL}/api/" if BASE_URL else "api/"
 analyzer_path = f"{BASE_URL}/analyzer/api" if BASE_URL else "analyzer/api"
@@ -35,13 +42,15 @@ urlpatterns = [
     path("check_health", health_endpoint),
     path(webserver_path, include("webserver.urls")),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
-    re_path(rf'{base_url_pattern}html/(?P<template_name>[-a-z_A-Z0-9]+)\.html$', HtmlView.as_view()),
-    re_path(rf'{base_url_pattern}(?:.*)/?$', AppView.as_view()),
+    # HTML views removed in 3Tier architecture - Frontend is now served by Nginx, not Django
+    # re_path(rf'{base_url_pattern}html/(?P<template_name>[-a-z_A-Z0-9]+)\.html$', HtmlView.as_view()),
+    # re_path(rf'{base_url_pattern}(?:.*)/?$', AppView.as_view()),
 ]
 
-# Serving the media files in development mode
-if settings.IS_DEV:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-else:
-    urlpatterns += staticfiles_urlpatterns()
+# Serving static files is removed in 3Tier architecture
+# Frontend container (Nginx) serves all frontend assets
+# Backend only serves Django admin static files via collectstatic
+# (no additional static() URL patterns needed)
+
+handler404 = api_404_view
+

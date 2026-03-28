@@ -1,15 +1,19 @@
 services:
 
-  frontend:
-    container_name: frontend
+  securecheckplus_frontend:
+    container_name: securecheckplus_frontend
     build:
       context: ./frontend
+      args:
+        # Build-time embed of the backend base URL used by webpack's DefinePlugin
+        REACT_APP_API_URL: "http://localhost:8005"
     ports:
       - "3000:80"
     depends_on:
       - securecheckplus_server
     environment:
-      - REACT_APP_API_URL=http://securecheckplus_server:8000
+      # Ensure the runtime env var is available (some setups may read it at runtime)
+      - REACT_APP_API_URL=http://localhost:8005
 
   securecheckplus_server:
     container_name: securecheckplus_server
@@ -19,7 +23,10 @@ services:
       target: dev
     environment:
       - IS_DEV=True
-      - FULLY_QUALIFIED_DOMAIN_NAME=http://localhost:8000
+      # The frontend is served on http://localhost:3000 in this compose preview setup.
+      # Set FULLY_QUALIFIED_DOMAIN_NAME to the frontend origin so Django's
+      # CORS_ALLOWED_ORIGINS and CSRF_TRUSTED_ORIGINS include the browser origin.
+      - FULLY_QUALIFIED_DOMAIN_NAME=http://localhost:3000
       - USER_USERNAME=secure-user@acme.de
       - USER_PASSWORD=secure
       - ADMIN_USERNAME=secure-admin@acme.de

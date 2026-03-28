@@ -19,7 +19,7 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "outDir": "../backend/assets"
+    "outDir": "./dist"
   },
   "include": [
     "src",
