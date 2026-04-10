@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {colors, ListItemIcon, ListItemText, MenuItem, Select} from "@mui/material";
+import {ListItemText, MenuItem, Select} from "@mui/material";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import {ImageDropdownProps} from "../utilities/interfaces/ImageDropdownProps";
 
@@ -24,9 +24,11 @@ const ImageDropDown: React.FunctionComponent<ImageDropdownProps> = (props: Image
     currentValue = e.target.value;
     props.localStorageItemKey ? localStorage.setItem(props.localStorageItemKey, currentValue) : gotImageURLs = gotImageURLs /* Do nothing */;
     currentIndex = props.values.indexOf(currentValue);
-    setText(props.texts[currentIndex]);
+    const currText = props.texts[currentIndex]
+    setText(currText);
     props.imageURLs ? setImageURL(props.imageURLs[currentIndex]) : setImageURL("");
     props.colors ? setBackgroundColor(props.colors[currentIndex]) : setBackgroundColor(currentBackgroundColor);
+    props.onSelectionChange?.(currText, currentValue)
   }
 
   return (
@@ -34,15 +36,10 @@ const ImageDropDown: React.FunctionComponent<ImageDropdownProps> = (props: Image
           sx={imageDropDownStyle(currentBackgroundColor)}
           IconComponent={KeyboardDoubleArrowDownRoundedIcon}
           onChange={handleChange}
-          value={props.texts}
-          renderValue={() => (
-              <MenuItem sx={menuItemStyle} value={currentValue}>
-                <ListItemText sx={visibleElement(!showImagesOnly)} style={{textAlign:"left"}} primary={currentText}/>
-              </MenuItem>
-          )}
+          value={currentValue}
       >
-        {props.texts.map((value) => (
-            <MenuItem sx={menuItemStyle} value={props.values[props.texts.indexOf(value)]}>
+        {props.texts.map((value, index) => (
+            <MenuItem key={value} sx={menuItemStyle} value={props.values[index]}>
               <ListItemText sx={visibleElement(!showImagesOnly)} style={{textAlign:"left"}} primary={value}/>
             </MenuItem>
         ))}

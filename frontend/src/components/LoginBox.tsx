@@ -41,7 +41,7 @@ const LoginBox: React.FunctionComponent = () => {
                     username: username,
                     password: password,
                     keepMeLoggedIn: stayLoggedIn,
-                }).then(navigateAfterLogin).catch(() => {
+                }).then(reloadPage).catch(() => {
                     notification.error(localization.notificationMessage.incorrectLogin)
                 })
             } else {
@@ -50,7 +50,7 @@ const LoginBox: React.FunctionComponent = () => {
         }
     }
 
-    const navigateAfterLogin = () => {
+    const reloadPage = () => {
         window.location.reload();
     }
 
@@ -64,6 +64,7 @@ const LoginBox: React.FunctionComponent = () => {
                                imagesOnly={false}
                                localStorageItemKey={localStorageItemKeys.selectedLanguage}
                                defaultIndex={defaultLanguageIndex != -1 ? defaultLanguageIndex : 0}
+                               onSelectionChange={reloadPage}
                 />
         </Stack>
         <Stack sx={headlineContainer}>
