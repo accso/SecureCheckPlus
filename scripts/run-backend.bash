@@ -31,7 +31,7 @@ python manage.py createcachetable rate_limit
 python manage.py migrate
 python manage.py collectstatic --no-input
 
-if [[ ${IS_DEV} == "true" ]] ; then
+if [[ ${IS_DEV} == "True" ]] ; then
   python manage.py runserver
 else
   gunicorn securecheckplus.wsgi:application --bind 0.0.0.0:8000 --workers=2 --threads=2 --log-level INFO
