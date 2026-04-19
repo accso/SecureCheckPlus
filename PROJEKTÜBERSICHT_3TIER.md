@@ -83,7 +83,7 @@ Die Anwendung folgt einer **3-Tier-Architektur**:
 
 1. **securecheckplus_frontend**
    - Build: `./frontend` (Dev-Modus)
-   - Environment: `REACT_APP_API_URL=http://localhost:8005`
+   - Environment: `REACT_APP_API_URL=""` (Same-Origin via Nginx Proxy)
    - Exposes: Port 3000
 
 2. **securecheckplus_server**
@@ -121,7 +121,6 @@ docker exec -it securecheckplus_server sh
 ```bash
 # In der Container-Shell:
 python manage.py migrate
-python manage.py makemigrations
 python manage.py createsuperuser
 python manage.py showmigrations
 ```
@@ -158,6 +157,7 @@ pytest --cov=analyzer --cov=webserver
 
 ### Issue: "Your models in app(s): 'analyzer' have changes"
 **Lösung:**
+Nur manuell in der Entwicklung ausführen (nicht automatisch beim Container-Start):
 ```bash
 python manage.py makemigrations
 python manage.py migrate
@@ -180,6 +180,7 @@ touch backend/assets/.gitkeep
 - `analyzer/migrations/0002_initial.py`: ForeignKey & Relations Setup
 
 Beim Refactoring müssen neue Migrationen erstellt werden:
+Manuell durch Entwickler, bevor Änderungen committed werden:
 ```bash
 python manage.py makemigrations analyzer webserver
 python manage.py migrate

@@ -1,5 +1,6 @@
 ### Custom Files ###
 backend/assets/bundle.js
+backend/staticfiles/*
 frontend/staticfiles/*
 frontend/dist/
 node_modules
