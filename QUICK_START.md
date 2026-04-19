@@ -40,14 +40,20 @@ curl -I http://localhost:3000/
 
 ### Backend API erreichbar?
 ```bash
-curl -I http://localhost:8005/api/
-# Erwartet: HTTP/1.1 200 OK oder 401 (AUTH OK!)
+curl -I http://localhost:8005/check_health
+# Erwartet: HTTP/1.1 200 OK
+
+curl -i http://localhost:8005/api/projects
+# Erwartet: HTTP/1.1 401/403 ohne Login (AUTH OK)
+
+curl -i http://localhost:8005/api/
+# Erwartet: HTTP/1.1 404 (nur API-Prefix, kein Endpoint)
 ```
 
-### Backend serviert KEINE Assets?
+### Static Assets via Frontend Proxy erreichbar?
 ```bash
-curl -I http://localhost:8005/static/app.js
-# Erwartet: HTTP/1.1 404 Not Found ✅
+curl -I http://localhost:3000/static/rest_framework/css/default.css
+# Erwartet: HTTP/1.1 200 OK
 ```
 
 ### Frontend Assets vorhanden?
@@ -86,8 +92,10 @@ docker logs securecheckplus_server | grep -i migration
 - [ ] Backend Container läuft
 - [ ] Keine STATICFILES_DIRS Warnings
 - [ ] Frontend erreichbar (Port 3000)
-- [ ] Backend API erreichbar (Port 8005)
-- [ ] Backend serviert KEINE Assets (404)
+- [ ] Backend Health erreichbar (Port 8005)
+- [ ] API Auth-Verhalten korrekt (401/403 ohne Login)
+- [ ] /api/ Prefix gibt 404 (kein Endpoint)
+- [ ] Static Assets via Frontend Proxy erreichbar
 - [ ] Migrations angewendet
 - [ ] Browser-Test erfolgreich
 - [ ] Logs sauber (keine Errors)
@@ -120,7 +128,6 @@ docker exec securecheckplus_server grep STATICFILES_DIRS /backend/securecheckplu
 ### Migrations fehlgeschlagen
 ```bash
 docker exec securecheckplus_server python manage.py showmigrations
-docker exec securecheckplus_server python manage.py makemigrations
 docker exec securecheckplus_server python manage.py migrate
 ```
 
@@ -148,10 +155,8 @@ securecheckplus_frontend | nginx: master process started
 
 ### Docker Logs (gut - Migrations)
 ```
-securecheckplus_server | Migrations created:
-securecheckplus_server |   0003_xyz.py (analyzer)
 securecheckplus_server | Running migrations...
-securecheckplus_server | Applying analyzer.0003_xyz... OK
+securecheckplus_server | Applying ... OK
 ```
 
 ### Docker Logs (NICHT OK - alte Fehler)
@@ -216,8 +221,10 @@ docker-compose -f docker-compose-preview.yml logs --tail=200
 ```
 🟢 GRÜN (Alles OK):
 ✅ Frontend Port 3000 antwortet mit 200
-✅ Backend Port 8005 antwortet mit 200/401
-✅ Backend antwortet mit 404 auf /static/app.js
+✅ Backend Health Endpoint antwortet mit 200
+✅ API Endpoints antworten mit 401/403 ohne Login
+✅ /api/ Prefix antwortet mit 404 (kein Endpoint)
+✅ Static Assets via Frontend Proxy sind erreichbar
 ✅ Migrations wurden angewendet
 ✅ Keine STATICFILES_DIRS Warnings
 ✅ Browser-Test erfolgreich

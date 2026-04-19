@@ -21,5 +21,8 @@ Your development environment has to meet the following criteria:
 
 ## Configuration
 
-You need to edit the docker-compose file [docker-compose-dev.yml](docker-compose-dev.yml) to set the
-nvd registration key. To do so, set the environment variable `NVD_API_KEY` in the `backend` service to you  
+Use the preview setup file [docker-compose-preview.yml](docker-compose-preview.yml).
+Set `NVD_API_KEY` in the `securecheckplus_server` service if you want live NVD lookups.
+
+For local Docker user mapping, optional variables are:
+`RUNNER_UID` and `GID` (defaults are used in preview if unset).
