@@ -16,11 +16,6 @@ FROM nginx:alpine
 # Copy build output from Webpack (dist directory)
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Also copy Django-managed staticfiles (icons, images, rest_framework) into the nginx html root
-# The build context for this Dockerfile is the repo root, so backend/staticfiles is available.
-COPY /staticfiles/icons /usr/share/nginx/html/static/icons
-COPY /staticfiles/images /usr/share/nginx/html/static/images
-COPY /staticfiles/rest_framework /usr/share/nginx/html/static/rest_framework
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
