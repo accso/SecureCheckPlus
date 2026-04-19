@@ -1,11 +1,12 @@
 import React from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Tooltip } from "@mui/material";
+import localization from "../utilities/localization";
 
 export interface Props {
   /**
    * Texts displayed on the buttons
    */
-  scoreMetricValues: string[];
+  scoreMetricValues: {title: string, tooltip: string}[];
   /**
    * The useState Hook to transfer the choice
    */
@@ -27,12 +28,14 @@ export default function WaiverConfigSelect(props: Props) {
   return (
     <Stack sx={radioButtonBox}>
       {props.scoreMetricValues.map((value) => (
-        <Button
-          sx={radioButton(props, value)}
-          onClick={() => props.selectedScoreMetricValue.setValue(value)}
-        >
-          {value}
-        </Button>
+        <Tooltip title={value.tooltip}>
+          <Button
+            sx={radioButton(props, value.title)}
+            onClick={() => props.selectedScoreMetricValue.setValue(value.title)}
+          >
+            {value.title}
+          </Button>
+        </Tooltip>
       ))}
     </Stack>
   );
