@@ -300,3 +300,18 @@ CSRF_TRUSTED_ORIGINS = [
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # 30 days
+
+# Content Security Policy
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_IMG_SRC = (
+    "'self'",
+    "data:",
+    "*.interssl.com",
+    "www.wkoecg.at",
+    "*.geotrust.com",
+    "*.paypal.com",
+    "*.amazonaws.com",
+    "*.google-analytics.com",
+    "*.cloudflare.com",
+    "api.dicebear.com",
+)
