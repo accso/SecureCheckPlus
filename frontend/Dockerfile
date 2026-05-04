@@ -6,10 +6,10 @@ WORKDIR /app
 ARG REACT_APP_API_URL=''
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
-COPY package.json yarn.lock* package-lock.json* ./
-RUN yarn install --frozen-lockfile || npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY . .
-RUN yarn build || npm run build
+RUN npm run build
 
 # Stage 2: Serve
 FROM nginx:alpine

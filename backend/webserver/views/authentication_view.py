@@ -1,22 +1,26 @@
 import logging
 
 from django.contrib import auth
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from utilities.exceptions import Unauthorized, MissingRequiredParameter, InvalidValueError, InternalServerError
+from utilities.exceptions import Unauthorized, MissingRequiredParameter, InternalServerError
 from utilities.helperclass import log_internal_error
 
 logger = logging.getLogger(__name__)
 
 
+@method_decorator(ensure_csrf_cookie, name="get")
 class Login(APIView):
     permission_classes = []
     throttle_scope = "login"
+
+    def get(self, request):
+        return Response(data="CSRF cookie set")
 
     def post(self, request):
         try:
@@ -24,7 +28,6 @@ class Login(APIView):
             password = request.data["password"]
             keepMeLoggedIn = request.data["keepMeLoggedIn"]
 
-            validate_email(username)
             user = auth.authenticate(request=request,
                                      username=username,
                                      password=password)
@@ -37,8 +40,6 @@ class Login(APIView):
                 logger.info(f"{username} {request.META.get('HTTP_X_FORWARDED_FOR')} failed to authenticate.")
                 return Unauthorized().create_response_object()
 
-        except ValidationError:
-            return InvalidValueError("E-Mail is invalid").create_response_object()
         except KeyError as ke:
             return MissingRequiredParameter(ke.args[0]).create_response_object()
         except APIException as api_ex:

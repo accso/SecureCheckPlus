@@ -28,8 +28,6 @@ const LoginBox: React.FunctionComponent = () => {
     let allLanguages = getSupportedLanguages();
     let defaultLanguageIndex = allLanguages.abbreviations.indexOf(defaultLanguage ? defaultLanguage : "");
 
-    // Debug: component mounted
-    console.debug && console.debug("LoginBox mounted", { usernameInit: username, passwordInit: password });
 
     /**
      * If submit button is pressed redirect request to AuthProvider.
@@ -38,34 +36,24 @@ const LoginBox: React.FunctionComponent = () => {
      * @param e
      */
     const onConfirm = async (clicked: boolean = false, e?: React.KeyboardEvent): Promise<void> => {
-        console.debug("LoginBox.onConfirm called", { clicked, key: e?.key, username, password, stayLoggedIn });
         // @ts-ignore handled by first statement
         if ((e === undefined && clicked) || (e && e.key === "Enter")) {
-            // Previously we required an '@' in the username (email). Some deployments/users use plain
-            // usernames — allow any non-empty username so the request is triggered. Keep a minimal check.
             if (username && username.trim().length > 0) {
-                // CSRF-Token vorab holen – Fehler werden ignoriert,
-                // da der Login-POST auch ohne vorheriges Cookie funktioniert.
-                // GET /api/login liefert 405 (nur POST erlaubt), setzt aber das csrftoken-Cookie.
+                // Fetch CSRF token before the login POST so the cookie is present.
                 try {
-                    console.debug("Fetching CSRF token via GET api/login ...");
                     await apiClient.get(urlAddress.api.login);
-                } catch (csrfErr: any) {
-                    // 405 Method Not Allowed ist erwartet – csrftoken-Cookie wird trotzdem gesetzt.
-                    console.debug("CSRF pre-fetch finished (status ignored):", csrfErr?.response?.status);
+                } catch {
+                    // Ignore errors — the CSRF cookie is set even on non-2xx responses.
                 }
 
                 try {
-                    console.debug("Calling login() with", { username, stayLoggedIn });
                     await login({
                         username: username,
                         password: password,
                         keepMeLoggedIn: stayLoggedIn,
                     });
-                    console.debug("login() successful");
                     reloadPage();
                 } catch (err: any) {
-                    console.error("Login failed:", err);
                     if (err?.response?.status === 401 || err?.response?.status === 403) {
                         notification.error(localization.notificationMessage.incorrectLogin);
                     } else {
@@ -73,7 +61,6 @@ const LoginBox: React.FunctionComponent = () => {
                     }
                 }
             } else {
-                console.debug("username empty", username);
                 notification.warn(localization.notificationMessage.usernameIsNotMail)
             }
         }
@@ -84,11 +71,8 @@ const LoginBox: React.FunctionComponent = () => {
         window.location.href = '/';
     }
 
-    // New: submit handler for semantic form submit
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.debug('Login form submitted', { username, password, stayLoggedIn });
-        // Call existing onConfirm to run the login flow (clicked=true -> triggers login attempt)
         await onConfirm(true);
     }
 

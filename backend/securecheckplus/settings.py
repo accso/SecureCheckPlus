@@ -283,7 +283,7 @@ LOGGING = {
 }
 
 # Security Settings
-if "https" in FULLY_QUALIFIED_DOMAIN_NAME:
+if FULLY_QUALIFIED_DOMAIN_NAME.startswith("https://"):
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 else:
