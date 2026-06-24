@@ -18,7 +18,7 @@ RUN apk update --no-cache \
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 
-CMD python manage.py runserver 0.0.0.0:8000
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 FROM dev AS prod
 #ARG is required for the settings.py. Otherwise the build will fail, because required env variables have not been set

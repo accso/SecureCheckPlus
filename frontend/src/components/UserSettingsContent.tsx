@@ -2,7 +2,7 @@ import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 
 import {Avatar, Button, Stack, TextField, Typography} from "@mui/material";
 import localization from "../utilities/localization"
 import DropdownMenu from "./DropdownMenu";
-import {urlAddress} from "../utilities/constants"
+import {getAvatarDataUri} from "../utilities/avatar"
 import {useMutation, useQuery, useQueryClient} from "react-query";
 import {getUserData, updateUserData} from "../queries/user-requests";
 import {colors} from "../style/globalStyle";
@@ -54,7 +54,7 @@ const UserSettingsContent: React.FunctionComponent<DialogProps> = (dialogProps: 
     return (
         <Stack>
             <Stack sx={mainContainerStyle}>
-                <Avatar sx={avatarStyle} src={urlAddress.media.avatar + imageHash}/>
+                <Avatar sx={avatarStyle} src={getAvatarDataUri(imageHash)}/>
                 <TextField
                     label={localization.dialog.imageHash}
                     value={imageHash}

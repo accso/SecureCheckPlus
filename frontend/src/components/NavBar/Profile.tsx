@@ -2,7 +2,7 @@ import {Avatar, IconButton, ListItemIcon, Menu, MenuItem, Stack, Tooltip, Typogr
 import React, {useEffect, useState} from "react";
 import {Logout, Settings} from "@mui/icons-material";
 import localization from "../../utilities/localization";
-import {urlAddress} from "../../utilities/constants";
+import {getAvatarDataUri} from "../../utilities/avatar";
 import {useQuery} from "react-query";
 import {getUserData, logout} from "../../queries/user-requests";
 import CustomDialog from "../CustomDialog";
@@ -50,7 +50,7 @@ export default function Profile() {
                         size="small"
                         sx={{mr: "2rem"}}
                     >
-                        <Avatar sx={avatarStyle} src={urlAddress.media.avatar + imageHash}/>
+                        <Avatar sx={avatarStyle} src={getAvatarDataUri(imageHash, 32)}/>
                     </IconButton>
                 </Tooltip>
             </Stack>

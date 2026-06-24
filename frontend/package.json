@@ -37,6 +37,9 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@dicebear/adventurer-neutral": "^9.4.2",
+    "@dicebear/bottts-neutral": "^9.4.2",
+    "@dicebear/core": "^9.4.2",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.4.4",
