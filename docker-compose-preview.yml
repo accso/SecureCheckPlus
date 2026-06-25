@@ -5,9 +5,6 @@ services:
     build:
       context: ./frontend
       args:
-        # Leave empty so the frontend uses the Nginx proxy (same origin, port 3000).
-        # Set to "http://localhost:8005" only if you want to bypass Nginx and call
-        # the backend directly (requires CORS_ALLOW_CREDENTIALS=True on the backend).
         REACT_APP_API_URL: ""
     ports:
       - "3000:80"
@@ -22,9 +19,6 @@ services:
       target: dev
     environment:
       - IS_DEV=True
-      # The frontend is served on http://localhost:3000 in this compose preview setup.
-      # Set FULLY_QUALIFIED_DOMAIN_NAME to the frontend origin so Django's
-      # CORS_ALLOWED_ORIGINS and CSRF_TRUSTED_ORIGINS include the browser origin.
       - FULLY_QUALIFIED_DOMAIN_NAME=http://localhost:3000
       - USER_USERNAME=secure-user@acme.de
       - USER_PASSWORD=secure
@@ -54,8 +48,8 @@ services:
       - POSTGRES_HOST=securecheckplus_db
       - POSTGRES_USER=securecheckplus
       - POSTGRES_DB=some-db-name
-      - POSTGRES_PORT=5432  
-      - POSTGRES_PASSWORD="some-secure-password" 
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD="some-secure-password"
     ports:
       - "5432:5432"
 

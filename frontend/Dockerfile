@@ -2,7 +2,6 @@
 FROM node:18-alpine AS build
 WORKDIR /app
 
-# Accept REACT_APP_API_URL as build arg and expose as env for webpack DefinePlugin
 ARG REACT_APP_API_URL=''
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
@@ -13,7 +12,6 @@ RUN yarn build || npm run build
 
 # Stage 2: Serve
 FROM nginx:alpine
-# Copy build output from Webpack (dist directory)
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Also copy Django-managed staticfiles (icons, images, rest_framework) into the nginx html root
