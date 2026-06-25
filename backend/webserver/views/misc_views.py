@@ -2,6 +2,7 @@ import logging
 import os
 import traceback
 
+from django.shortcuts import render
 from django.views import View
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
