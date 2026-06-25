@@ -20,9 +20,54 @@ from webserver.serializer.dependency_serializer import DependencyBasicSerializer
 
 logger = logging.getLogger(__name__)
 
-# HtmlView and AppView have been removed as part of the 2-Tier → 3-Tier migration.
-# The frontend is now served by the Nginx container (frontend/Dockerfile).
-# Django exclusively provides REST endpoints.
+# HtmlView and AppView are legacy 2-tier SPA-serving views.
+# They are kept for native dev mode (IS_DEV=True) where Django serves the SPA as a fallback.
+# In 3-tier Docker mode, Nginx serves the frontend and these views are not used.
+
+class HtmlView(View):
+
+
+    def get(self, request, template_name):
+
+        PREFIX = "/"
+
+        if not IS_DEV and BASE_URL:
+            PREFIX = f"/{BASE_URL}/static/"
+        elif not IS_DEV and not BASE_URL:
+            PREFIX = "/static/"
+
+        context = {
+            'IS_DEV': IS_DEV,
+            'BASE_URL': "/" + BASE_URL  if BASE_URL else "",
+            'PREFIX': PREFIX
+        }
+
+        if request.user.is_authenticated:
+            return render(request, f"includes/{template_name}.html", context)
+        else:
+            return render(request, "login.html", context)
+
+
+class AppView(View):
+    def get(self, request):
+
+        PREFIX = "/"
+
+        if not IS_DEV and BASE_URL:
+            PREFIX = f"/{BASE_URL}/static/"
+        elif not IS_DEV and not BASE_URL:
+            PREFIX = "/static/"
+
+        context = {
+            'IS_DEV': IS_DEV,
+            'BASE_URL': BASE_URL,
+            'PREFIX': PREFIX
+        }
+
+        if request.user.is_authenticated:
+            return render(request, "app.html", context)
+        else:
+            return render(request, "login.html", context)
 
 class DependenciesAPI(APIView):
     permission_classes = [IsAuthenticated]
