@@ -7,6 +7,7 @@ from django.views.generic.base import TemplateView
 
 from analyzer.views import AnalyzeReport, health_endpoint
 from securecheckplus.settings import BASE_URL
+from webserver.views.misc_views import HtmlView, AppView
 
 
 def api_404_view(request, exception=None):
