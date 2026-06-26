@@ -14,7 +14,7 @@ Your development environment has to meet the following criteria:
 * You must have a local docker demon running. This is usually done by installing
   [Docker Desktop](https://www.docker.com/products/docker-desktop/) under Windows and macOS or a
   [native Docker daemon](https://docs.docker.com/get-started/get-docker/) under Linux.
-* You must have [docker-compose](https://docs.docker.com/compose/install/) installed
+* `docker compose` is included with Docker Desktop / Docker Engine 20.10+; no separate install required.
 * You must be able to start a Docker container in your local environment.
 * You require to obtain a registration key from https://nvd.nist.gov/ if you don't have one already at hand. This is
   necessary to download the vulnerability data from the NVD database. The registration key is free of charge.

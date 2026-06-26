@@ -108,10 +108,10 @@ Die Anwendung folgt einer **3-Tier-Architektur**:
 ### Backend starten/stoppen
 ```bash
 # Mit Preview Compose
-docker-compose -f docker-compose-preview.yml up --build
+docker compose -f docker-compose-preview.yml up --build
 
 # Mit Logs
-docker-compose -f docker-compose-preview.yml logs -f securecheckplus_server
+docker compose -f docker-compose-preview.yml logs -f securecheckplus_server
 
 # Backend-Shell betreten
 docker exec -it securecheckplus_server sh

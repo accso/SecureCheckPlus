@@ -133,9 +133,9 @@ docker exec securecheckplus_server python manage.py migrate
 
 ### Alles neu starten
 ```bash
-docker-compose -f docker-compose-preview.yml down
+docker compose -f docker-compose-preview.yml down
 docker system prune -f
-docker-compose -f docker-compose-preview.yml up --build -d
+docker compose -f docker-compose-preview.yml up --build -d
 ```
 
 ---
@@ -193,7 +193,7 @@ cat .gitignore | grep "frontend/dist"
 
 ```bash
 # Status überprüfen
-docker-compose -f docker-compose-preview.yml ps
+docker compose -f docker-compose-preview.yml ps
 
 # Spezifischen Container anschauen
 docker logs securecheckplus_server -n 100  # Letzte 100 Zeilen
@@ -211,7 +211,7 @@ docker exec securecheckplus_frontend nginx -t
 docker exec securecheckplus_db psql -U securecheckplus -d some-db-name -c "SELECT version();"
 
 # Alle Logs
-docker-compose -f docker-compose-preview.yml logs --tail=200
+docker compose -f docker-compose-preview.yml logs --tail=200
 ```
 
 ---
@@ -253,8 +253,8 @@ git add .
 git commit -m "refactor: implement 3tier architecture with separate frontend/backend assets"
 
 # 4. Production Test
-docker-compose -f docker-compose.yml build
-docker-compose -f docker-compose.yml up -d
+docker compose -f docker-compose.yml build
+docker compose -f docker-compose.yml up -d
 
 # 5. Feiern! 🎉
 echo "3Tier Architektur erfolgreich implementiert!"

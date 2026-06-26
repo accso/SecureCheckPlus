@@ -83,9 +83,13 @@ for the final step which is to integrate the SecureCheckPlus adapter into your C
 - Go (experimental)
 - Swift (experimental)
 
+### Supported Report Formats
+
+- [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/) JSON reports
+- [CycloneDX](https://cyclonedx.org/tool-center/) SBOM JSON reports
+- [Trivy](https://github.com/aquasecurity/trivy) JSON reports (images, secrets, IaC files)
+
 ### Possible future feature (also see [enhancement issues](https://github.com/accso/SecureCheckPlus/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)):
-- Support for [CycloneDX](https://cyclonedx.org/tool-center/) SBOM reports - More languages
-- Support for [Trivy](https://github.com/aquasecurity/trivy) reports - Images, Secrets, IaC files
 - EMail notifications to developers.
 
 ### API Description
