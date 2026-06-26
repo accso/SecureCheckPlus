@@ -1,5 +1,6 @@
 import logging
 import os
+import hmac
 
 import ldap3.core.exceptions
 from django.contrib import auth
@@ -7,7 +8,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import Group
 
 from securecheckplus.settings import ADMIN_USERNAME, ADMIN_PASSWORD, USER_PASSWORD, USER_USERNAME, LDAP_HOST, LDAP_USER_BASE_DN, LDAP_ADMIN_GROUP_DN, LDAP_BASE_GROUP_DN, \
-    LDAP_ADMIN_DN, LDAP_ADMIN_PASSWORD, LDAP_USER_SEARCH_FILTER
+    LDAP_ADMIN_DN, LDAP_ADMIN_PASSWORD, LDAP_USER_SEARCH_FILTER, IS_DEV
 from utilities.exceptions import Unauthorized
 from webserver.manager.ldap_adapter import LdapAdapter
 from webserver.models import User
@@ -86,12 +87,12 @@ class AuthenticationBackend(ModelBackend):
                     logger.warning(f"User '{username}' is not a member of required groups!")
                     return None
 
-            elif ADMIN_USERNAME and ADMIN_PASSWORD and ADMIN_USERNAME == username and ADMIN_PASSWORD == password:
+            elif IS_DEV and ADMIN_USERNAME and ADMIN_PASSWORD and ADMIN_USERNAME == username and hmac.compare_digest(ADMIN_PASSWORD, password):
                 user = User.objects.get_or_create(username=username)[0]
                 user.groups.add(Group.objects.get_or_create(name="admin")[0])
                 return user
 
-            elif USER_USERNAME and USER_PASSWORD and USER_USERNAME == username and USER_PASSWORD == password:
+            elif IS_DEV and USER_USERNAME and USER_PASSWORD and USER_USERNAME == username and hmac.compare_digest(USER_PASSWORD, password):
                 user = User.objects.get_or_create(username=username)[0]
                 return user
 
