@@ -117,3 +117,39 @@ class TestEndToEndReportAnalysis(LiveServerTestCase):
             params={"deploymentThreshold": "LOW"},
         )
         assert resp.status_code == 406, f"Expected 406, got {resp.status_code}"
+
+    def test_trivy_report_lands_in_database(self):
+        """Upload Trivy fixture → verify deps + CVEs are stored in the DB."""
+        resp = self._upload(
+            "trivy-report-securechecknext.json",
+            params={"toolName": "trivy", "deploymentThreshold": "HIGHEST"},
+        )
+        assert resp.status_code in (200, 406), f"Unexpected {resp.status_code}"
+
+        deps = Dependency.objects.filter(project=self.project)
+        assert deps.count() == 17, f"Expected 17 deps, got {deps.count()}"
+
+        # The trivy fixture has 58 raw vulnerability entries. The parser dedupes
+        # within a single dep (so requests@2.32.3 has 2 CVEs, not 4), yielding
+        # 56 (dep, cve) pairs. Across 17 deps, 55 unique CVE-objects.
+        reports = Report.objects.filter(dependency__project=self.project)
+        assert reports.count() == 56, f"Expected 56 Reports, got {reports.count()}"
+
+        cves = CVEObject.objects.filter(report__dependency__project=self.project).distinct()
+        assert cves.count() == 55, f"Expected 55 unique CVEObjects, got {cves.count()}"
+        for cve in cves:
+            assert cve.cve_id, f"Empty CVE id for {cve}"
+
+    def test_cyclonedx_report_lands_in_database(self):
+        """Upload CycloneDX fixture → verify components are stored in the DB."""
+        resp = self._upload(
+            "cyclonedx-report-securechecknext.json",
+            params={"toolName": "cyclonedx"},
+        )
+        assert resp.status_code in (200, 406), f"Unexpected {resp.status_code}"
+
+        deps = Dependency.objects.filter(project=self.project)
+        assert deps.count() == 14, f"Expected 14 deps, got {deps.count()}"
+
+        reports = Report.objects.filter(dependency__project=self.project)
+        assert reports.count() == 0, f"Expected 0 CVEs, got {reports.count()}"
