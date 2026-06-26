@@ -20,6 +20,8 @@ logger = logging.getLogger(__name__)
 
 
 class DeleteProjectAPI(APIView):
+  permission_classes = [IsAuthenticated, permission_required("analyzer.delete_project")]
+
   def post(self, request) -> Response:
     try:
       projectIds = request.data["projectIds"]
