@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 from urllib import parse
 
@@ -10,6 +11,8 @@ from utilities.constants import NVD_ADDRESS, EPSS_ADDRESS
 from securecheckplus.settings import NVD_API_KEY
 
 logger = logging.getLogger(__name__)
+
+CVE_ID_PATTERN = re.compile(r'^CVE-\d{4}-\d{4,}$')
 
 
 class CVEFetcher:
@@ -61,7 +64,12 @@ class CVEFetcher:
 
         Args:
             cve_id (str): The CVE identifier to fetch data for.
+
+        Raises:
+            ValueError: If the cve_id does not match the expected CVE format.
         """
+        if not CVE_ID_PATTERN.match(cve_id):
+            raise ValueError(f"Invalid CVE ID format: {cve_id}")
         self.cve_id = cve_id
         self.data = {}
         self.successful = False
@@ -80,7 +88,7 @@ class CVEFetcher:
             headers = {"apiKey": NVD_API_KEY}
             url = parse.urlunparse(NVD_ADDRESS) + self.cve_id
             logger.info(f"Fetching CVE data from NIST for CVE ID: {self.cve_id} using URL: {url}")
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=30)
 
             if response.status_code != 200:
                 logger.warning(
@@ -138,7 +146,7 @@ class CVEFetcher:
         try:
             url = parse.urlunparse(EPSS_ADDRESS) + self.cve_id
             logger.info(f"Fetching EPSS score for CVE ID: {self.cve_id} using URL: {url}")
-            epss_response = requests.get(url)
+            epss_response = requests.get(url, timeout=30)
 
             if epss_response.status_code != 200:
                 raise RequestException(
