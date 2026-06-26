@@ -19,16 +19,6 @@ def api_404_view(request, exception=None):
     )
 
 
-
-def api_404_view(request, exception=None):
-    """Return JSON 404 for API requests instead of HTML"""
-    return JsonResponse(
-        {"detail": "Not found."},
-        status=404,
-        content_type="application/json"
-    )
-
-
 webserver_path = f"{BASE_URL}/api/" if BASE_URL else "api/"
 analyzer_path = f"{BASE_URL}/analyzer/api" if BASE_URL else "analyzer/api"
 base_url_pattern = f'^{BASE_URL}/' if BASE_URL else '^'
