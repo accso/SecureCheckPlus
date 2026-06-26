@@ -56,10 +56,12 @@ def parse_json(json_data: str) -> dict[str, ParseResult]:
                         dependency_name = vul.get("PkgName")
                         vul_id = vul.get("VulnerabilityID")
 
-                        if dependency_name in data:
-                            data.get(dependency_name).vulnerabilities.append(vul_id)
+                        key = f"{dependency_name}:{version}"
+                        if key in data:
+                            if vul_id not in data[key].vulnerabilities:
+                                data[key].vulnerabilities.append(vul_id)
                         else:
-                            data[dependency_name] = ParseResult(
+                            data[key] = ParseResult(
                                 dependency_name=dependency_name,
                                 version=version,
                                 package_manager=package_manager,
