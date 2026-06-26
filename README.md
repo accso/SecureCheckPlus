@@ -59,7 +59,7 @@ For the subsequent steps we will assume that you have the following data at hand
 * the name of the database user, and
 * the password of the database user.
 
-See the [Server Installation Readme](README-INSTALLATION.md) for the installation of the SecureCheckPlus Plus server. 
+See the [Server Installation Readme](README-PROD-INSTALLATION.md) for the installation of the SecureCheckPlus Plus server. 
 As soon as the server is set up, consult the [Webfrontend Readme](README-FRONTEND.md) to create a configuration for 
 the first project that you would like to monitor. This will give you 
 

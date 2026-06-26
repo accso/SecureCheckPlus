@@ -1,148 +1,150 @@
-# 🚀 QUICK START: 3Tier Testing
+# Quick Start: 3-Tier Testing
 
-## Phase 1: Frontend Build (5 Min)
+Validate the 3-tier deployment (frontend + backend + db) in about 15 minutes.
+
+## Prerequisites
+
+- Docker with `docker compose` (v2, bundled with Docker Engine 20.10+)
+- About 2 GB free disk space for images and volumes
+
+## Step 1: Build the frontend
 
 ```bash
 cd frontend
 npm install
 npm run build
-ls -la dist/  # Verify: index.html, app.js, login.js vorhanden
+ls -la dist/  # Verify: index.html, app.js, login.js exist
 ```
 
-✅ **Erwartet:** `frontend/dist/` existiert mit Content
+Expected: `frontend/dist/` exists with content.
 
----
-
-## Phase 2: Docker Start (3 Min)
+## Step 2: Start the Docker stack
 
 ```bash
-# Alte Container stoppen
-docker-compose -f docker-compose-preview.yml down
-
-# Neu starten mit Build
-docker-compose -f docker-compose-preview.yml up --build -d
-
-# Logs anschauen
-docker-compose -f docker-compose-preview.yml logs -f
+docker compose -f docker-compose.yml -f docker-compose-preview.yml up --build -d
+docker compose -f docker-compose.yml -f docker-compose-preview.yml logs -f
 ```
 
-✅ **Erwartet:** Alle Container starten ohne Fehler
+Expected: All containers start without errors.
 
----
+A helper script is also available: `scripts/dev-up.sh` (does the same thing).
 
-## Phase 3: Schnelle Tests (2 Min)
+## Step 3: Quick verification
 
-### Frontend erreichbar?
+### Frontend reachable
+
 ```bash
 curl -I http://localhost:3000/
-# Erwartet: HTTP/1.1 200 OK
+# Expected: HTTP/1.1 200 OK
 ```
 
-### Backend API erreichbar?
+### Backend API reachable
+
 ```bash
 curl -I http://localhost:8005/check_health
-# Erwartet: HTTP/1.1 200 OK
+# Expected: HTTP/1.1 200 OK
 
 curl -i http://localhost:8005/api/projects
-# Erwartet: HTTP/1.1 401/403 ohne Login (AUTH OK)
+# Expected: HTTP/1.1 401/403 without login (auth is enforced)
 
 curl -i http://localhost:8005/api/
-# Erwartet: HTTP/1.1 404 (nur API-Prefix, kein Endpoint)
+# Expected: HTTP/1.1 404 (only an API prefix, no endpoint)
 ```
 
-### Static Assets via Frontend Proxy erreichbar?
+### Static assets via frontend proxy
+
 ```bash
 curl -I http://localhost:3000/static/rest_framework/css/default.css
-# Erwartet: HTTP/1.1 200 OK
+# Expected: HTTP/1.1 200 OK
 ```
 
-### Frontend Assets vorhanden?
+### Frontend assets
+
 ```bash
 curl -I http://localhost:3000/app.js
-# Erwartet: HTTP/1.1 200 OK
+# Expected: HTTP/1.1 200 OK
 ```
 
-### Migrations OK?
+### Migrations applied
+
 ```bash
 docker logs securecheckplus_server | grep -i migration
-# Erwartet: "Migrations wurden angewendet" oder "No migrations to apply"
+# Expected: "Migrations were applied" or "No migrations to apply"
 ```
 
----
+## Step 4: Browser test
 
-## Phase 4: Browser Test (1 Min)
+1. Open http://localhost:3000 in a browser
+2. Log in with:
+   - Username: `secure-user@acme.de`
+   - Password: `secure`
+3. The dashboard should load
+4. Open DevTools (F12) → Network tab and verify:
+   - HTML/JS/CSS served from `localhost:3000`
+   - API calls go to `localhost:8005/api/`
 
-```
-1. Browser: http://localhost:3000
-2. Login mit:
-   - Username: secure-user@acme.de
-   - Password: secure
-3. Dashboard sollte laden
-4. F12 → Network Tab → Überprüfe Requests
-   - HTML/JS/CSS von localhost:3000 ✅
-   - API calls zu localhost:8005/api/ ✅
-```
+## Checklist
 
----
+- [ ] `frontend/dist/` exists
+- [ ] Frontend container is running
+- [ ] Backend container is running
+- [ ] No STATICFILES_DIRS warnings
+- [ ] Frontend reachable on port 3000
+- [ ] Backend health endpoint reachable on port 8005
+- [ ] API returns 401/403 without authentication
+- [ ] `/api/` prefix returns 404 (no endpoint)
+- [ ] Static assets reachable via frontend proxy
+- [ ] Migrations applied
+- [ ] Browser test successful
+- [ ] Logs clean (no errors)
 
-## 🎯 Checkliste: Alles OK?
+## Troubleshooting
 
-- [ ] `frontend/dist/` existiert
-- [ ] Frontend Container läuft
-- [ ] Backend Container läuft
-- [ ] Keine STATICFILES_DIRS Warnings
-- [ ] Frontend erreichbar (Port 3000)
-- [ ] Backend Health erreichbar (Port 8005)
-- [ ] API Auth-Verhalten korrekt (401/403 ohne Login)
-- [ ] /api/ Prefix gibt 404 (kein Endpoint)
-- [ ] Static Assets via Frontend Proxy erreichbar
-- [ ] Migrations angewendet
-- [ ] Browser-Test erfolgreich
-- [ ] Logs sauber (keine Errors)
+### Frontend not reachable (port 3000)
 
----
-
-## ❌ Problem? Schnelle Fixes
-
-### Frontend nicht erreichbar (Port 3000)
 ```bash
 docker logs securecheckplus_frontend
-# → Nginx Fehler? Dockerfile OK? dist/ kopiert?
 docker exec securecheckplus_frontend ls -la /usr/share/nginx/html/
 ```
 
-### Backend zeigt 404 für API
+Check for Nginx errors, verify the Dockerfile, confirm `dist/` was copied.
+
+### Backend returns 404 for API
+
 ```bash
 docker logs securecheckplus_server | tail -50
-# → Django Fehler? URLs OK?
 docker exec securecheckplus_server python manage.py check
 ```
 
-### Backend zeigt STATICFILES Warning
+Check for Django errors, verify URL configuration.
+
+### STATICFILES warning appears
+
+This should not happen (it was removed). If it does, check `settings.py`:
+
 ```bash
-# Das sollte NICHT vorkommen (wir haben es entfernt)
-# Falls trotzdem: settings.py überprüfen
 docker exec securecheckplus_server grep STATICFILES_DIRS /backend/securecheckplus/settings.py
 ```
 
-### Migrations fehlgeschlagen
+### Migrations failed
+
 ```bash
 docker exec securecheckplus_server python manage.py showmigrations
 docker exec securecheckplus_server python manage.py migrate
 ```
 
-### Alles neu starten
+### Restart everything
+
 ```bash
-docker compose -f docker-compose-preview.yml down
+docker compose -f docker-compose.yml -f docker-compose-preview.yml down
 docker system prune -f
-docker compose -f docker-compose-preview.yml up --build -d
+docker compose -f docker-compose.yml -f docker-compose-preview.yml up --build -d
 ```
 
----
+## Expected log output
 
-## 📊 Expected Output
+Good output (server started):
 
-### Docker Logs (gut)
 ```
 securecheckplus_server | Waiting for postgres...
 securecheckplus_server | PostgreSQL started
@@ -153,116 +155,61 @@ securecheckplus_server | Django version 5.1.2, running development server...
 securecheckplus_frontend | nginx: master process started
 ```
 
-### Docker Logs (gut - Migrations)
+Good output (migrations ran):
+
 ```
 securecheckplus_server | Running migrations...
 securecheckplus_server | Applying ... OK
 ```
 
-### Docker Logs (NICHT OK - alte Fehler)
+Bad output (old errors that should not appear):
+
 ```
-❌ staticfiles.W004: The directory '/backend/assets' does not exist
-❌ Your models in app(s): 'analyzer' have changes
-❌ STATICFILES_DIRS = [...]
+staticfiles.W004: The directory '/backend/assets' does not exist
+Your models in app(s): 'analyzer' have changes
+STATICFILES_DIRS = [...]
 ```
 
----
-
-## 📋 Datei-Überprüfung
+## Support commands
 
 ```bash
-# Frontend webpack Config korrekt?
-cat frontend/webpack.common.js | grep -A2 "output:"
+# Check status
+docker compose -f docker-compose.yml -f docker-compose-preview.yml ps
 
-# Frontend TypeScript Config korrekt?
-cat frontend/tsconfig.json | grep outDir
+# View specific container logs
+docker logs securecheckplus_server -n 100
 
-# Backend Settings korrekt?
-cat backend/securecheckplus/settings.py | grep -A2 "Static files"
-
-# Backend URLs korrekt?
-cat backend/securecheckplus/urls.py | grep -A5 "urlpatterns ="
-
-# .gitignore korrekt?
-cat .gitignore | grep "frontend/dist"
-```
-
----
-
-## 📞 Support Commands
-
-```bash
-# Status überprüfen
-docker compose -f docker-compose-preview.yml ps
-
-# Spezifischen Container anschauen
-docker logs securecheckplus_server -n 100  # Letzte 100 Zeilen
-
-# In Container gehen
+# Enter a container
 docker exec -it securecheckplus_server sh
 
-# Backend testen
+# Run Django checks
 docker exec securecheckplus_server python manage.py check
 
-# Frontend testen
+# Test Nginx config
 docker exec securecheckplus_frontend nginx -t
 
-# DB verbindung testen
+# Test database connection
 docker exec securecheckplus_db psql -U securecheckplus -d some-db-name -c "SELECT version();"
 
-# Alle Logs
-docker compose -f docker-compose-preview.yml logs --tail=200
+# Tail all logs
+docker compose -f docker-compose.yml -f docker-compose-preview.yml logs --tail=200
 ```
 
----
+## Success criteria
 
-## ✅ Success Criteria
+**Green (all OK):**
+- Frontend port 3000 returns 200
+- Backend health endpoint returns 200
+- API endpoints return 401/403 without login
+- `/api/` prefix returns 404 (no endpoint)
+- Static assets reachable via frontend proxy
+- Migrations applied
+- No STATICFILES_DIRS warnings
+- Browser test successful
 
-```
-🟢 GRÜN (Alles OK):
-✅ Frontend Port 3000 antwortet mit 200
-✅ Backend Health Endpoint antwortet mit 200
-✅ API Endpoints antworten mit 401/403 ohne Login
-✅ /api/ Prefix antwortet mit 404 (kein Endpoint)
-✅ Static Assets via Frontend Proxy sind erreichbar
-✅ Migrations wurden angewendet
-✅ Keine STATICFILES_DIRS Warnings
-✅ Browser-Test erfolgreich
-
-🔴 ROT (Nicht OK):
-❌ Frontend nicht erreichbar
-❌ Backend Errors in Logs
-❌ STATICFILES_DIRS Warning vorhanden
-❌ Browser zeigt 404er
-❌ Migrations fehlgeschlagen
-```
-
----
-
-## 🎯 Nächste Schritte nach erfolgreichem Test
-
-```bash
-# 1. Cleanup (optional)
-rm -rf backend/assets/
-
-# 2. Docker Cleanup
-docker system prune -a
-
-# 3. Alle Änderungen committen
-git add .
-git commit -m "refactor: implement 3tier architecture with separate frontend/backend assets"
-
-# 4. Production Test
-docker compose -f docker-compose.yml build
-docker compose -f docker-compose.yml up -d
-
-# 5. Feiern! 🎉
-echo "3Tier Architektur erfolgreich implementiert!"
-```
-
----
-
-**Zeitschätzung für komplette Validierung: ~30 Minuten**
-
-Viel Erfolg! 🚀
-
+**Red (something is broken):**
+- Frontend not reachable
+- Backend errors in logs
+- STATICFILES_DIRS warning present
+- Browser shows 404s
+- Migrations failed

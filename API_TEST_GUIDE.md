@@ -1,88 +1,119 @@
-# 🔧 Test-Anleitung: Richtiges API-Endpoint testen
+# API Testing Guide
 
-## Das Problem
+How to test the SecureCheckPlus API correctly.
+
+## Common confusion: why `/api/` returns 404
 
 ```bash
 curl http://localhost:8005/api/
-# 404 Not Found HTML
+# Returns: 404 Not Found
 ```
 
-Das ist **eigentlich OK** - `/api/` ist nur ein Prefix, kein echtes Endpoint!
+This is correct behavior. `/api/` is only a URL prefix, not an endpoint. The actual endpoints are:
 
-## Die Lösung
+- `/api/login` (POST)
+- `/api/me` (GET)
+- `/api/projects` (GET)
+- `/api/projectsFlat` (GET)
+- `/api/cveObject/<id>/update` (PUT)
+- etc.
 
-Testen Sie mit einem echten API-Endpoint:
+## Testing real endpoints
+
+### Health check (no auth required)
 
 ```bash
-# ✅ RICHTIG - Login Endpoint
-curl -X POST http://localhost:8005/api/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"test","password":"test"}'
-
-# ✅ RICHTIG - User Data Endpoint  
-curl http://localhost:8005/api/me
-
-# ✅ RICHTIG - Projects Endpoint
-curl http://localhost:8005/api/projects
-
-# ✅ RICHTIG - Health Check
 curl http://localhost:8005/check_health
+# Expected: HTTP/1.1 200 OK, "I'm fine!"
 ```
 
-## Warum `/api/` allein 404 gibt
-
-In den URLs ist `/api/` nur ein Prefix:
-
-```python
-path(webserver_path, include("webserver.urls"))
-# webserver_path = "api/"
-# → /api/ ist nur ein PREFIX!
-
-# Echte Endpoints sind:
-# /api/login        ← include("webserver.urls") → path("login")
-# /api/me           ← include("webserver.urls") → path("me")
-# /api/projects     ← include("webserver.urls") → path("projects")
-```
-
-## Richtige Test-Kommandos
+### Login (POST)
 
 ```bash
-# Test 1: Login (POST)
 curl -X POST http://localhost:8005/api/login \
   -H "Content-Type: application/json" \
   -d '{"username":"secure-user@acme.de","password":"secure"}'
-
-# Test 2: Authentifizierte Anfrage (braucht Cookie/Token)
-curl -i http://localhost:8005/api/me
-
-# Test 3: Health Check (kein Auth nötig)
-curl http://localhost:8005/check_health
-
-# Test 4: Projects (mit Auth)
-curl http://localhost:8005/api/projects
 ```
 
-## Success Criteria
+### Authenticated requests
 
-✅ Endpoints geben JSON zurück (nicht HTML!)
-✅ 404 für `/api/` allein ist OK (es ist nur Prefix)
-✅ 401 bei Auth-Endpoints ohne Auth ist OK
-✅ 200 mit JSON für echte Requests
-
-## Überprüfung: Backend serviert KEINE HTML mehr
+Authenticated requests use Django sessions. After login, the session cookie is set and subsequent requests with `-b cookies.txt -c cookies.txt` will be authenticated.
 
 ```bash
-# ❌ SCHLECHT: HTML Response
-<html>
-<head><title>Not Found</title></head>
-...
+# Login and save cookie
+curl -c cookies.txt -X POST http://localhost:8005/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"secure-user@acme.de","password":"secure"}'
 
-# ✅ GUT: JSON Response
-{"detail":"Authentication credentials were not provided."}
-
-# ✅ GUT: JSON Response  
-{"username":"...","email":"..."}
+# Use the saved cookie
+curl -b cookies.txt http://localhost:8005/api/me
+curl -b cookies.txt http://localhost:8005/api/projects
 ```
 
-Testen Sie jetzt mit echten Endpoints!
+### Analyzer API
 
+The analyzer endpoint requires an API key in the `API-KEY` header (not the URL body):
+
+```bash
+curl -X POST "http://localhost:8005/analyzer/api?projectId=my-project&fileType=json&toolName=owasp" \
+  -H "API-KEY: your-api-key-here" \
+  -H "Content-Type: application/json" \
+  --data-binary @report.json
+```
+
+## Expected responses
+
+### Good: JSON for API requests
+
+```json
+{"detail":"Authentication credentials were not provided."}
+```
+
+```json
+{"username":"secure-user@acme.de","email":"..."}
+```
+
+### Bad: HTML for API requests
+
+If you see HTML responses (e.g., Django's default 404 page), the URL routing is misconfigured. Check that:
+
+- The request path includes the correct prefix (`/api/`, `/analyzer/api/`)
+- The endpoint exists in `webserver/urls.py` or `securecheckplus/urls.py`
+- The `BASE_URL` setting matches your deployment path
+
+## URL structure
+
+```
+/                          → static frontend (Nginx in 3-tier mode)
+/static/                   → static files (proxied to backend)
+/analyzer/api             → analyzer endpoints
+/api/                      → webserver API prefix
+  /api/login               → authentication
+  /api/me                  → current user
+  /api/projects            → project list
+  /api/projectsFlat        → flat project list
+  /api/projects/<id>       → project detail
+  /api/projects/<id>/apiKey → API key management
+  /api/cveObject/<id>/update → CVE update
+  /api/myFavorites         → user's favorite projects
+  /api/deleteProjects      → bulk delete
+  /api/error404            → 404 handler
+/check_health             → health check (no prefix)
+```
+
+## Using scripts/run-adapter-image.bash
+
+A helper script exists for testing with the bundled OWASP report:
+
+```bash
+# Set required environment variables
+export API_KEY=your-api-key
+export PROJECT_ID=your-project-id
+export SERVER_URL=http://localhost:8005
+export REPORT_FILE_NAME=dependency-check-report.json
+
+# Run the script
+scripts/run-adapter-image.bash
+```
+
+The script sends the report to `/analyzer/api` and prints the response.
