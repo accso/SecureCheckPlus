@@ -26,10 +26,13 @@ ARG BUILD=1
 
 COPY . /backend
 
-RUN adduser -D baseuser && chown -R baseuser .
+RUN adduser -D -u 1000 baseuser && chown -R baseuser .
 USER baseuser
 
 EXPOSE 8000
 
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/check_health', timeout=2).read()" || exit 1
+
 # Overwrites previous CMD from stage "dev"
-CMD ["sh", "-c", "exec gunicorn securecheckplus.wsgi:application --bind 0.0.0.0:8000 --workers=2 --threads=2 --log-level ${LOG_LEVEL:-INFO}"]
+CMD ["sh", "-c", "exec gunicorn securecheckplus.wsgi:application --bind 0.0.0.0:8000 --workers=${GUNICORN_WORKERS:-2} --threads=${GUNICORN_THREADS:-2} --log-level ${LOG_LEVEL:-INFO}"]
