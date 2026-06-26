@@ -27,8 +27,19 @@ logger = logging.getLogger(__name__)
 
 class HtmlView(View):
 
+    ALLOWED_TEMPLATES = frozenset([
+        "index", "app", "dashboard", "projects", "reports",
+        "project", "report", "settings", "favorites", "dependencies",
+    ])
 
     def get(self, request, template_name):
+
+        if template_name not in self.ALLOWED_TEMPLATES:
+            logger.warning(
+                f"Blocked template access attempt: {template_name} "
+                f"from {request.META.get('HTTP_X_FORWARDED_FOR')}"
+            )
+            return render(request, "login.html", {"IS_DEV": IS_DEV, "BASE_URL": BASE_URL or "", "PREFIX": "/"})
 
         PREFIX = "/"
 
