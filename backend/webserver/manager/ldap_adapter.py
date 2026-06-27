@@ -1,6 +1,7 @@
 import logging
 
 from ldap3 import Server, ALL, Connection
+from ldap3.utils.conv import escape_filter_chars
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,8 @@ class LdapAdapter:
         self._user_search_filter = user_search_filter
 
     def get_ldap_user(self, username:str):
-        search_filter = self._user_search_filter.replace("VALUE", username)
+        safe_username = escape_filter_chars(username)
+        search_filter = self._user_search_filter.replace("VALUE", safe_username)
         return search_filter
 
     def admin_login(self) -> Connection:

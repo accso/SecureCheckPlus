@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import json
 import logging
 import os
+import secrets
 import sys
 from pathlib import Path
 
@@ -53,6 +54,21 @@ ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 USER_USERNAME = os.environ.get("USER_USERNAME")
 USER_PASSWORD = os.environ.get("USER_PASSWORD")
+
+if IS_DEV:
+    # Generate random credentials if not explicitly set in dev mode
+    if not ADMIN_USERNAME:
+        ADMIN_USERNAME = "admin"
+    if not ADMIN_PASSWORD:
+        ADMIN_PASSWORD = secrets.token_urlsafe(16)
+    if not USER_USERNAME:
+        USER_USERNAME = "user"
+    if not USER_PASSWORD:
+        USER_PASSWORD = secrets.token_urlsafe(16)
+    logging.warning(
+        f"DEV MODE: Using credentials - Admin: {ADMIN_USERNAME}, User: {USER_USERNAME}. "
+        f"DO NOT use these in production!"
+    )
 
 # If not building image (no env variables set) and
 # If LDAP_HOST has been set (LDAP is being used for authentication) -> all other LDAP variables need to be set
@@ -135,9 +151,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.ScopedRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'login': '30/min',
+        'login': '5/min',
+        'anon': '100/day',
+        'user': '1000/day',
     }
 }
 
@@ -285,6 +305,13 @@ LOGGING = {
 if "https" in FULLY_QUALIFIED_DOMAIN_NAME:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
 else:
     CSRF_COOKIE_SECURE = False
     SESSION_COOKIE_SECURE = False
@@ -293,6 +320,14 @@ else:
 CORS_ALLOWED_ORIGINS = [
     FULLY_QUALIFIED_DOMAIN_NAME,
 ]
+
+if IS_DEV:
+    CORS_ALLOWED_ORIGINS.extend([
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+    ])
 CSRF_TRUSTED_ORIGINS = [
     FULLY_QUALIFIED_DOMAIN_NAME,
 ]

@@ -1,3 +1,4 @@
+import hmac
 import logging
 from secrets import token_urlsafe
 
@@ -44,7 +45,7 @@ class ProjectManager:
         """
 
     try:
-      if self.project.api_key_hash == hash_key(key):
+      if hmac.compare_digest(self.project.api_key_hash, hash_key(key)):
         logging.info(
           f"Authentication with API-Key for {self.project.project_id} successful.")
         return True
