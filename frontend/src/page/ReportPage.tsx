@@ -482,7 +482,7 @@ const ReportPage: React.FunctionComponent = () => {
                             </>
                         }/>
                     </Grid>
-                    <Grid item md={9}>
+                    <Grid item md={4.5}>
                         <InfoBox component={
                             <>
                                 <Typography color={mainTheme.palette.primary.contrastText}
@@ -504,7 +504,7 @@ const ReportPage: React.FunctionComponent = () => {
                                     "flexWrap": "wrap",
                                     "justifyContent": "space-evenly"
                                 }}>
-                                    <Grid item md={8}>
+                                    <Grid item md={7}>
                                         <Tooltip
 
                                             title={
@@ -526,14 +526,14 @@ const ReportPage: React.FunctionComponent = () => {
                                                 }}/>
                                         </Tooltip>
                                     </Grid>
-                                    <Grid item md={3} sx={{
+                                    <Grid item md={4.5} sx={{
                                         "display": "flex",
                                         "alignItems": "space-between",
                                         "height": "100%",
                                         "flexWrap": "wrap"
                                     }}>
                                         <Typography color={mainTheme.palette.primary.contrastText}
-                                                    variant="h5"
+                                                    variant="h6"
                                                     width={"100%"}>{localization.ReportDetailPage.cvssVectorString}</Typography>
                                         <TextField
                                             style={textfieldStyle}
@@ -548,6 +548,17 @@ const ReportPage: React.FunctionComponent = () => {
                                         </TextField>
                                     </Grid>
                                 </Grid>
+                            </>
+                        }/>
+                    </Grid>
+                    <Grid item md={4.5}>
+                        <InfoBox
+                            component={
+                            <>
+                                <Typography color={mainTheme.palette.primary.contrastText}
+                                            variant="h4" align={"center"}>{localization.ReportDetailPage.infosFound.detailedDescriptionTitle}</Typography>
+                                <Typography style={{paddingLeft: "1rem", paddingRight: "1rem"}} color={"white"}
+                                            variant="body1" align={"left"}>{data?.data.report.cveObject.description}</Typography>
                             </>
                         }/>
                     </Grid>

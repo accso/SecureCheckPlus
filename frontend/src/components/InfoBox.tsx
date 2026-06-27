@@ -31,7 +31,7 @@ const boxProps = (headerComponent: React.ReactNode) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "start",
         backgroundColor: mainTheme.palette.primary.main,
         borderRadius: "0.5rem",
         paddingTop: headerComponent === undefined ? "2rem" : 0,

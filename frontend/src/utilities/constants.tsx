@@ -38,7 +38,6 @@ export const urlAddress = {
         logoHorizontal: "static/images/SecureCheckPlusLogoHorizontal.png",
         gitHubIcon: "static/icons/GitHubIcon.svg",
         error404: "static/images/error404.gif",
-        avatar: "https://api.dicebear.com/8.x/adventurer-neutral/svg?seed=",
         flag_de: "static/icons/flag_de.svg",
         flag_gb: "static/icons/flag_gb.svg",
         eye: "static/icons/eye.svg",

@@ -19,6 +19,8 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
     const [threshold, setThreshold] = useState("HIGH");
     const queryClient = useQueryClient()
     const [helperText, setHelperText] = useState("")
+    const [nameInvalid, setNameInvalid] = useState(false);
+    const [projectNameHelperText, setProjectNameHelperText] = useState("Optional");
     const handleSave = useMutation(() => createProject(projectId, {
         projectName: projectName,
         deploymentThreshold: threshold
@@ -58,7 +60,7 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
         }else if (projectId.includes(" ")){
             setInvalid(true);
             setHelperText(localization.dialog.projectIdHelperNoSpaces)
-        }else if (projectId.length > 20){
+        }else if (projectId.length > 50){
             setInvalid(true);
             setHelperText(localization.dialog.projectIdHelperToLong)
         }else {
@@ -72,7 +74,17 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
                 }
             }
         }
-    }, [projectId])
+    }, [projectId, allProjectIds])
+
+    useEffect(() => {
+        if (projectName.length > 50) {
+            setNameInvalid(true);
+            setProjectNameHelperText(localization.dialog.projectNameHelperToLong);
+        } else {
+            setNameInvalid(false);
+            setProjectNameHelperText("Optional");
+        }
+    }, [projectName]);
 
     return(
         <Stack>
@@ -87,7 +99,8 @@ const CreationContent: React.FunctionComponent<DialogContentProps> = (dialogCont
                 />
                 <TextField
                     style={{marginTop: "1rem"}}
-                    helperText={"Optional"}
+                    helperText={projectNameHelperText}
+                    error={nameInvalid}
                     label={localization.dialog.projectName}
                     value={projectName}
                     variant="filled"
