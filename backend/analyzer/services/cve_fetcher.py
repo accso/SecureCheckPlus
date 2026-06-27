@@ -54,6 +54,7 @@ class CVEFetcher:
         "baseScore": "N/A",
         "baseSeverity": "N/A"
     }
+    MAX_RETRIES = 3
 
     def __init__(self, cve_id: str):
         """
@@ -71,7 +72,8 @@ class CVEFetcher:
         Fetches CVE data from the NIST government server for the given CVE ID.
 
         Sends a GET request to the NIST API using the CVE ID, processes the response,
-        and updates the `data` attribute with relevant information.
+        and updates the `data` attribute with relevant information. Retries with
+        exponential backoff on server errors (5xx).
 
         Raises:
             ValueError: If the response structure is invalid or missing expected data.
@@ -80,11 +82,28 @@ class CVEFetcher:
             headers = {"apiKey": NVD_API_KEY}
             url = parse.urlunparse(NVD_ADDRESS) + self.cve_id
             logger.info(f"Fetching CVE data from NIST for CVE ID: {self.cve_id} using URL: {url}")
-            response = requests.get(url, headers=headers)
 
-            if response.status_code != 200:
-                logger.warning(
-                    f"Failed to fetch CVE data for CVE ID: {self.cve_id}. HTTP status: {response.status_code}")
+            response = None
+            for attempt in range(self.MAX_RETRIES):
+                response = requests.get(url, headers=headers)
+
+                if response.status_code == 200:
+                    break
+
+                if attempt < self.MAX_RETRIES - 1 and response.status_code >= 500:
+                    delay = 2 ** (attempt + 1)
+                    logger.warning(
+                        f"NVD API returned {response.status_code} for {self.cve_id} "
+                        f"(attempt {attempt + 1}/{self.MAX_RETRIES}), retrying in {delay}s"
+                    )
+                    time.sleep(delay)
+                else:
+                    logger.warning(
+                        f"Failed to fetch CVE data for CVE ID: {self.cve_id}. HTTP status: {response.status_code}"
+                    )
+                    return
+
+            if response is None:
                 return
 
             response_json = response.json()

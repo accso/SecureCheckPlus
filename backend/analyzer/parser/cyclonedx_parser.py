@@ -24,10 +24,13 @@ def get_package_manager_name(bom_ref: str):
     return "NA"
 
 
-def parse_json(json_data: str) -> dict[str, ParseResult]:
+def parse_json(json_data: str or dict) -> dict[str, ParseResult]:
   try:
     # deserialize
-    bom = cast(Bom, Bom.from_json(data=json.loads(json_data)))
+    if isinstance(json_data, dict):
+        bom = cast(Bom, Bom.from_json(data=json_data))
+    else:
+        bom = cast(Bom, Bom.from_json(data=json.loads(json_data)))
     data: dict[str, ParseResult] = {}
 
     # key is affected bom-ref and values are vulnerability ids
