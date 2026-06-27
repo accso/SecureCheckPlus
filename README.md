@@ -59,7 +59,7 @@ For the subsequent steps we will assume that you have the following data at hand
 * the name of the database user, and
 * the password of the database user.
 
-See the [Server Installation Readme](README-INSTALLATION.md) for the installation of the SecureCheckPlus Plus server. 
+See the [Server Installation Readme](README-PROD-INSTALLATION.md) for the installation of the SecureCheckPlus Plus server. 
 As soon as the server is set up, consult the [Webfrontend Readme](README-FRONTEND.md) to create a configuration for 
 the first project that you would like to monitor. This will give you 
 
@@ -83,9 +83,13 @@ for the final step which is to integrate the SecureCheckPlus adapter into your C
 - Go (experimental)
 - Swift (experimental)
 
+### Supported Report Formats
+
+- [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/) JSON reports
+- [CycloneDX](https://cyclonedx.org/tool-center/) SBOM JSON reports
+- [Trivy](https://github.com/aquasecurity/trivy) JSON reports (images, secrets, IaC files)
+
 ### Possible future feature (also see [enhancement issues](https://github.com/accso/SecureCheckPlus/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)):
-- Support for [CycloneDX](https://cyclonedx.org/tool-center/) SBOM reports - More languages
-- Support for [Trivy](https://github.com/aquasecurity/trivy) reports - Images, Secrets, IaC files
 - EMail notifications to developers.
 
 ### API Description

@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import {localStorageItemKeys, urlAddress} from "../utilities/constants";
 import ImageDropDown from "./ImageDropDown";
 import {getSupportedLanguages} from "../utilities/supportedLanguages";
+import apiClient from "../queries/apiClient";
 
 /**
  * The login box at the login page. Takes the user inputs and requests an authentication process
@@ -27,23 +28,38 @@ const LoginBox: React.FunctionComponent = () => {
     let allLanguages = getSupportedLanguages();
     let defaultLanguageIndex = allLanguages.abbreviations.indexOf(defaultLanguage ? defaultLanguage : "");
 
+
     /**
      * If submit button is pressed redirect request to AuthProvider.
      * Submits on enter or on click.
      * @param clicked
      * @param e
      */
-    const onConfirm = (clicked: boolean = false, e?: React.KeyboardEvent): void => {
+    const onConfirm = async (clicked: boolean = false, e?: React.KeyboardEvent): Promise<void> => {
         // @ts-ignore handled by first statement
-        if ((e === undefined && clicked) || (e.key === "Enter")) {
-            if (username.includes("@")) {
-                login({
-                    username: username,
-                    password: password,
-                    keepMeLoggedIn: stayLoggedIn,
-                }).then(reloadPage).catch(() => {
-                    notification.error(localization.notificationMessage.incorrectLogin)
-                })
+        if ((e === undefined && clicked) || (e && e.key === "Enter")) {
+            if (username && username.trim().length > 0) {
+                // Fetch CSRF token before the login POST so the cookie is present.
+                try {
+                    await apiClient.get(urlAddress.api.login);
+                } catch {
+                    // Ignore errors — the CSRF cookie is set even on non-2xx responses.
+                }
+
+                try {
+                    await login({
+                        username: username,
+                        password: password,
+                        keepMeLoggedIn: stayLoggedIn,
+                    });
+                    reloadPage();
+                } catch (err: any) {
+                    if (err?.response?.status === 401 || err?.response?.status === 403) {
+                        notification.error(localization.notificationMessage.incorrectLogin);
+                    } else {
+                        notification.error(localization.notificationMessage.serverError || "Server error");
+                    }
+                }
             } else {
                 notification.warn(localization.notificationMessage.usernameIsNotMail)
             }
@@ -51,22 +67,28 @@ const LoginBox: React.FunctionComponent = () => {
     }
 
     const reloadPage = () => {
-        window.location.reload();
+        // Navigate to the main app (loads app.js bundle via nginx → index.html)
+        window.location.href = '/';
     }
 
-    return <Stack sx={loginContainer}
-                   onKeyDown={(e) => onConfirm(false, e)}
-    >
-        <Stack sx={flagContainer}>
-                <ImageDropDown texts={allLanguages.names}
-                               values={allLanguages.abbreviations}
-                               /*imageURLs={allLanguages.flagURLs}*/
-                               imagesOnly={false}
-                               localStorageItemKey={localStorageItemKeys.selectedLanguage}
-                               defaultIndex={defaultLanguageIndex != -1 ? defaultLanguageIndex : 0}
-                               onSelectionChange={reloadPage}
-                />
-        </Stack>
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        await onConfirm(true);
+    }
+
+    return (
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+            <Stack sx={loginContainer}>
+         <Stack sx={flagContainer}>
+                 <ImageDropDown texts={allLanguages.names}
+                                values={allLanguages.abbreviations}
+                                /*imageURLs={allLanguages.flagURLs}*/
+                                imagesOnly={false}
+                                localStorageItemKey={localStorageItemKeys.selectedLanguage}
+                                defaultIndex={defaultLanguageIndex != -1 ? defaultLanguageIndex : 0}
+                                onSelectionChange={reloadPage}
+                 />
+         </Stack>
         <Stack sx={headlineContainer}>
             <Typography sx={titleStyle} variant="h3">{localization.loginPage.login}</Typography>
                 <Stack sx={formContainer}>
@@ -79,7 +101,7 @@ const LoginBox: React.FunctionComponent = () => {
                                        variant="filled"
                                        required
                                        value={username}
-                                       onChange={e => setUsername(e.target.value)}/>
+                                      onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setUsername(e.target.value)}/>
                         </Stack>
                     <Stack sx={passwordRow}>
                                 {/* <PersonRoundedIcon sx={icon}/> */}
@@ -90,10 +112,11 @@ const LoginBox: React.FunctionComponent = () => {
                                            variant="filled"
                                            type = {visible ? "text" : "password"} required
                                            value={password}
-                                           onChange={e => setPassword(e.target.value)}/>
-                            <Stack sx={eye} onClick={() => setVisible(!visible)}>
-                                    {visible ? <img src={urlAddress.media.rootUrlWithBase + urlAddress.media.eye} height={eyeIconSize} width={eyeIconSize}/>
-                                        : <img src={urlAddress.media.rootUrlWithBase + urlAddress.media.eyeCrossed} height={eyeIconSize} width={eyeIconSize}/>}
+                                           onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setPassword(e.target.value)}
+                                            InputProps={{ style: { paddingRight: `${eyeIconSize + 24}px` } }} />
+                            <Stack sx={{ ...eye, zIndex: 2, pointerEvents: 'auto' }} onClick={() => setVisible(!visible)}>
+                                    {visible ? <img src={urlAddress.media.rootUrlWithBase + urlAddress.media.eye} height={eyeIconSize} width={eyeIconSize} alt="show"/>
+                                        : <img src={urlAddress.media.rootUrlWithBase + urlAddress.media.eyeCrossed} height={eyeIconSize} width={eyeIconSize} alt="hide"/>}
                             </Stack>
                         </Stack>
                 </Stack>
@@ -103,12 +126,14 @@ const LoginBox: React.FunctionComponent = () => {
                 <Typography variant="caption">{language.loginPage.checkBoxLabel}</Typography>
             </Stack>
             <Button sx={button}
-                    variant="contained"
-                    startIcon={<LoginRoundedIcon/>}
-                    onClick={() => onConfirm(true)}
-            >{language.loginPage.buttonLabel}
-            </Button>
+                     variant="contained"
+                     type="submit"
+                     startIcon={<LoginRoundedIcon/>}
+             >{language.loginPage.buttonLabel}
+             </Button>
         </Stack>
+        </form>
+    )
 }
 
 

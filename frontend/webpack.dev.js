@@ -8,14 +8,13 @@ module.exports = merge(common, {
     devtool: "eval",
     cache: true,
     devServer: {
+        host: "0.0.0.0",
         hot: true,
         historyApiFallback: true,
         // static: {
         //    directory: path.join(__dirname, "../backend/assets")
         // },
-        headers: {
-            'Content-Type': 'application/javascript',
-        },
+        headers: {},
         proxy: {
             // This proxy will forward any request that doesn't match static assets in Webkit
             '**': {

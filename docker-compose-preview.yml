@@ -1,0 +1,60 @@
+services:
+
+  securecheckplus_frontend:
+    container_name: securecheckplus_frontend
+    build:
+      context: ./frontend
+      args:
+        REACT_APP_API_URL: ""
+    ports:
+      - "3000:80"
+    depends_on:
+      - securecheckplus_server
+
+  securecheckplus_server:
+    container_name: securecheckplus_server
+    user: "${RUNNER_UID:-1000}:${GID:-1000}"
+    build:
+      context: ./backend
+      target: dev
+    environment:
+      - IS_DEV=True
+      - FULLY_QUALIFIED_DOMAIN_NAME=http://localhost:3000
+      - USER_USERNAME=secure-user@acme.de
+      - USER_PASSWORD=secure
+      - ADMIN_USERNAME=secure-admin@acme.de
+      - ADMIN_PASSWORD=secure
+      - POSTGRES_HOST=securecheckplus_db
+      - POSTGRES_USER=securecheckplus
+      - POSTGRES_DB=some-db-name
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD="some-secure-password"
+      - NVD_API_KEY="PLACEHOLDER_FOR_NVD_API_KEY"
+      - DJANGO_SECRET_KEY="SOME-RANDOM-KEY"
+      - SALT="SOME-RANDOM-SALT"
+    volumes:
+      - "./backend:/backend"
+    ports:
+      - "8005:8000"
+    depends_on:
+      - securecheckplus_db
+      - smtp_mailserver
+
+  securecheckplus_db:
+    image: postgres
+    restart: always
+    container_name: securecheckplus_db
+    environment:
+      - POSTGRES_HOST=securecheckplus_db
+      - POSTGRES_USER=securecheckplus
+      - POSTGRES_DB=some-db-name
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD="some-secure-password"
+    ports:
+      - "5432:5432"
+
+  smtp_mailserver:
+    image: maildev/maildev
+    container_name: mailserver
+    ports:
+      - "1080:80"

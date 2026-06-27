@@ -58,7 +58,6 @@ export default function Profile() {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
                 transformOrigin={{horizontal: 'right', vertical: 'top'}}
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 PaperProps={menuStyle}

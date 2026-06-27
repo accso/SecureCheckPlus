@@ -4,11 +4,11 @@
 
 ## Quick Overview for Developers
 
-This Django-based web application serves as a tool to manage and track vulnerabilities in software dependencies. It utilizes a **React single-page frontend** integrated into the Django backend. The core features include report uploads, vulnerability tracking, project management, and notifications. Below is a concise introduction for developers to get started:
+This Django-based web application serves as a tool to manage and track vulnerabilities in software dependencies. It uses a **3-tier architecture** in production: a separate React frontend served by Nginx, a Django backend providing the API, and a PostgreSQL database. The core features include report uploads, vulnerability tracking, project management, and notifications. Below is a concise introduction for developers to get started:
 
-- **Frontend**: The single-page application is developed using **React** and served through Django. It provides an interactive interface for uploading reports, managing projects, and viewing vulnerabilities.
-- **Backend**: The backend is powered by Django, which handles both API requests from the React frontend and core logic for managing vulnerabilities and user data.
-- **Key Technologies**: Django (Backend and API server), React (Frontend), LDAP (Authentication) (optional, if used locally), and PostgreSQL (Database).
+- **Frontend**: The single-page application is developed using **React** and built to static assets. In 3-tier (Docker) deployments, the assets are served by an Nginx container. In native dev mode, Django serves the SPA as a fallback. The frontend provides an interactive interface for uploading reports, managing projects, and viewing vulnerabilities.
+- **Backend**: The backend is powered by Django (with Gunicorn in production), which exposes a JSON API consumed by the React frontend and handles core logic for managing vulnerabilities and user data.
+- **Key Technologies**: Django + Gunicorn (API server), React + Nginx (Frontend), LDAP (Authentication, optional), and PostgreSQL (Database).
 
 For more details about each module, continue reading the **Key Modules Overview** and **C4 Model Architecture** sections.
 
@@ -70,9 +70,9 @@ The **Container Diagram** depicts the core system containers of the application 
 
 ![Architecture Container Diagram](etc/images/diagram-architecture-container.drawio.png "Architecture Container Diagram")
 
-- **React Frontend**: Provides an interactive user interface for uploading reports, managing projects, and viewing vulnerabilities.
-- **Web Server (Django)**: Handles HTTP requests from users, serves the React frontend, and provides API endpoints for interaction.
-- **Backend (Analyzer)**: Processes the uploaded vulnerability reports and manages core business logic such as parsing, notifications, and project management.
+- **React Frontend (Nginx)**: Serves the built React single-page application and proxies `/api/` and `/analyzer/api` requests to the backend.
+- **Backend (Django + Gunicorn)**: Handles HTTP API requests from the frontend, processes vulnerability data, and manages user/project/reports resources. In 3-tier mode, the backend is API-only; in native dev mode, Django can also serve the SPA as a fallback.
+- **Analyzer**: Processes the uploaded vulnerability reports and manages core business logic such as parsing, notifications, and project management.
 - **Database**: Stores data related to users, projects, dependencies, and vulnerabilities. For a more in-depth look into the schema of the database look at: [TODO] LINK
 - **External Systems**:
   - **LDAP**: Responsible for authentication and authorization of users.

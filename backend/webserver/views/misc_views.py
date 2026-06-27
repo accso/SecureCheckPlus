@@ -21,6 +21,10 @@ from webserver.serializer.dependency_serializer import DependencyBasicSerializer
 
 logger = logging.getLogger(__name__)
 
+# HtmlView and AppView are legacy 2-tier SPA-serving views.
+# They are kept for native dev mode (IS_DEV=True) where Django serves the SPA as a fallback.
+# In 3-tier Docker mode, Nginx serves the frontend and these views are not used.
+
 class HtmlView(View):
 
 
@@ -65,7 +69,6 @@ class AppView(View):
             return render(request, "app.html", context)
         else:
             return render(request, "login.html", context)
-
 
 class DependenciesAPI(APIView):
     permission_classes = [IsAuthenticated]

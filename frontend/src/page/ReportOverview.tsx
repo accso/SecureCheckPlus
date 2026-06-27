@@ -219,7 +219,11 @@ const ReportOverview: React.FunctionComponent = () => {
             description: localization.ReportPage.toolTips.epss,
             renderCell: (params: GridRenderCellParams<number>) => (
                 <Tooltip title={localization.ReportPage.toolTips.epss}>
-                    <Stack>{params.value === 0 ? "N/A" : (params.value * 100).toFixed(2) + "%"}</Stack>
+                    <Stack>
+                        {typeof params.value === "number" && params.value !== undefined && params.value !== 0
+                            ? (params.value * 100).toFixed(2) + "%"
+                            : "N/A"}
+                    </Stack>
                 </Tooltip>
             ),
             valueGetter: params => params.row.cveObject.epss,

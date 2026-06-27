@@ -133,6 +133,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'securecheckplus.auth.DevSessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.ScopedRateThrottle',
     ],
@@ -214,8 +219,10 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+# Note: In 3Tier architecture, static files are served by the frontend container (Nginx).
+# The backend only serves Django admin staticfiles.
+# For native dev, STATICFILES_DIRS is set further below.
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 STATIC_URL = f"/{BASE_URL}/static/" if BASE_URL else "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Location where the staticfiles will be collected
 
@@ -282,7 +289,7 @@ LOGGING = {
 }
 
 # Security Settings
-if "https" in FULLY_QUALIFIED_DOMAIN_NAME:
+if FULLY_QUALIFIED_DOMAIN_NAME.startswith("https://"):
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 else:
@@ -296,6 +303,17 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     FULLY_QUALIFIED_DOMAIN_NAME,
 ]
+
+if IS_DEV:
+    CSRF_TRUSTED_ORIGINS.extend([
+        "http://localhost:3000",
+        "http://localhost:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8080",
+    ])
+# Required for cross-origin requests with credentials (cookies/session).
+# Needed when REACT_APP_API_URL points directly to the backend port (preview setup).
+CORS_ALLOW_CREDENTIALS = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
